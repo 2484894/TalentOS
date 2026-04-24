@@ -1,0 +1,167 @@
+<div class="app-layout">
+  <app-sidebar></app-sidebar>
+
+  <div class="main-area">
+    <app-navbar pageTitle="User Management"
+                pageSubtitle="Activate, deactivate, monitor all accounts"></app-navbar>
+
+    <div class="page-body">
+
+      <div class="alert alert-success" *ngIf="successMsg">
+        <i class="bi bi-check-circle-fill"></i> {{ successMsg }}
+      </div>
+      <div class="alert alert-danger" *ngIf="errorMsg">
+        <i class="bi bi-exclamation-circle-fill"></i> {{ errorMsg }}
+      </div>
+
+      <!-- Hero -->
+      <div class="mb-4">
+        <div class="eyebrow" style="color: #34D399;">
+          <i class="bi bi-people-fill"></i> Users
+        </div>
+        <h2 style="font-family: var(--font-display); font-size: 2rem;
+                   font-weight: 700; color: var(--ink); line-height: 1;
+                   letter-spacing: -0.03em;">
+          {{ users.length }} registered accounts
+        </h2>
+      </div>
+
+      <!-- Filters -->
+      <div class="card admin-card mb-4">
+        <div class="row g-3 align-items-end">
+
+          <div class="col-md-6">
+            <label class="form-label">Search</label>
+            <div class="position-relative">
+              <i class="bi bi-search position-absolute"
+                 style="left: 14px; top: 50%; transform: translateY(-50%);
+                        color: var(--ink-3); pointer-events: none;"></i>
+              <input type="text" class="form-control"
+                     style="padding-left: 38px;"
+                     placeholder="Search by name or email..."
+                     [(ngModel)]="searchText"/>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label">Role</label>
+            <select class="form-select" [(ngModel)]="filterRole">
+              <option value="">All Roles</option>
+              <option value="STUDENT">Student</option>
+              <option value="RECRUITER">Recruiter</option>
+              <option value="ADMIN">Admin</option>
+            </select>
+          </div>
+
+          <div class="col-md-3">
+            <div style="font-family: var(--font-mono); font-size: 11px;
+                        color: var(--ink-3); letter-spacing: 0.1em;
+                        text-transform: uppercase;">
+              Showing
+            </div>
+            <div style="font-family: var(--font-display); font-size: 1.3rem;
+                        font-weight: 700; color: var(--ink);" class="num">
+              {{ filtered.length }} / {{ users.length }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-loader *ngIf="loading"></app-loader>
+
+      <div class="empty-state card admin-card" *ngIf="!loading && filtered.length === 0">
+        <i class="bi bi-people"></i>
+        <p>No users found.</p>
+      </div>
+
+      <!-- Table -->
+      <div class="card admin-card p-0"
+           *ngIf="!loading && filtered.length > 0"
+           style="overflow: hidden;">
+        <table class="table-modern">
+          <thead>
+            <tr>
+              <th style="width: 40px;">#</th>
+              <th>User</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Status</th>
+              <th>Joined</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of filtered; let i = index">
+
+              <td>
+                <span class="num fw-bold" style="color: var(--ink-4); font-size: 12px;">
+                  {{ (i + 1).toString().padStart(2, '0') }}
+                </span>
+              </td>
+
+              <td>
+                <div class="d-flex align-items-center gap-3">
+                  <div class="admin-user-avatar"
+                       [style.background]="user.role === 'STUDENT' ? '#A78BFA' :
+                                           user.role === 'RECRUITER' ? '#38BDF8' : '#10B981'">
+                    {{ user.name.charAt(0) }}
+                  </div>
+                  <div>
+                    <div style="font-family: var(--font-display); font-weight: 700;
+                                color: var(--ink);">
+                      {{ user.name }}
+                    </div>
+                  </div>
+                </div>
+              </td>
+
+              <td style="font-family: var(--font-mono); font-size: 11px; color: var(--ink-2);">
+                {{ user.email }}
+              </td>
+
+              <td>
+                <span class="admin-role-chip"
+                      [style.color]="user.role === 'STUDENT' ? '#A78BFA' :
+                                     user.role === 'RECRUITER' ? '#38BDF8' : '#10B981'"
+                      [style.borderColor]="user.role === 'STUDENT' ? 'rgba(167,139,250,0.3)' :
+                                           user.role === 'RECRUITER' ? 'rgba(56,189,248,0.3)' :
+                                           'rgba(16,185,129,0.3)'">
+                  <span class="dot"
+                        [style.background]="user.role === 'STUDENT' ? '#A78BFA' :
+                                            user.role === 'RECRUITER' ? '#38BDF8' : '#10B981'">
+                  </span>
+                  {{ user.role }}
+                </span>
+              </td>
+
+              <td>
+                <span class="admin-status-chip"
+                      [class.active]="user.active"
+                      [class.inactive]="!user.active">
+                  <span class="dot"></span>
+                  {{ user.active ? 'Active' : 'Inactive' }}
+                </span>
+              </td>
+
+              <td style="font-family: var(--font-mono); font-size: 11px; color: var(--ink-3);">
+                {{ user.createdAt | date:'dd MMM yyyy' }}
+              </td>
+
+              <td>
+                <button class="btn btn-sm admin-action-btn"
+                        [class.activate]="!user.active"
+                        [class.deactivate]="user.active"
+                        [disabled]="user.role === 'ADMIN'"
+                        (click)="toggleStatus(user)">
+                  {{ user.active ? 'Deactivate' : 'Activate' }}
+                </button>
+              </td>
+
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>

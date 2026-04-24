@@ -1,0 +1,196 @@
+<div class="app-layout">
+  <app-sidebar></app-sidebar>
+
+  <div class="main-area">
+    <app-navbar pageTitle="Application Detail"></app-navbar>
+
+    <div class="page-body">
+
+      <button class="btn btn-sm btn-soft mb-4" (click)="goBack()">
+        <i class="bi bi-arrow-left"></i> Back to applications
+      </button>
+
+      <app-loader *ngIf="loading"></app-loader>
+
+      <div *ngIf="!loading && application">
+
+        <div class="alert alert-success" *ngIf="successMsg">
+          <i class="bi bi-check-circle-fill"></i> {{ successMsg }}
+        </div>
+        <div class="alert alert-danger" *ngIf="errorMsg">
+          <i class="bi bi-exclamation-circle-fill"></i> {{ errorMsg }}
+        </div>
+
+        <div class="row g-4">
+
+          <!-- Main -->
+          <div class="col-lg-8">
+
+            <!-- Header Card -->
+            <div class="card mb-4">
+              <div class="d-flex align-items-start gap-3">
+                <div class="job-logo-lg">{{ application.companyName.charAt(0) }}</div>
+                <div class="flex-grow-1">
+                  <div class="d-flex justify-content-between align-items-start gap-3">
+                    <div>
+                      <h1 style="font-family: var(--font-display); font-size: 1.8rem;
+                                 font-weight: 500; line-height: 1.1; letter-spacing: -0.02em;">
+                        {{ application.jobTitle }}
+                      </h1>
+                      <div style="font-size: 14px; color: var(--ink-2); margin-top: 4px;">
+                        <strong>{{ application.companyName }}</strong>
+                      </div>
+                      <div style="font-size: 12px; color: var(--ink-3); margin-top: 8px;
+                                  font-family: var(--font-mono);">
+                        Applied {{ application.appliedAt | date:'dd MMM yyyy · h:mm a' }}
+                      </div>
+                    </div>
+                    <app-status-badge [status]="application.status"></app-status-badge>
+                  </div>
+                </div>
+              </div>
+
+              <div *ngIf="application.recruiterNote"
+                   class="alert alert-info mt-3 mb-0">
+                <div class="eyebrow" style="margin-bottom: 4px;">Recruiter Note</div>
+                {{ application.recruiterNote }}
+              </div>
+            </div>
+
+            <!-- AI Match Analysis Card -->
+            <div class="card mb-4" *ngIf="application.aiMatchScore">
+              <div class="eyebrow">
+                <i class="bi bi-stars"></i> AI Match Analysis
+              </div>
+              <h3 style="font-family: var(--font-display); font-size: 1.5rem;
+                         font-weight: 500; font-style: italic;
+                         margin-bottom: 1.25rem;">
+                How you stack up
+              </h3>
+
+              <!-- Big Gauge -->
+              <div class="text-center py-3">
+                <app-gauge [value]="application.aiMatchScore" size="lg"
+                           [showLabel]="false"></app-gauge>
+                <div *ngIf="application.aiSuggestion"
+                     style="font-size: 13px; color: var(--ink-2);
+                            max-width: 26rem; margin: 12px auto 0;
+                            font-style: italic;">
+                  <i class="bi bi-quote" style="color: #6D28D9;"></i>
+                  {{ application.aiSuggestion }}
+                </div>
+              </div>
+
+              <div class="divider-dashed"></div>
+
+              <!-- Skills Grid -->
+              <div class="row g-3">
+                <div class="col-md-6" *ngIf="application.matchedSkills?.length">
+                  <div class="skill-block matched-block">
+                    <div class="eyebrow" style="color: #065F46; margin-bottom: 8px;">
+                      <i class="bi bi-check-circle-fill"></i>
+                      Matched ({{ application.matchedSkills.length }})
+                    </div>
+                    <div>
+                      <span *ngFor="let s of application.matchedSkills"
+                            class="chip matched">{{ s }}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6" *ngIf="application.missingSkills?.length">
+                  <div class="skill-block missing-block">
+                    <div class="eyebrow" style="color: #BE185D; margin-bottom: 8px;">
+                      <i class="bi bi-lightbulb-fill"></i>
+                      To learn ({{ application.missingSkills.length }})
+                    </div>
+                    <div>
+                      <span *ngFor="let s of application.missingSkills"
+                            class="chip missing">{{ s }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Interview Slot Card -->
+            <div class="card"
+                 *ngIf="application.status === 'INTERVIEW_SCHEDULED'">
+              <div class="eyebrow">
+                <i class="bi bi-calendar-event-fill"></i> Interview
+              </div>
+              <h3 style="font-family: var(--font-display); font-size: 1.5rem;
+                         font-weight: 500; font-style: italic;
+                         margin-bottom: 1rem;">
+                Schedule your round
+              </h3>
+
+              <div *ngIf="slot?.confirmed" class="alert alert-success">
+                <i class="bi bi-check-circle-fill"></i>
+                Confirmed for <strong>{{ slot!.confirmedTime | date:'dd MMM yyyy · h:mm a' }}</strong>
+              </div>
+
+              <div *ngIf="slot && !slot.confirmed && !slot.cancelled">
+                <p style="font-size: 13px; color: var(--ink-3); margin-bottom: 1rem;">
+                  Pick a slot that works for you:
+                </p>
+                <div *ngFor="let t of slot.proposedTimes" class="mb-2">
+                  <div class="slot-option"
+                       [class.selected]="selectedSlot === t"
+                       (click)="selectedSlot = t">
+                    <input type="radio" [value]="t" [(ngModel)]="selectedSlot"
+                           style="margin-right: 10px;"/>
+                    <i class="bi bi-clock"></i>
+                    {{ t | date:'EEEE, dd MMM · h:mm a' }}
+                  </div>
+                </div>
+                <button class="btn btn-primary mt-3"
+                        [disabled]="!selectedSlot || confirming"
+                        (click)="confirmSlot()">
+                  <span *ngIf="confirming" class="spinner-border spinner-border-sm"></span>
+                  Confirm Selected Slot
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Sidebar -->
+          <div class="col-lg-4">
+            <div class="card">
+              <div class="eyebrow">Summary</div>
+              <h3 style="font-family: var(--font-display); font-size: 1.3rem;
+                         font-weight: 500; margin-bottom: 1rem;">
+                Application at a glance
+              </h3>
+
+              <div class="summary-row">
+                <span>Status</span>
+                <app-status-badge [status]="application.status"></app-status-badge>
+              </div>
+
+              <div class="summary-row">
+                <span>AI Match</span>
+                <span *ngIf="application.aiMatchScore" class="num fw-bold"
+                      [style.color]="application.aiMatchScore >= 80 ? '#10B981' :
+                                     application.aiMatchScore >= 60 ? '#F59E0B' : '#EF4444'">
+                  {{ application.aiMatchScore }}%
+                </span>
+                <span *ngIf="!application.aiMatchScore"
+                      style="color: var(--ink-4);">—</span>
+              </div>
+
+              <div class="summary-row">
+                <span>Applied</span>
+                <span style="font-family: var(--font-mono); font-size: 12px;">
+                  {{ application.appliedAt | date:'dd MMM yyyy' }}
+                </span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

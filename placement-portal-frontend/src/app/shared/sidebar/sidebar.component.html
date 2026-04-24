@@ -1,0 +1,36 @@
+<aside class="sidebar">
+
+  <!-- Brand / Logo -->
+  <div class="sidebar-logo">
+    <div class="logo-mark">t</div>
+    <div>
+      <div class="logo-text">TalentOS</div>
+      <div class="logo-sub">{{ brandSubLabel }}</div>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="sidebar-section">
+    <div class="sidebar-label">Menu</div>
+
+    <a
+      *ngFor="let item of navItems"
+      class="sidebar-link"
+      [class.active]="isActive(item.route)"
+      (click)="navigate(item.route)">
+      <i class="bi {{ item.icon }}"></i>
+      <span>{{ item.label }}</span>
+    </a>
+  </nav>
+
+  <!-- User Footer -->
+  <div class="sidebar-footer">
+    <div class="user-name">{{ userName }}</div>
+    <div class="user-email">{{ userEmail }}</div>
+    <button (click)="logout()">
+      <i class="bi bi-box-arrow-left"></i>
+      <span>Sign out</span>
+    </button>
+  </div>
+
+</aside>

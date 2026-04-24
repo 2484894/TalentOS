@@ -1,0 +1,114 @@
+<div class="app-layout">
+  <app-sidebar></app-sidebar>
+
+  <div class="main-area">
+    <app-navbar pageTitle="My Applications"
+                pageSubtitle="Track your journey from Applied to Selected"></app-navbar>
+
+    <div class="page-body">
+
+      <!-- Page Hero -->
+      <div class="mb-4">
+        <h2 style="font-family: var(--font-display); font-size: 2.2rem;
+                   font-weight: 500; font-style: italic; letter-spacing: -0.03em;">
+          Your applications,
+          <span style="background: linear-gradient(135deg, #6D28D9, #EC4899);
+                       -webkit-background-clip: text;
+                       -webkit-text-fill-color: transparent;
+                       background-clip: text;">
+            tracked.
+          </span>
+        </h2>
+      </div>
+
+      <!-- Filter Pills -->
+      <div class="d-flex gap-2 mb-4 flex-wrap">
+        <button *ngFor="let f of ['ALL','APPLIED','SHORTLISTED','INTERVIEW_SCHEDULED','SELECTED','REJECTED']"
+                class="filter-pill"
+                [class.active]="filter === f"
+                (click)="filter = f">
+          {{ f === 'ALL' ? 'All' :
+             f === 'APPLIED' ? 'Applied' :
+             f === 'SHORTLISTED' ? 'Shortlisted' :
+             f === 'INTERVIEW_SCHEDULED' ? 'Interview' :
+             f === 'SELECTED' ? 'Selected' : 'Rejected' }}
+        </button>
+      </div>
+
+      <app-loader *ngIf="loading"></app-loader>
+
+      <div class="empty-state card" *ngIf="!loading && filtered.length === 0">
+        <i class="bi bi-send"></i>
+        <p>No applications in this status</p>
+        <a routerLink="/student/jobs" class="btn btn-primary btn-sm">
+          Browse Jobs <i class="bi bi-arrow-right"></i>
+        </a>
+      </div>
+
+      <!-- Table -->
+      <div class="card p-0" *ngIf="!loading && filtered.length > 0"
+           style="overflow: hidden;">
+        <table class="table-modern">
+          <thead>
+            <tr>
+              <th>Role / Company</th>
+              <th>Status</th>
+              <th>AI Match</th>
+              <th>Applied</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let app of filtered"
+                (click)="viewDetail(app.id)"
+                style="cursor: pointer;">
+
+              <td>
+                <div class="d-flex align-items-center gap-3">
+                  <div class="job-logo-sm">{{ app.companyName.charAt(0) }}</div>
+                  <div>
+                    <div style="font-weight: 700; font-size: 13px;">
+                      {{ app.jobTitle }}
+                    </div>
+                    <div style="font-size: 11px; color: var(--ink-3);">
+                      {{ app.companyName }}
+                    </div>
+                  </div>
+                </div>
+              </td>
+
+              <td>
+                <app-status-badge [status]="app.status"></app-status-badge>
+              </td>
+
+              <td>
+                <div class="d-flex align-items-center gap-2" *ngIf="app.aiMatchScore">
+                  <div style="width: 80px; height: 4px; background: var(--line);
+                              border-radius: 999px; overflow: hidden;">
+                    <div [style.width]="app.aiMatchScore + '%'"
+                         [style.background]="app.aiMatchScore >= 80 ? '#10B981' :
+                                             app.aiMatchScore >= 60 ? '#F59E0B' : '#EF4444'"
+                         style="height: 100%;"></div>
+                  </div>
+                  <span class="num fw-bold">{{ app.aiMatchScore }}</span>
+                </div>
+                <span *ngIf="!app.aiMatchScore"
+                      style="color: var(--ink-4); font-size: 11px;">—</span>
+              </td>
+
+              <td style="font-family: var(--font-mono); font-size: 12px; color: var(--ink-3);">
+                {{ app.appliedAt | date:'dd MMM' }}
+              </td>
+
+              <td>
+                <i class="bi bi-chevron-right" style="color: var(--ink-3);"></i>
+              </td>
+
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>

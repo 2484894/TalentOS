@@ -1,0 +1,214 @@
+<div class="app-layout">
+  <app-sidebar></app-sidebar>
+
+  <div class="main-area">
+    <app-navbar pageTitle="Applicant Review"></app-navbar>
+
+    <div class="page-body">
+
+      <button class="btn btn-sm btn-soft mb-4" (click)="goBack()">
+        <i class="bi bi-arrow-left"></i> Back
+      </button>
+
+      <app-loader *ngIf="loading"></app-loader>
+
+      <div *ngIf="!loading && application">
+
+        <div class="alert alert-success" *ngIf="successMsg">
+          <i class="bi bi-check-circle-fill"></i> {{ successMsg }}
+        </div>
+        <div class="alert alert-danger" *ngIf="errorMsg">
+          <i class="bi bi-exclamation-circle-fill"></i> {{ errorMsg }}
+        </div>
+
+        <div class="row g-4">
+
+          <!-- Main -->
+          <div class="col-lg-8">
+
+            <!-- Applicant Header Card -->
+            <div class="card mb-4">
+              <div class="d-flex align-items-start gap-3">
+                <div class="applicant-avatar-lg">
+                  {{ application.studentName?.charAt(0) }}
+                </div>
+                <div class="flex-grow-1">
+                  <h1 style="font-family: var(--font-display); font-size: 1.8rem;
+                             font-weight: 800; line-height: 1;">
+                    {{ application.studentName }}
+                  </h1>
+                  <div style="font-size: 13px; color: var(--ink-2); margin-top: 4px;">
+                    {{ application.studentEmail }}
+                  </div>
+                  <div class="d-flex gap-3 mt-2 flex-wrap"
+                       style="font-size: 12px; color: var(--ink-3);
+                              font-family: var(--font-mono);">
+                    <span *ngIf="application.studentDepartment">
+                      <i class="bi bi-mortarboard"></i> {{ application.studentDepartment }}
+                    </span>
+                    <span *ngIf="application.studentCgpa">
+                      <i class="bi bi-star"></i> CGPA: <strong>{{ application.studentCgpa }}</strong>
+                    </span>
+                    <span>
+                      <i class="bi bi-calendar"></i> Applied {{ application.appliedAt | date:'dd MMM' }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- AI Match Analysis -->
+            <div class="card mb-4" *ngIf="application.aiMatchScore">
+              <div class="eyebrow" style="color: #06B6D4;">
+                <i class="bi bi-stars"></i> AI Analysis
+              </div>
+              <h3 style="font-family: var(--font-display); font-size: 1.5rem;
+                         font-weight: 800; margin-bottom: 1.25rem;">
+                Match Breakdown
+              </h3>
+
+              <div class="text-center py-3">
+                <app-gauge [value]="application.aiMatchScore" size="lg"></app-gauge>
+                <div *ngIf="application.aiSuggestion"
+                     style="font-size: 13px; color: var(--ink-2);
+                            max-width: 28rem; margin: 12px auto 0;
+                            font-style: italic;">
+                  <i class="bi bi-quote" style="color: #0C4A6E;"></i>
+                  {{ application.aiSuggestion }}
+                </div>
+              </div>
+
+              <div class="divider-dashed"></div>
+
+              <div class="row g-3">
+                <div class="col-md-6" *ngIf="application.matchedSkills?.length">
+                  <div class="skill-block matched-block">
+                    <div class="eyebrow" style="color: #065F46; margin-bottom: 8px;">
+                      <i class="bi bi-check-circle-fill"></i>
+                      Has ({{ application.matchedSkills.length }})
+                    </div>
+                    <div>
+                      <span *ngFor="let s of application.matchedSkills"
+                            class="chip matched">{{ s }}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6" *ngIf="application.missingSkills?.length">
+                  <div class="skill-block missing-block">
+                    <div class="eyebrow" style="color: #BE185D; margin-bottom: 8px;">
+                      <i class="bi bi-x-circle-fill"></i>
+                      Missing ({{ application.missingSkills.length }})
+                    </div>
+                    <div>
+                      <span *ngFor="let s of application.missingSkills"
+                            class="chip missing">{{ s }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Interview Slot Proposer -->
+            <div class="card"
+                 *ngIf="selectedStatus === 'SHORTLISTED' || selectedStatus === 'INTERVIEW_SCHEDULED'">
+              <div class="eyebrow" style="color: #D97706;">
+                <i class="bi bi-calendar-event-fill"></i> Schedule Interview
+              </div>
+              <h3 style="font-family: var(--font-display); font-size: 1.5rem;
+                         font-weight: 800; margin-bottom: 1rem;">
+                Propose Slots
+              </h3>
+
+              <div *ngIf="slot?.confirmed" class="alert alert-success">
+                <i class="bi bi-check-circle-fill"></i>
+                Confirmed: <strong>{{ slot!.confirmedTime | date:'dd MMM · h:mm a' }}</strong>
+              </div>
+
+              <div *ngIf="!slot?.confirmed">
+                <p style="font-size: 13px; color: var(--ink-3); margin-bottom: 1rem;">
+                  Propose 1–3 datetime options for the candidate:
+                </p>
+                <div *ngFor="let s of newSlots; let i = index" class="d-flex gap-2 mb-2">
+                  <input type="datetime-local" class="form-control"
+                         [(ngModel)]="newSlots[i]"/>
+                  <button type="button" class="btn btn-icon"
+                          *ngIf="newSlots.length > 1"
+                          (click)="removeSlot(i)"
+                          style="color: #E11D48;">
+                    <i class="bi bi-x-lg"></i>
+                  </button>
+                </div>
+                <div class="d-flex gap-2 mt-3">
+                  <button type="button" class="btn btn-outline-primary btn-sm"
+                          (click)="addSlotField()">
+                    <i class="bi bi-plus-lg"></i> Add Slot
+                  </button>
+                  <button type="button" class="btn btn-primary btn-sm"
+                          [disabled]="proposingSlots"
+                          (click)="proposeSlots()">
+                    <span *ngIf="proposingSlots" class="spinner-border spinner-border-sm"></span>
+                    <i *ngIf="!proposingSlots" class="bi bi-send-fill"></i>
+                    Send to Candidate
+                  </button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Right: Status Manager -->
+          <div class="col-lg-4">
+            <div class="card" style="position: sticky; top: calc(var(--navbar-height) + 1rem);">
+              <div class="eyebrow" style="color: #0C4A6E;">
+                <i class="bi bi-gear-fill"></i> Action Center
+              </div>
+              <h3 style="font-family: var(--font-display); font-size: 1.25rem;
+                         font-weight: 800; margin-bottom: 1rem;">
+                Update Status
+              </h3>
+
+              <div class="mb-3">
+                <label class="form-label">Status</label>
+                <select class="form-select" [(ngModel)]="selectedStatus">
+                  <option *ngFor="let s of statuses" [value]="s">
+                    {{ s === 'APPLIED' ? '● Applied' :
+                       s === 'SHORTLISTED' ? '★ Shortlisted' :
+                       s === 'INTERVIEW_SCHEDULED' ? '📅 Interview Scheduled' :
+                       s === 'SELECTED' ? '✓ Selected' : '✗ Rejected' }}
+                  </option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Note to Candidate</label>
+                <textarea class="form-control" rows="4"
+                          placeholder="Optional feedback..."
+                          [(ngModel)]="recruiterNote"></textarea>
+              </div>
+
+              <button class="btn btn-primary w-100"
+                      [disabled]="updatingStatus"
+                      (click)="updateStatus()">
+                <span *ngIf="updatingStatus" class="spinner-border spinner-border-sm"></span>
+                <i *ngIf="!updatingStatus" class="bi bi-check-lg"></i>
+                {{ updatingStatus ? 'Saving...' : 'Update Status' }}
+              </button>
+
+              <div class="mt-3 pt-3 text-center" style="border-top: 1px solid var(--line);">
+                <div style="font-size: 11px; color: var(--ink-3);
+                            font-family: var(--font-mono);
+                            text-transform: uppercase;
+                            letter-spacing: 0.15em; margin-bottom: 6px;">
+                  Current
+                </div>
+                <app-status-badge [status]="application.status"></app-status-badge>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

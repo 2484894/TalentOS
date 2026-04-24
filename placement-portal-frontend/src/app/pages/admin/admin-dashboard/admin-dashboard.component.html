@@ -1,0 +1,354 @@
+<div class="app-layout">
+  <app-sidebar></app-sidebar>
+
+  <div class="main-area">
+    <app-navbar pageTitle="Placement Command Center"></app-navbar>
+
+    <div class="page-body">
+
+      <!-- ─── Hero ───────────────────────────────────────── -->
+      <div class="row g-4 mb-5 align-items-end">
+
+        <div class="col-lg-8">
+          <div class="d-flex align-items-center gap-2 mb-3">
+            <span class="admin-live-pill">
+              <span class="pulse-dot" style="background: #10B981;"></span>
+              LIVE
+            </span>
+            <span style="font-family: var(--font-mono); font-size: 10px;
+                         letter-spacing: 0.2em; text-transform: uppercase;
+                         color: var(--ink-3);">
+              Academic Cycle · 2025-26
+            </span>
+          </div>
+
+          <h1 class="display-hero" style="font-weight: 700;">
+            Placement <em style="font-style: italic; color: #10B981; font-weight: 400;">pulse.</em>
+          </h1>
+
+          <p style="margin-top: 1.5rem; max-width: 32rem; color: var(--ink-2);
+                    font-size: 15px; line-height: 1.6;"
+             *ngIf="stats">
+            Real-time oversight across
+            <strong style="color: var(--ink);">{{ stats.totalStudents }} students</strong>,
+            <strong style="color: var(--ink);">{{ stats.totalRecruiters }} companies</strong>,
+            and every application flowing through the system.
+          </p>
+        </div>
+
+        <div class="col-lg-4 d-flex gap-2 justify-content-lg-end flex-wrap">
+          <button class="btn btn-lg admin-btn-secondary" routerLink="/admin/users">
+            <i class="bi bi-gear-fill"></i> Manage Users
+          </button>
+          <button class="btn btn-primary btn-lg" routerLink="/admin/report">
+            <i class="bi bi-download"></i> Export Report
+          </button>
+        </div>
+
+      </div>
+
+      <app-loader *ngIf="loading"></app-loader>
+
+      <div *ngIf="!loading && stats">
+
+        <!-- ─── Stats Row (6 cards) ─── -->
+        <div class="row g-3 mb-5">
+
+          <div class="col-6 col-md-4 col-lg-2">
+            <div class="stat-card admin-stat">
+              <div style="position: absolute; top: 0; left: 0; right: 0;
+                          height: 2px; background: #A78BFA;"></div>
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="stat-label">Students</span>
+                <i class="bi bi-mortarboard" style="color: #A78BFA;"></i>
+              </div>
+              <div style="font-family: var(--font-display); font-size: 2.2rem;
+                          font-weight: 700; color: #A78BFA; line-height: 1;"
+                   class="num">
+                {{ stats.totalStudents }}
+              </div>
+            </div>
+          </div>
+
+          <div class="col-6 col-md-4 col-lg-2">
+            <div class="stat-card admin-stat">
+              <div style="position: absolute; top: 0; left: 0; right: 0;
+                          height: 2px; background: #38BDF8;"></div>
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="stat-label">Companies</span>
+                <i class="bi bi-building" style="color: #38BDF8;"></i>
+              </div>
+              <div style="font-family: var(--font-display); font-size: 2.2rem;
+                          font-weight: 700; color: #38BDF8; line-height: 1;"
+                   class="num">
+                {{ stats.totalRecruiters }}
+              </div>
+            </div>
+          </div>
+
+          <div class="col-6 col-md-4 col-lg-2">
+            <div class="stat-card admin-stat">
+              <div style="position: absolute; top: 0; left: 0; right: 0;
+                          height: 2px; background: #F1F5F9;"></div>
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="stat-label">Active Jobs</span>
+                <i class="bi bi-briefcase"></i>
+              </div>
+              <div style="font-family: var(--font-display); font-size: 2.2rem;
+                          font-weight: 700; line-height: 1; color: var(--ink);"
+                   class="num">
+                {{ stats.totalJobsActive }}
+              </div>
+            </div>
+          </div>
+
+          <div class="col-6 col-md-4 col-lg-2">
+            <div class="stat-card admin-stat">
+              <div style="position: absolute; top: 0; left: 0; right: 0;
+                          height: 2px; background: #CBD5E1;"></div>
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="stat-label">Applications</span>
+                <i class="bi bi-file-earmark-text"></i>
+              </div>
+              <div style="font-family: var(--font-display); font-size: 2.2rem;
+                          font-weight: 700; line-height: 1; color: var(--ink);"
+                   class="num">
+                {{ stats.totalApplications }}
+              </div>
+            </div>
+          </div>
+
+          <div class="col-6 col-md-4 col-lg-2">
+            <div class="stat-card admin-stat">
+              <div style="position: absolute; top: 0; left: 0; right: 0;
+                          height: 2px; background: #10B981;"></div>
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="stat-label">Placed</span>
+                <i class="bi bi-trophy" style="color: #10B981;"></i>
+              </div>
+              <div style="font-family: var(--font-display); font-size: 2.2rem;
+                          font-weight: 700; color: #10B981; line-height: 1;"
+                   class="num">
+                {{ stats.studentsPlaced }}
+              </div>
+            </div>
+          </div>
+
+          <div class="col-6 col-md-4 col-lg-2">
+            <div class="stat-card admin-stat">
+              <div style="position: absolute; top: 0; left: 0; right: 0;
+                          height: 2px; background: #F59E0B;"></div>
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="stat-label">Placement</span>
+                <i class="bi bi-percent" style="color: #F59E0B;"></i>
+              </div>
+              <div style="font-family: var(--font-display); font-size: 2.2rem;
+                          font-weight: 700; color: #F59E0B; line-height: 1;"
+                   class="num">
+                {{ stats.placementPercentage }}<span style="font-size: 1rem; opacity: 0.7;">%</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ─── Placement Rate Bar ─── -->
+        <div class="card admin-card mb-5">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <div>
+              <div class="eyebrow" style="color: #34D399;">
+                <i class="bi bi-trophy-fill"></i> Overall Placement Rate
+              </div>
+              <div style="font-family: var(--font-display); font-size: 2.2rem;
+                          font-weight: 700; color: var(--ink); line-height: 1;
+                          margin-top: 4px;" class="num">
+                {{ stats.placementPercentage }}%
+              </div>
+            </div>
+            <div class="text-end">
+              <div style="font-family: var(--font-mono); font-size: 10px;
+                          color: var(--ink-3); letter-spacing: 0.1em;
+                          text-transform: uppercase;">
+                Placed / Total
+              </div>
+              <div style="font-family: var(--font-display); font-size: 1.1rem;
+                          font-weight: 600; color: var(--ink-2);">
+                {{ stats.studentsPlaced }} / {{ stats.totalStudents }}
+              </div>
+            </div>
+          </div>
+          <div class="admin-progress" style="height: 10px;">
+            <div [style.width]="stats.placementPercentage + '%'"
+                 [style.background]="stats.placementPercentage >= 70 ?
+                   'linear-gradient(90deg, #10B981, #34D399)' :
+                   stats.placementPercentage >= 40 ?
+                   'linear-gradient(90deg, #F59E0B, #FBBF24)' :
+                   'linear-gradient(90deg, #F43F5E, #FB7185)'">
+            </div>
+          </div>
+        </div>
+
+        <!-- ─── Charts Row ─── -->
+        <div class="row g-4 mb-5">
+
+          <!-- Pipeline Breakdown -->
+          <div class="col-lg-4">
+            <div class="card admin-card" style="height: 100%;">
+              <div class="eyebrow" style="color: #A78BFA;">
+                <i class="bi bi-pie-chart-fill"></i> Pipeline
+              </div>
+              <h3 style="font-family: var(--font-display); font-size: 1.4rem;
+                         font-weight: 700; color: var(--ink); margin-bottom: 1rem;">
+                By Status
+              </h3>
+
+              <div *ngIf="!chartsReady" class="empty-state">
+                <i class="bi bi-pie-chart"></i>
+                <p>No data</p>
+              </div>
+
+              <canvas #statusChart *ngIf="chartsReady"
+                      style="max-height: 220px;"></canvas>
+
+              <div class="mt-3">
+                <div *ngFor="let entry of getStatusEntries()"
+                     class="d-flex justify-content-between py-1"
+                     style="font-size: 12px; color: var(--ink-2);">
+                  <span>
+                    <app-status-badge [status]="entry.key"></app-status-badge>
+                  </span>
+                  <span class="num fw-bold" style="color: var(--ink);">
+                    {{ entry.value }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Department Chart -->
+          <div class="col-lg-4">
+            <div class="card admin-card" style="height: 100%;">
+              <div class="eyebrow" style="color: #10B981;">
+                <i class="bi bi-bar-chart-fill"></i> By Department
+              </div>
+              <h3 style="font-family: var(--font-display); font-size: 1.4rem;
+                         font-weight: 700; color: var(--ink); margin-bottom: 1rem;">
+                Placements
+              </h3>
+
+              <div *ngIf="!chartsReady ||
+                          !stats.placementsByDepartment ||
+                          objectKeys(stats.placementsByDepartment).length === 0"
+                   class="empty-state">
+                <i class="bi bi-bar-chart"></i>
+                <p>No placements yet</p>
+              </div>
+
+              <canvas #deptChart
+                      *ngIf="chartsReady &&
+                             stats.placementsByDepartment &&
+                             objectKeys(stats.placementsByDepartment).length > 0"
+                      style="max-height: 260px;"></canvas>
+            </div>
+          </div>
+
+          <!-- Top Companies -->
+          <div class="col-lg-4">
+            <div class="card admin-card" style="height: 100%;">
+              <div class="eyebrow" style="color: #F59E0B;">
+                <i class="bi bi-building-fill"></i> Top Recruiters
+              </div>
+              <h3 style="font-family: var(--font-display); font-size: 1.4rem;
+                         font-weight: 700; color: var(--ink); margin-bottom: 1rem;">
+                By Hires
+              </h3>
+
+              <div *ngIf="!chartsReady ||
+                          !stats.topCompanies ||
+                          stats.topCompanies.length === 0"
+                   class="empty-state">
+                <i class="bi bi-building"></i>
+                <p>No placements yet</p>
+              </div>
+
+              <canvas #companyChart
+                      *ngIf="chartsReady &&
+                             stats.topCompanies &&
+                             stats.topCompanies.length > 0"
+                      style="max-height: 260px;"></canvas>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ─── AI Insights Card ─── -->
+        <div class="card admin-insights-card">
+          <div class="ai-insights-blur"></div>
+          <div style="position: relative; z-index: 1;">
+
+            <div class="d-flex align-items-center gap-2 mb-3">
+              <div class="admin-ai-icon">
+                <i class="bi bi-stars"></i>
+              </div>
+              <span class="eyebrow" style="color: #34D399; margin: 0;">
+                AI Insights · Gemini
+              </span>
+            </div>
+
+            <h3 style="font-family: var(--font-display); font-size: 1.5rem;
+                       font-weight: 700; color: var(--ink); margin-bottom: 1.25rem;">
+              Patterns worth reviewing
+            </h3>
+
+            <div class="row g-3">
+
+              <div class="col-md-4">
+                <div class="insight-card">
+                  <div class="insight-dot" style="background: #F43F5E;"></div>
+                  <div>
+                    <div style="font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 4px;">
+                      Low dept placement
+                    </div>
+                    <p style="font-size: 12px; color: var(--ink-2); margin: 0; line-height: 1.5;">
+                      Consider targeted recruiter outreach for departments below 50%.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="insight-card">
+                  <div class="insight-dot" style="background: #10B981;"></div>
+                  <div>
+                    <div style="font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 4px;">
+                      Strong AI matches
+                    </div>
+                    <p style="font-size: 12px; color: var(--ink-2); margin: 0; line-height: 1.5;">
+                      Average match score across shortlisted candidates is above 85%.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="insight-card">
+                  <div class="insight-dot" style="background: #F59E0B;"></div>
+                  <div>
+                    <div style="font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 4px;">
+                      Profile gaps
+                    </div>
+                    <p style="font-size: 12px; color: var(--ink-2); margin: 0; line-height: 1.5;">
+                      Push students with profile completion under 60% to upload resumes.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

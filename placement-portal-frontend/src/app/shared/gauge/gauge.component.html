@@ -1,0 +1,51 @@
+<div class="d-inline-flex align-items-center gap-2">
+
+  <!-- Optional label -->
+  <div *ngIf="showLabel" class="text-end">
+    <div style="font-family: var(--font-mono); font-size: 9px;
+                letter-spacing: 0.15em; text-transform: uppercase;
+                color: var(--ink-3);">
+      AI Match
+    </div>
+    <div style="font-size: 11px; font-weight: 600;"
+         [style.color]="color">
+      {{ label }}
+    </div>
+  </div>
+
+  <!-- Circular gauge -->
+  <div class="position-relative"
+       [style.width.px]="dimensions.box"
+       [style.height.px]="dimensions.box">
+    <svg [attr.width]="dimensions.box" [attr.height]="dimensions.box">
+      <circle
+        [attr.cx]="dimensions.box / 2"
+        [attr.cy]="dimensions.box / 2"
+        [attr.r]="dimensions.radius"
+        fill="none"
+        stroke="var(--line)"
+        [attr.stroke-width]="dimensions.stroke"/>
+      <circle
+        [attr.cx]="dimensions.box / 2"
+        [attr.cy]="dimensions.box / 2"
+        [attr.r]="dimensions.radius"
+        fill="none"
+        [attr.stroke]="color"
+        [attr.stroke-width]="dimensions.stroke"
+        stroke-linecap="round"
+        [attr.stroke-dasharray]="circumference"
+        [attr.stroke-dashoffset]="offset"
+        [attr.transform]="'rotate(-90 ' + (dimensions.box/2) + ' ' + (dimensions.box/2) + ')'"
+        style="transition: stroke-dashoffset 0.6s ease;"/>
+    </svg>
+    <div class="position-absolute d-flex align-items-center justify-content-center"
+         style="inset: 0;">
+      <span style="font-family: var(--font-display); font-weight: 700;"
+            [style.color]="color"
+            [style.fontSize]="dimensions.font">
+        {{ value }}
+      </span>
+    </div>
+  </div>
+
+</div>

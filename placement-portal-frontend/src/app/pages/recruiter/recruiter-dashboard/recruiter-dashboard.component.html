@@ -1,0 +1,297 @@
+<div class="app-layout">
+  <app-sidebar></app-sidebar>
+
+  <div class="main-area">
+    <app-navbar pageTitle="Overview"></app-navbar>
+
+    <div class="page-body">
+
+      <!-- ─── Hero ───────────────────────────────────────── -->
+      <div class="row g-4 mb-5 align-items-end">
+
+        <div class="col-lg-8">
+          <div class="d-flex align-items-center gap-2 mb-3">
+            <span class="pulse-dot" style="background: #06B6D4;"></span>
+            <span style="font-family: var(--font-mono); font-size: 10px;
+                         letter-spacing: 0.2em; text-transform: uppercase;
+                         color: #0C4A6E;">
+              {{ userName }} · Active cycle
+            </span>
+          </div>
+
+          <h1 class="display-hero" style="font-weight: 800;">
+            <span style="color: #0C4A6E;" class="num">{{ todayApplicants }}</span> new
+            <br/>applicants today.
+          </h1>
+
+          <p style="margin-top: 1.5rem; max-width: 32rem;
+                    color: var(--ink-2); font-size: 15px; line-height: 1.6;">
+            AI has ranked them by fit —
+            <strong style="color: var(--ink);">
+              review, shortlist, and schedule interviews
+            </strong>
+            without leaving the page.
+          </p>
+        </div>
+
+        <div class="col-lg-4 d-flex gap-2 justify-content-lg-end flex-wrap">
+          <button class="btn btn-lg" style="background: white; color: var(--ink-2);
+                                            border: 1px solid var(--line-2);
+                                            font-weight: 600;">
+            <i class="bi bi-download"></i> Export CSV
+          </button>
+          <button class="btn btn-primary btn-lg" (click)="goToPostJob()">
+            <i class="bi bi-plus-lg"></i> Post New Job
+          </button>
+        </div>
+
+      </div>
+
+      <!-- ─── Stats Grid (4 cards) ─── -->
+      <div class="row g-3 mb-5">
+
+        <div class="col-md-3">
+          <div class="stat-card stat-card-recruiter">
+            <div style="position: absolute; top: 0; right: 0; bottom: 0;
+                        width: 3px; background: #0C4A6E;"></div>
+            <div class="d-flex justify-content-between align-items-start mb-3">
+              <span class="stat-label">Active Jobs</span>
+              <i class="bi bi-briefcase-fill" style="color: #0C4A6E;"></i>
+            </div>
+            <div class="d-flex align-items-baseline gap-2">
+              <span class="stat-value">{{ activeJobs }}</span>
+              <span class="trend-badge">
+                <i class="bi bi-arrow-up"></i>+2
+              </span>
+            </div>
+            <div class="stat-sub">{{ closedJobs }} closed</div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="stat-card stat-card-recruiter">
+            <div style="position: absolute; top: 0; right: 0; bottom: 0;
+                        width: 3px; background: #06B6D4;"></div>
+            <div class="d-flex justify-content-between align-items-start mb-3">
+              <span class="stat-label">Total Applicants</span>
+              <i class="bi bi-people-fill" style="color: #06B6D4;"></i>
+            </div>
+            <div class="d-flex align-items-baseline gap-2">
+              <span class="stat-value">{{ totalApplicants }}</span>
+              <span class="trend-badge">
+                <i class="bi bi-arrow-up"></i>+23
+              </span>
+            </div>
+            <div class="stat-sub">this cycle</div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="stat-card stat-card-recruiter">
+            <div style="position: absolute; top: 0; right: 0; bottom: 0;
+                        width: 3px; background: #D97706;"></div>
+            <div class="d-flex justify-content-between align-items-start mb-3">
+              <span class="stat-label">Interviews</span>
+              <i class="bi bi-calendar-event-fill" style="color: #D97706;"></i>
+            </div>
+            <div class="d-flex align-items-baseline gap-2">
+              <span class="stat-value">19</span>
+              <span class="trend-badge">
+                <i class="bi bi-arrow-up"></i>+4
+              </span>
+            </div>
+            <div class="stat-sub">scheduled</div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="stat-card stat-card-recruiter">
+            <div style="position: absolute; top: 0; right: 0; bottom: 0;
+                        width: 3px; background: #059669;"></div>
+            <div class="d-flex justify-content-between align-items-start mb-3">
+              <span class="stat-label">Hires Confirmed</span>
+              <i class="bi bi-award-fill" style="color: #059669;"></i>
+            </div>
+            <div class="d-flex align-items-baseline gap-2">
+              <span class="stat-value">7</span>
+              <span class="trend-badge">
+                <i class="bi bi-arrow-up"></i>+1
+              </span>
+            </div>
+            <div class="stat-sub">this cycle</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ─── Content Grid ─── -->
+      <div class="row g-4">
+
+        <!-- Job Listings -->
+        <div class="col-lg-8">
+          <div class="d-flex align-items-end justify-content-between mb-4">
+            <div>
+              <div class="eyebrow" style="color: #0C4A6E;">
+                <i class="bi bi-briefcase-fill"></i> Your postings
+              </div>
+              <h2 style="font-family: var(--font-display); font-size: 2rem;
+                         font-weight: 800; letter-spacing: -0.03em; line-height: 1;">
+                Active jobs
+              </h2>
+            </div>
+            <button class="btn btn-soft btn-sm" (click)="goToJobs()">
+              View all <i class="bi bi-arrow-right"></i>
+            </button>
+          </div>
+
+          <app-loader *ngIf="loading"></app-loader>
+
+          <div class="empty-state card" *ngIf="!loading && jobs.length === 0">
+            <i class="bi bi-briefcase"></i>
+            <p>You haven't posted any jobs yet.</p>
+            <button class="btn btn-primary btn-sm" (click)="goToPostJob()">
+              Post Your First Job
+            </button>
+          </div>
+
+          <div *ngIf="!loading && jobs.length > 0">
+            <div *ngFor="let job of jobs.slice(0, 5)"
+                 class="recruiter-job-card"
+                 (click)="viewApplicants(job.id)">
+
+              <div class="d-flex justify-content-between align-items-start mb-2">
+                <div>
+                  <div class="d-flex align-items-center gap-2 mb-1">
+                    <h3 style="font-family: var(--font-display); font-size: 1.15rem;
+                               font-weight: 700; margin: 0;">
+                      {{ job.title }}
+                    </h3>
+                    <span class="chip"
+                          [class.chip-success]="job.active"
+                          [class.chip-danger]="!job.active"
+                          style="font-size: 9px; font-family: var(--font-mono);
+                                 text-transform: uppercase; letter-spacing: 0.1em;
+                                 font-weight: 700;">
+                      {{ job.active ? 'Active' : 'Closed' }}
+                    </span>
+                  </div>
+                  <div style="font-size: 12px; color: var(--ink-3);">
+                    <span>{{ job.jobType }}</span>
+                    <span *ngIf="job.location"> · <i class="bi bi-geo-alt"></i> {{ job.location }}</span>
+                    <span *ngIf="job.ctc" style="font-family: var(--font-mono);
+                                                  color: #0C4A6E; font-weight: 600;
+                                                  margin-left: 8px;">
+                      {{ job.ctc }}
+                    </span>
+                  </div>
+                </div>
+
+                <div *ngIf="job.applicantCount > 0"
+                     class="new-applicants-badge">
+                  <i class="bi bi-people-fill"></i>
+                  {{ job.applicantCount }}
+                </div>
+              </div>
+
+              <div class="d-grid gap-2 pt-3"
+                   style="grid-template-columns: 1fr 1fr 1fr;
+                          border-top: 1px dashed var(--line-2);">
+                <div>
+                  <div class="metric-label">Applicants</div>
+                  <div class="metric-value" style="color: #0C4A6E;">
+                    {{ job.applicantCount }}
+                  </div>
+                </div>
+                <div>
+                  <div class="metric-label">Type</div>
+                  <div class="metric-value">{{ job.jobType }}</div>
+                </div>
+                <div>
+                  <div class="metric-label">Deadline</div>
+                  <div class="metric-value" style="color: #E11D48;"
+                       *ngIf="job.deadline">
+                    {{ job.deadline | date:'dd MMM' }}
+                  </div>
+                  <div class="metric-value" style="color: var(--ink-4);"
+                       *ngIf="!job.deadline">—</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Performance Card (right side) -->
+        <div class="col-lg-4">
+          <div class="perf-card">
+            <div class="perf-blur"></div>
+            <div style="position: relative; z-index: 1;">
+
+              <div class="d-flex justify-content-between align-items-start mb-4">
+                <div>
+                  <div style="font-family: var(--font-mono); font-size: 10px;
+                              letter-spacing: 0.2em; text-transform: uppercase;
+                              opacity: 0.7;">
+                    Hiring Performance
+                  </div>
+                  <h3 style="font-family: var(--font-display); font-size: 1.5rem;
+                             font-weight: 800; margin-top: 4px;">
+                    Q2 · On track
+                  </h3>
+                </div>
+                <i class="bi bi-bar-chart-fill" style="font-size: 1.5rem; opacity: 0.6;"></i>
+              </div>
+
+              <div class="row g-3 mb-4">
+                <div class="col-6">
+                  <div style="font-family: var(--font-mono); font-size: 9px;
+                              letter-spacing: 0.15em; text-transform: uppercase;
+                              opacity: 0.6; margin-bottom: 4px;">
+                    Funnel
+                  </div>
+                  <div style="font-family: var(--font-display); font-size: 2.4rem;
+                              font-weight: 800; line-height: 1;">
+                    67<span style="font-size: 1.1rem; opacity: 0.6;">%</span>
+                  </div>
+                  <div style="font-size: 11px; opacity: 0.7; margin-top: 2px;">
+                    Shortlist → Hire
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div style="font-family: var(--font-mono); font-size: 9px;
+                              letter-spacing: 0.15em; text-transform: uppercase;
+                              opacity: 0.6; margin-bottom: 4px;">
+                    Time to Hire
+                  </div>
+                  <div style="font-family: var(--font-display); font-size: 2.4rem;
+                              font-weight: 800; line-height: 1;">
+                    12<span style="font-size: 1.1rem; opacity: 0.6;">d</span>
+                  </div>
+                  <div style="font-size: 11px; opacity: 0.7; margin-top: 2px;">
+                    vs 18d industry
+                  </div>
+                </div>
+              </div>
+
+              <div style="height: 1px; background: rgba(255,255,255,0.15);
+                          margin-bottom: 1rem;"></div>
+
+              <div class="d-flex justify-content-between mb-2">
+                <span style="font-size: 12px; opacity: 0.75;">AI Match Accuracy</span>
+                <span style="font-family: var(--font-mono); font-weight: 700;">92%</span>
+              </div>
+              <div style="height: 6px; background: rgba(255,255,255,0.15);
+                          border-radius: 999px; overflow: hidden;">
+                <div style="height: 100%; width: 92%;
+                            background: linear-gradient(90deg, #06B6D4, #67E8F9);
+                            border-radius: 999px;"></div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>

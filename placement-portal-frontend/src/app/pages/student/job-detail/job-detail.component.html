@@ -1,0 +1,171 @@
+<div class="app-layout">
+  <app-sidebar></app-sidebar>
+
+  <div class="main-area">
+    <app-navbar pageTitle="Job Detail"></app-navbar>
+
+    <div class="page-body">
+
+      <button class="btn btn-sm btn-soft mb-4" (click)="goBack()">
+        <i class="bi bi-arrow-left"></i> Back to jobs
+      </button>
+
+      <app-loader *ngIf="loading"></app-loader>
+
+      <div *ngIf="!loading && job">
+
+        <div class="alert alert-success" *ngIf="successMsg">
+          <i class="bi bi-check-circle-fill"></i> {{ successMsg }}
+        </div>
+        <div class="alert alert-danger" *ngIf="errorMsg">
+          <i class="bi bi-exclamation-circle-fill"></i> {{ errorMsg }}
+        </div>
+
+        <div class="row g-4">
+
+          <!-- Main Content -->
+          <div class="col-lg-8">
+
+            <!-- Job Header Card -->
+            <div class="card mb-4">
+
+              <div class="d-flex align-items-start gap-3 mb-3">
+                <div class="job-logo-lg">{{ job.companyName.charAt(0) }}</div>
+                <div class="flex-grow-1">
+                  <h1 style="font-family: var(--font-display); font-size: 2rem;
+                             font-weight: 500; line-height: 1.1; letter-spacing: -0.02em;">
+                    {{ job.title }}
+                  </h1>
+                  <div style="font-size: 14px; color: var(--ink-2); margin-top: 4px;">
+                    <strong>{{ job.companyName }}</strong>
+                    <span *ngIf="job.location"> · <i class="bi bi-geo-alt"></i> {{ job.location }}</span>
+                    · <span class="chip chip-primary" style="margin: 0 0 0 6px;">{{ job.jobType }}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="d-flex gap-4 flex-wrap pt-3 mt-3"
+                   style="border-top: 1px dashed var(--line-2); font-size: 13px;">
+                <div *ngIf="job.ctc">
+                  <div class="eyebrow" style="margin-bottom: 2px;">CTC</div>
+                  <div class="num fw-bold" style="color: #6D28D9; font-size: 1.1rem;">
+                    {{ job.ctc }}
+                  </div>
+                </div>
+                <div *ngIf="job.minCgpa">
+                  <div class="eyebrow" style="margin-bottom: 2px;">Min CGPA</div>
+                  <div class="num fw-bold" style="font-size: 1.1rem;">
+                    {{ job.minCgpa }}
+                  </div>
+                </div>
+                <div *ngIf="job.deadline">
+                  <div class="eyebrow" style="margin-bottom: 2px;">Deadline</div>
+                  <div class="num fw-bold" style="color: #EC4899; font-size: 1.1rem;">
+                    {{ job.deadline | date:'dd MMM' }}
+                  </div>
+                </div>
+                <div>
+                  <div class="eyebrow" style="margin-bottom: 2px;">Applicants</div>
+                  <div class="num fw-bold" style="font-size: 1.1rem;">
+                    {{ job.applicantCount }}
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Description Card -->
+            <div class="card mb-4">
+              <h3 style="font-family: var(--font-display); font-size: 1.5rem;
+                         font-weight: 500; font-style: italic;
+                         margin-bottom: 1rem;">
+                About this role
+              </h3>
+              <p style="font-size: 14px; line-height: 1.7; color: var(--ink-2);
+                        white-space: pre-wrap;">{{ job.description }}</p>
+
+              <div class="mt-4" *ngIf="job.requiredSkills?.length">
+                <div class="eyebrow" style="margin-bottom: 8px;">Required Skills</div>
+                <div>
+                  <span *ngFor="let s of job.requiredSkills" class="chip chip-primary">{{ s }}</span>
+                </div>
+              </div>
+
+              <div class="mt-3" *ngIf="job.niceToHaveSkills?.length">
+                <div class="eyebrow" style="margin-bottom: 8px;">Nice to Have</div>
+                <div>
+                  <span *ngFor="let s of job.niceToHaveSkills" class="chip">{{ s }}</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Sticky Apply Sidebar -->
+          <div class="col-lg-4">
+            <div class="apply-sidebar">
+
+              <!-- Preview Match Button -->
+              <button class="btn btn-outline-primary w-100 mb-3"
+                      [disabled]="previewing"
+                      (click)="previewMatch()">
+                <span *ngIf="previewing" class="spinner-border spinner-border-sm"></span>
+                <i *ngIf="!previewing" class="bi bi-stars"></i>
+                {{ previewing ? 'Analyzing...' : 'Preview AI Match Score' }}
+              </button>
+
+              <!-- Preview Result -->
+              <div *ngIf="previewResult" class="match-result mb-3">
+                <div class="text-center mb-3">
+                  <app-gauge [value]="previewResult.aiMatchScore" size="lg"></app-gauge>
+                </div>
+
+                <div *ngIf="previewResult.matchedSkills?.length" class="mb-2">
+                  <div class="eyebrow" style="margin-bottom: 6px; color: #065F46;">
+                    <i class="bi bi-check-circle-fill"></i> You have
+                  </div>
+                  <span *ngFor="let s of previewResult.matchedSkills"
+                        class="chip matched">{{ s }}</span>
+                </div>
+
+                <div *ngIf="previewResult.missingSkills?.length">
+                  <div class="eyebrow" style="margin-bottom: 6px; color: #BE185D;">
+                    <i class="bi bi-lightbulb-fill"></i> You'll need
+                  </div>
+                  <span *ngFor="let s of previewResult.missingSkills"
+                        class="chip missing">{{ s }}</span>
+                </div>
+
+                <div *ngIf="previewResult.aiSuggestion"
+                     class="mt-3 pt-3 small fst-italic"
+                     style="color: var(--ink-2); border-top: 1px dashed var(--line-2);">
+                  <i class="bi bi-quote"></i>
+                  {{ previewResult.aiSuggestion }}
+                </div>
+              </div>
+
+              <!-- Apply Button -->
+              <button class="btn-auth-submit"
+                      [disabled]="applying || applied"
+                      (click)="apply()">
+                <span *ngIf="applying" class="spinner-border spinner-border-sm"></span>
+                <i *ngIf="!applying && !applied" class="bi bi-send-fill"></i>
+                <i *ngIf="applied" class="bi bi-check-circle-fill"></i>
+                {{ applying ? 'Applying...' : applied ? 'Applied ✓' : 'Apply Now' }}
+              </button>
+
+              <a *ngIf="applied" routerLink="/student/applications"
+                 class="d-block text-center mt-3"
+                 style="color: #6D28D9; font-size: 13px; font-weight: 600;">
+                View My Applications →
+              </a>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

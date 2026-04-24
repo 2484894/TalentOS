@@ -1,0 +1,325 @@
+<div class="app-layout">
+  <app-sidebar></app-sidebar>
+
+  <div class="main-area">
+    <app-navbar pageTitle="Dashboard"></app-navbar>
+
+    <div class="page-body">
+
+      <!-- ─── Hero ───────────────────────────────────────── -->
+      <div class="row g-4 mb-5 align-items-end">
+
+        <div class="col-lg-8">
+          <div class="d-flex align-items-center gap-2 mb-3">
+            <span class="pulse-dot" style="background: #EC4899;"></span>
+            <span style="font-family: var(--font-mono); font-size: 10px;
+                         letter-spacing: 0.2em; text-transform: uppercase;
+                         color: var(--ink-3);">
+              {{ today }}
+            </span>
+          </div>
+
+          <h1 class="display-hero">
+            {{ greeting }}, <span class="italic-accent">{{ userName }}</span><br/>
+            <em style="color: var(--ink-3); font-style: italic; font-weight: 400;">
+              let's find
+            </em>
+            <span style="background: linear-gradient(135deg, #EC4899 0%, #F59E0B 100%);
+                         -webkit-background-clip: text;
+                         -webkit-text-fill-color: transparent;
+                         background-clip: text;">
+              your next move.
+            </span>
+          </h1>
+
+          <p style="margin-top: 1.5rem; max-width: 32rem;
+                    color: var(--ink-2); font-size: 15px; line-height: 1.6;">
+            <strong style="color: var(--ink);">{{ topJobs.length }} new AI-matched opportunities</strong>
+            <span *ngIf="interviews > 0">
+              and
+              <strong style="color: #EC4899;">
+                {{ interviews }} upcoming interview{{ interviews > 1 ? 's' : '' }}
+              </strong>
+              this week
+            </span>.
+            <span *ngIf="profile && profile.profileCompletePct < 80">
+              Complete your profile to unlock better matches.
+            </span>
+          </p>
+        </div>
+
+        <!-- ─── Profile Gradient Card ─── -->
+        <div class="col-lg-4">
+          <div class="talentos-profile-card"
+               [style.background]="'linear-gradient(160deg, #6D28D9 0%, #4C1D95 100%)'">
+            <div class="profile-blur-1"></div>
+            <div class="profile-blur-2"></div>
+
+            <div style="position: relative; z-index: 1;">
+
+              <div class="d-flex justify-content-between align-items-start mb-3">
+                <div>
+                  <div style="font-family: var(--font-mono); font-size: 10px;
+                              letter-spacing: 0.2em; text-transform: uppercase;
+                              opacity: 0.7; margin-bottom: 4px;">
+                    Profile strength
+                  </div>
+                  <div style="font-family: var(--font-display); font-size: 3.5rem;
+                              font-weight: 500; line-height: 1;">
+                    {{ profile?.profileCompletePct || 0 }}<span style="font-size: 1.8rem; opacity: 0.6;">%</span>
+                  </div>
+                </div>
+                <!-- Ring -->
+                <svg width="60" height="60" viewBox="0 0 60 60">
+                  <circle cx="30" cy="30" r="24" fill="none"
+                          stroke="rgba(255,255,255,0.15)" stroke-width="4"/>
+                  <circle cx="30" cy="30" r="24" fill="none"
+                          stroke="#FBBF24" stroke-width="4" stroke-linecap="round"
+                          [attr.stroke-dasharray]="150.8"
+                          [attr.stroke-dashoffset]="150.8 * (1 - (profile?.profileCompletePct || 0) / 100)"
+                          transform="rotate(-90 30 30)"/>
+                  <circle cx="30" cy="30" r="3" fill="#EC4899"/>
+                </svg>
+              </div>
+
+              <div style="height: 1px; background: rgba(255,255,255,0.15); margin: 1rem 0;"></div>
+
+              <div *ngIf="profile" class="profile-meta">
+                <div><span>Department</span><span>{{ profile.department || '—' }}</span></div>
+                <div><span>CGPA</span><span class="num">{{ profile.cgpa || '—' }}</span></div>
+                <div><span>Skills</span><span>{{ profile.skills?.length || 0 }} added</span></div>
+              </div>
+
+              <button class="btn-profile-cta" (click)="goToProfile()">
+                Complete Profile <i class="bi bi-arrow-up-right ms-1"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ─── Stats Row ─── -->
+      <div class="row g-3 mb-5">
+        <div class="col-6 col-md-3">
+          <div class="stat-card">
+            <div class="accent-bar" style="background: #6D28D9;"></div>
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <span class="stat-label">Applications</span>
+              <div class="stat-icon" style="background: #EDE9FE; color: #6D28D9;">
+                <i class="bi bi-send-fill"></i>
+              </div>
+            </div>
+            <div class="stat-value">{{ totalApplied }}</div>
+            <div class="stat-sub">submitted</div>
+          </div>
+        </div>
+
+        <div class="col-6 col-md-3">
+          <div class="stat-card">
+            <div class="accent-bar" style="background: #EC4899;"></div>
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <span class="stat-label">Avg Match</span>
+              <div class="stat-icon" style="background: #FCE7F3; color: #EC4899;">
+                <i class="bi bi-stars"></i>
+              </div>
+            </div>
+            <div class="stat-value">{{ avgMatchScore }}<span style="font-size: 1.2rem; color: var(--ink-3);">/100</span></div>
+            <div class="stat-sub">across applications</div>
+          </div>
+        </div>
+
+        <div class="col-6 col-md-3">
+          <div class="stat-card">
+            <div class="accent-bar" style="background: #F59E0B;"></div>
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <span class="stat-label">Interviews</span>
+              <div class="stat-icon" style="background: #FEF3C7; color: #F59E0B;">
+                <i class="bi bi-calendar-event-fill"></i>
+              </div>
+            </div>
+            <div class="stat-value">{{ interviews }}</div>
+            <div class="stat-sub">scheduled</div>
+          </div>
+        </div>
+
+        <div class="col-6 col-md-3">
+          <div class="stat-card">
+            <div class="accent-bar" style="background: #10B981;"></div>
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <span class="stat-label">Offers</span>
+              <div class="stat-icon" style="background: #D1FAE5; color: #10B981;">
+                <i class="bi bi-trophy-fill"></i>
+              </div>
+            </div>
+            <div class="stat-value">{{ selected }}</div>
+            <div class="stat-sub">received</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── AI Resume Banner ─── -->
+      <div *ngIf="!profile?.resumeUrl" class="ai-banner mb-5">
+        <div class="ai-banner-blur"></div>
+        <div class="d-flex align-items-center gap-3" style="position: relative;">
+          <div class="ai-banner-icon">
+            <i class="bi bi-stars"></i>
+          </div>
+          <div class="flex-grow-1">
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+              <span style="font-family: var(--font-mono); font-size: 10px;
+                           letter-spacing: 0.2em; text-transform: uppercase;
+                           background: #6D28D9; color: white;
+                           padding: 2px 8px; border-radius: 4px;">
+                AI Powered
+              </span>
+              <span style="font-family: var(--font-mono); font-size: 10px;
+                           color: #6D28D9; letter-spacing: 0.1em;">
+                Gemini 1.5
+              </span>
+            </div>
+            <h3 style="font-family: var(--font-display); font-size: 1.5rem;
+                       font-style: italic; font-weight: 500;
+                       letter-spacing: -0.02em; line-height: 1.2;">
+              Upload your resume — we'll parse the rest
+            </h3>
+            <p style="font-size: 13px; color: var(--ink-2); margin: 2px 0 0;">
+              Skills, education, experience auto-extracted in seconds.
+            </p>
+          </div>
+          <button class="btn-dark btn btn-lg" (click)="goToResume()">
+            <i class="bi bi-upload"></i> Upload Resume
+          </button>
+        </div>
+      </div>
+
+      <!-- ─── Jobs + Applications ─── -->
+      <div class="row g-4">
+
+        <!-- Top Jobs -->
+        <div class="col-lg-8">
+          <div class="d-flex align-items-end justify-content-between mb-4">
+            <div>
+              <div class="eyebrow">
+                <i class="bi bi-lightning-charge-fill"></i>
+                <span>AI-Ranked for you</span>
+              </div>
+              <h2 class="page-header">
+                <span style="font-family: var(--font-display); font-weight: 500;
+                             font-size: 2rem; font-style: italic;">
+                  Opportunities, ranked by fit
+                </span>
+              </h2>
+            </div>
+            <button class="btn btn-soft btn-sm" (click)="goToJobs()">
+              Browse all <i class="bi bi-arrow-right"></i>
+            </button>
+          </div>
+
+          <app-loader *ngIf="loading"></app-loader>
+
+          <div class="empty-state card" *ngIf="!loading && topJobs.length === 0">
+            <i class="bi bi-briefcase"></i>
+            <p>No jobs available right now. Check back soon!</p>
+          </div>
+
+          <div *ngFor="let job of topJobs" class="job-card-student mb-3"
+               (click)="viewJob(job.id)">
+            <div class="d-flex align-items-start gap-3">
+              <div class="job-logo">{{ job.companyName.charAt(0) }}</div>
+              <div class="flex-grow-1 min-w-0">
+                <div class="d-flex justify-content-between align-items-start gap-3">
+                  <div>
+                    <h3 style="font-family: var(--font-display); font-size: 1.3rem;
+                               font-weight: 500; line-height: 1.2;">
+                      {{ job.title }}
+                    </h3>
+                    <div style="font-size: 12.5px; color: var(--ink-3); margin-top: 4px;">
+                      <strong style="color: var(--ink-2);">{{ job.companyName }}</strong>
+                      <span *ngIf="job.location"> · <i class="bi bi-geo-alt"></i> {{ job.location }}</span>
+                      · {{ job.jobType }}
+                    </div>
+                  </div>
+                </div>
+                <div class="d-flex flex-wrap gap-1 mt-2">
+                  <span *ngFor="let s of job.requiredSkills?.slice(0,4)" class="chip chip-primary">{{ s }}</span>
+                </div>
+                <div class="d-flex align-items-center justify-content-between mt-3 pt-3"
+                     style="border-top: 1px dashed var(--line-2);">
+                  <div style="font-size: 13px;">
+                    <span style="font-family: var(--font-mono); font-weight: 700; color: #6D28D9;">
+                      {{ job.ctc || 'CTC not disclosed' }}
+                    </span>
+                    <span style="color: var(--ink-3); margin-left: 12px;" *ngIf="job.deadline">
+                      Deadline <span style="color: #EC4899; font-weight: 600;">
+                        {{ job.deadline | date:'dd MMM' }}
+                      </span>
+                    </span>
+                  </div>
+                  <button class="btn btn-dark btn-sm" (click)="$event.stopPropagation(); viewJob(job.id)">
+                    View <i class="bi bi-arrow-up-right"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Applications -->
+        <div class="col-lg-4">
+          <div class="d-flex align-items-end justify-content-between mb-4">
+            <h2 style="font-family: var(--font-display); font-size: 1.5rem;
+                       font-weight: 500; font-style: italic; letter-spacing: -0.02em;">
+              Your applications
+            </h2>
+            <button class="btn btn-sm" style="font-size: 11px; color: #6D28D9;"
+                    (click)="goToApplications()">
+              All <i class="bi bi-chevron-right"></i>
+            </button>
+          </div>
+
+          <div class="empty-state card" *ngIf="!loading && applications.length === 0">
+            <i class="bi bi-send"></i>
+            <p style="font-size: 13px;">No applications yet</p>
+            <button class="btn btn-primary btn-sm mt-2" (click)="goToJobs()">Browse Jobs</button>
+          </div>
+
+          <div class="card p-0" *ngIf="!loading && applications.length > 0"
+               style="overflow: hidden;">
+            <div *ngFor="let app of applications.slice(0,4); let last = last"
+     class="app-list-item"
+     [style.border-bottom]="last ? 'none' : '1px solid var(--line)'"
+     (click)="viewApp(app.id)">
+     <div class="d-flex justify-content-between align-items-start">
+                <div style="min-width: 0; flex: 1;">
+                  <div style="font-size: 13px; font-weight: 600; margin-bottom: 2px;">
+                    {{ app.jobTitle }}
+                  </div>
+                  <div style="font-size: 11px; color: var(--ink-3);">
+                    {{ app.companyName }}
+                  </div>
+                </div>
+                <app-status-badge [status]="app.status"></app-status-badge>
+              </div>
+              <div *ngIf="app.aiMatchScore" class="mt-2 d-flex align-items-center gap-2">
+                <div style="flex: 1; height: 4px; background: var(--line);
+                            border-radius: 999px; overflow: hidden;">
+                  <div [style.width]="app.aiMatchScore + '%'"
+                       [style.background]="app.aiMatchScore >= 80 ? '#10B981' :
+                                          app.aiMatchScore >= 60 ? '#F59E0B' : '#EF4444'"
+                       style="height: 100%;"></div>
+                </div>
+                <span style="font-family: var(--font-display); font-weight: 700;
+                             font-size: 13px; color: var(--ink);">
+                  {{ app.aiMatchScore }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>

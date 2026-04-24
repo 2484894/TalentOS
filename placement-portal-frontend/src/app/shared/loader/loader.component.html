@@ -1,0 +1,24 @@
+<!-- Normal spinner -->
+<div *ngIf="!aiMode"
+     class="d-flex align-items-center justify-content-center gap-2 py-5"
+     style="color: var(--ink-3);">
+  <div class="spinner-border spinner-border-sm" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+  <span style="font-size: 13px; font-family: var(--font-mono);">
+    {{ message }}
+  </span>
+</div>
+
+<!-- AI loading -->
+<div *ngIf="aiMode" class="ai-loading">
+  <div class="spinner-border spinner-border-sm" role="status"></div>
+  <div>
+    <div style="font-weight: 700; font-family: var(--font-display);">
+      <i class="bi bi-stars me-1"></i>AI is thinking...
+    </div>
+    <div style="font-size: 11px; opacity: 0.75; margin-top: 2px;">
+      {{ message }}
+    </div>
+  </div>
+</div>

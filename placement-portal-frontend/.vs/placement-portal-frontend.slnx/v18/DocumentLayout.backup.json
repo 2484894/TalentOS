@@ -1,0 +1,551 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\2484894\\placement-portal-frontend\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\shared\\sidebar\\sidebar.component.html||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\shared\\sidebar\\sidebar.component.html||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\shared\\sidebar\\sidebar.component.ts||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\shared\\sidebar\\sidebar.component.ts||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\shared\\status-badge\\status-badge.component.ts||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\shared\\status-badge\\status-badge.component.ts||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\app.component.ts||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\app.component.ts||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\services\\auth.service.ts||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\services\\auth.service.ts||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\guards\\auth.guard.ts||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\guards\\auth.guard.ts||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\guards\\role.guard.ts||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\guards\\role.guard.ts||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\2484894\\placement-portal-frontend\\src\\styles.scss||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\styles.scss||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\admin\\placement-report\\placement-report.component.html||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\pages\\admin\\placement-report\\placement-report.component.html||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\admin\\user-list\\user-list.component.html||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\pages\\admin\\user-list\\user-list.component.html||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\admin\\user-list\\user-list.component.ts||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\pages\\admin\\user-list\\user-list.component.ts||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\admin\\admin-dashboard\\admin-dashboard.component.html||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\pages\\admin\\admin-dashboard\\admin-dashboard.component.html||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\admin\\admin-dashboard\\admin-dashboard.component.ts||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\pages\\admin\\admin-dashboard\\admin-dashboard.component.ts||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\recruiter\\recruiter-notifications\\recruiter-notifications.component.html||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\pages\\recruiter\\recruiter-notifications\\recruiter-notifications.component.html||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\recruiter\\applicant-detail\\applicant-detail.component.html||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\pages\\recruiter\\applicant-detail\\applicant-detail.component.html||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\recruiter\\applicant-list\\applicant-list.component.html||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\pages\\recruiter\\applicant-list\\applicant-list.component.html||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\recruiter\\job-form\\job-form.component.html||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\pages\\recruiter\\job-form\\job-form.component.html||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\recruiter\\my-jobs\\my-jobs.component.html||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\pages\\recruiter\\my-jobs\\my-jobs.component.html||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\recruiter\\recruiter-dashboard\\recruiter-dashboard.component.html||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\pages\\recruiter\\recruiter-dashboard\\recruiter-dashboard.component.html||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\recruiter\\recruiter-dashboard\\recruiter-dashboard.component.ts||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\pages\\recruiter\\recruiter-dashboard\\recruiter-dashboard.component.ts||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\student\\application-detail\\application-detail.component.html||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\pages\\student\\application-detail\\application-detail.component.html||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\student\\my-applications\\my-applications.component.html||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\pages\\student\\my-applications\\my-applications.component.html||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\student\\job-detail\\job-detail.component.html||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\pages\\student\\job-detail\\job-detail.component.html||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\student\\job-list\\job-list.component.html||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\pages\\student\\job-list\\job-list.component.html||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\student\\student-dashboard\\student-dashboard.component.html||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\pages\\student\\student-dashboard\\student-dashboard.component.html||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\student\\student-notifications\\student-notifications.component.html||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\pages\\student\\student-notifications\\student-notifications.component.html||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\student\\student-resume\\student-resume.component.html||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\pages\\student\\student-resume\\student-resume.component.html||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\student\\student-profile\\student-profile.component.html||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\pages\\student\\student-profile\\student-profile.component.html||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\student\\student-profile\\student-profile.component.ts||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\pages\\student\\student-profile\\student-profile.component.ts||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\student\\student-dashboard\\student-dashboard.component.ts||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\pages\\student\\student-dashboard\\student-dashboard.component.ts||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\recruiter\\my-jobs\\my-jobs.component.ts||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\app\\pages\\recruiter\\my-jobs\\my-jobs.component.ts||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "sidebar.component.html",
+              "DocumentMoniker": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\shared\\sidebar\\sidebar.component.html",
+              "RelativeDocumentMoniker": "src\\app\\shared\\sidebar\\sidebar.component.html",
+              "ToolTip": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\shared\\sidebar\\sidebar.component.html",
+              "RelativeToolTip": "src\\app\\shared\\sidebar\\sidebar.component.html",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAAB8AAAALAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-04-23T19:29:05.061Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "sidebar.component.ts",
+              "DocumentMoniker": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\shared\\sidebar\\sidebar.component.ts",
+              "RelativeDocumentMoniker": "src\\app\\shared\\sidebar\\sidebar.component.ts",
+              "ToolTip": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\shared\\sidebar\\sidebar.component.ts",
+              "RelativeToolTip": "src\\app\\shared\\sidebar\\sidebar.component.ts",
+              "ViewState": "AgIAAFcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2026-04-23T19:28:16.555Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "status-badge.component.ts",
+              "DocumentMoniker": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\shared\\status-badge\\status-badge.component.ts",
+              "RelativeDocumentMoniker": "src\\app\\shared\\status-badge\\status-badge.component.ts",
+              "ToolTip": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\shared\\status-badge\\status-badge.component.ts",
+              "RelativeToolTip": "src\\app\\shared\\status-badge\\status-badge.component.ts",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2026-04-24T09:01:54.61Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "app.component.ts",
+              "DocumentMoniker": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\app.component.ts",
+              "RelativeDocumentMoniker": "src\\app\\app.component.ts",
+              "ToolTip": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\app.component.ts",
+              "RelativeToolTip": "src\\app\\app.component.ts",
+              "ViewState": "AgIAABcAAAAAAAAAAAAIwCkAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2026-04-23T19:08:42.014Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "auth.service.ts",
+              "DocumentMoniker": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\services\\auth.service.ts",
+              "RelativeDocumentMoniker": "src\\app\\services\\auth.service.ts",
+              "ToolTip": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\services\\auth.service.ts",
+              "RelativeToolTip": "src\\app\\services\\auth.service.ts",
+              "ViewState": "AgIAAEYAAAAAAAAAAAAQwFkAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2026-04-23T19:26:43.527Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "auth.guard.ts",
+              "DocumentMoniker": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\guards\\auth.guard.ts",
+              "RelativeDocumentMoniker": "src\\app\\guards\\auth.guard.ts",
+              "ToolTip": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\guards\\auth.guard.ts",
+              "RelativeToolTip": "src\\app\\guards\\auth.guard.ts",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAIwBoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2026-04-23T19:35:00.369Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "role.guard.ts",
+              "DocumentMoniker": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\guards\\role.guard.ts",
+              "RelativeDocumentMoniker": "src\\app\\guards\\role.guard.ts",
+              "ToolTip": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\guards\\role.guard.ts",
+              "RelativeToolTip": "src\\app\\guards\\role.guard.ts",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2026-04-23T19:26:06.584Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "styles.scss",
+              "DocumentMoniker": "C:\\Users\\2484894\\placement-portal-frontend\\src\\styles.scss",
+              "RelativeDocumentMoniker": "src\\styles.scss",
+              "ToolTip": "C:\\Users\\2484894\\placement-portal-frontend\\src\\styles.scss",
+              "RelativeToolTip": "src\\styles.scss",
+              "ViewState": "AgIAACkIAAAAAAAAAAAQwD0IAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002663|",
+              "WhenOpened": "2026-04-23T18:47:21.033Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "placement-report.component.html",
+              "DocumentMoniker": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\admin\\placement-report\\placement-report.component.html",
+              "RelativeDocumentMoniker": "src\\app\\pages\\admin\\placement-report\\placement-report.component.html",
+              "ToolTip": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\admin\\placement-report\\placement-report.component.html",
+              "RelativeToolTip": "src\\app\\pages\\admin\\placement-report\\placement-report.component.html",
+              "ViewState": "AgIAAJAAAAAAAAAAAAAQwKQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-04-23T19:07:24.941Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "user-list.component.html",
+              "DocumentMoniker": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\admin\\user-list\\user-list.component.html",
+              "RelativeDocumentMoniker": "src\\app\\pages\\admin\\user-list\\user-list.component.html",
+              "ToolTip": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\admin\\user-list\\user-list.component.html",
+              "RelativeToolTip": "src\\app\\pages\\admin\\user-list\\user-list.component.html",
+              "ViewState": "AgIAAJMAAAAAAAAAAAAQwKcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-04-23T19:06:41.756Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "user-list.component.ts",
+              "DocumentMoniker": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\admin\\user-list\\user-list.component.ts",
+              "RelativeDocumentMoniker": "src\\app\\pages\\admin\\user-list\\user-list.component.ts",
+              "ToolTip": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\admin\\user-list\\user-list.component.ts",
+              "RelativeToolTip": "src\\app\\pages\\admin\\user-list\\user-list.component.ts",
+              "ViewState": "AgIAACwAAAAAAAAAAAAQwD8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2026-04-23T19:06:20.79Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "admin-dashboard.component.html",
+              "DocumentMoniker": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\admin\\admin-dashboard\\admin-dashboard.component.html",
+              "RelativeDocumentMoniker": "src\\app\\pages\\admin\\admin-dashboard\\admin-dashboard.component.html",
+              "ToolTip": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\admin\\admin-dashboard\\admin-dashboard.component.html",
+              "RelativeToolTip": "src\\app\\pages\\admin\\admin-dashboard\\admin-dashboard.component.html",
+              "ViewState": "AgIAAE4BAAAAAAAAAAAQwGIBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-04-23T19:05:59.215Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "admin-dashboard.component.ts",
+              "DocumentMoniker": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\admin\\admin-dashboard\\admin-dashboard.component.ts",
+              "RelativeDocumentMoniker": "src\\app\\pages\\admin\\admin-dashboard\\admin-dashboard.component.ts",
+              "ToolTip": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\admin\\admin-dashboard\\admin-dashboard.component.ts",
+              "RelativeToolTip": "src\\app\\pages\\admin\\admin-dashboard\\admin-dashboard.component.ts",
+              "ViewState": "AgIAAJwAAAAAAAAAAAAQwLAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2026-04-23T19:05:32.533Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "recruiter-notifications.component.html",
+              "DocumentMoniker": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\recruiter\\recruiter-notifications\\recruiter-notifications.component.html",
+              "RelativeDocumentMoniker": "src\\app\\pages\\recruiter\\recruiter-notifications\\recruiter-notifications.component.html",
+              "ToolTip": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\recruiter\\recruiter-notifications\\recruiter-notifications.component.html",
+              "RelativeToolTip": "src\\app\\pages\\recruiter\\recruiter-notifications\\recruiter-notifications.component.html",
+              "ViewState": "AgIAACUAAAAAAAAAAAAQwDkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-04-23T19:00:58.901Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "applicant-detail.component.html",
+              "DocumentMoniker": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\recruiter\\applicant-detail\\applicant-detail.component.html",
+              "RelativeDocumentMoniker": "src\\app\\pages\\recruiter\\applicant-detail\\applicant-detail.component.html",
+              "ToolTip": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\recruiter\\applicant-detail\\applicant-detail.component.html",
+              "RelativeToolTip": "src\\app\\pages\\recruiter\\applicant-detail\\applicant-detail.component.html",
+              "ViewState": "AgIAAMIAAAAAAAAAAAAQwNYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-04-23T19:00:26.197Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "applicant-list.component.html",
+              "DocumentMoniker": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\recruiter\\applicant-list\\applicant-list.component.html",
+              "RelativeDocumentMoniker": "src\\app\\pages\\recruiter\\applicant-list\\applicant-list.component.html",
+              "ToolTip": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\recruiter\\applicant-list\\applicant-list.component.html",
+              "RelativeToolTip": "src\\app\\pages\\recruiter\\applicant-list\\applicant-list.component.html",
+              "ViewState": "AgIAAHYAAAAAAAAAAAAQwIoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-04-23T19:00:00.424Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "job-form.component.html",
+              "DocumentMoniker": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\recruiter\\job-form\\job-form.component.html",
+              "RelativeDocumentMoniker": "src\\app\\pages\\recruiter\\job-form\\job-form.component.html",
+              "ToolTip": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\recruiter\\job-form\\job-form.component.html",
+              "RelativeToolTip": "src\\app\\pages\\recruiter\\job-form\\job-form.component.html",
+              "ViewState": "AgIAAKMAAAAAAAAAAAAQwLcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-04-23T18:59:39.035Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "my-jobs.component.html",
+              "DocumentMoniker": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\recruiter\\my-jobs\\my-jobs.component.html",
+              "RelativeDocumentMoniker": "src\\app\\pages\\recruiter\\my-jobs\\my-jobs.component.html",
+              "ToolTip": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\recruiter\\my-jobs\\my-jobs.component.html",
+              "RelativeToolTip": "src\\app\\pages\\recruiter\\my-jobs\\my-jobs.component.html",
+              "ViewState": "AgIAAF4AAAAAAAAAAAAQwHIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-04-23T18:59:15.092Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "recruiter-dashboard.component.html",
+              "DocumentMoniker": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\recruiter\\recruiter-dashboard\\recruiter-dashboard.component.html",
+              "RelativeDocumentMoniker": "src\\app\\pages\\recruiter\\recruiter-dashboard\\recruiter-dashboard.component.html",
+              "ToolTip": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\recruiter\\recruiter-dashboard\\recruiter-dashboard.component.html",
+              "RelativeToolTip": "src\\app\\pages\\recruiter\\recruiter-dashboard\\recruiter-dashboard.component.html",
+              "ViewState": "AgIAABUBAAAAAAAAAAAQwCkBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-04-23T18:58:50.121Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "recruiter-dashboard.component.ts",
+              "DocumentMoniker": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\recruiter\\recruiter-dashboard\\recruiter-dashboard.component.ts",
+              "RelativeDocumentMoniker": "src\\app\\pages\\recruiter\\recruiter-dashboard\\recruiter-dashboard.component.ts",
+              "ToolTip": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\recruiter\\recruiter-dashboard\\recruiter-dashboard.component.ts",
+              "RelativeToolTip": "src\\app\\pages\\recruiter\\recruiter-dashboard\\recruiter-dashboard.component.ts",
+              "ViewState": "AgIAACUAAAAAAAAAAAAQwDkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2026-04-23T18:58:36.195Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "application-detail.component.html",
+              "DocumentMoniker": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\student\\application-detail\\application-detail.component.html",
+              "RelativeDocumentMoniker": "src\\app\\pages\\student\\application-detail\\application-detail.component.html",
+              "ToolTip": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\student\\application-detail\\application-detail.component.html",
+              "RelativeToolTip": "src\\app\\pages\\student\\application-detail\\application-detail.component.html",
+              "ViewState": "AgIAALAAAAAAAAAAAAAQwMQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-04-23T18:55:54.93Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "my-applications.component.html",
+              "DocumentMoniker": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\student\\my-applications\\my-applications.component.html",
+              "RelativeDocumentMoniker": "src\\app\\pages\\student\\my-applications\\my-applications.component.html",
+              "ToolTip": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\student\\my-applications\\my-applications.component.html",
+              "RelativeToolTip": "src\\app\\pages\\student\\my-applications\\my-applications.component.html",
+              "ViewState": "AgIAAF4AAAAAAAAAAAAQwHIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-04-23T18:55:29.802Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "job-detail.component.html",
+              "DocumentMoniker": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\student\\job-detail\\job-detail.component.html",
+              "RelativeDocumentMoniker": "src\\app\\pages\\student\\job-detail\\job-detail.component.html",
+              "ToolTip": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\student\\job-detail\\job-detail.component.html",
+              "RelativeToolTip": "src\\app\\pages\\student\\job-detail\\job-detail.component.html",
+              "ViewState": "AgIAAJcAAAAAAAAAAAAQwKsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-04-23T18:55:02.516Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "job-list.component.html",
+              "DocumentMoniker": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\student\\job-list\\job-list.component.html",
+              "RelativeDocumentMoniker": "src\\app\\pages\\student\\job-list\\job-list.component.html",
+              "ToolTip": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\student\\job-list\\job-list.component.html",
+              "RelativeToolTip": "src\\app\\pages\\student\\job-list\\job-list.component.html",
+              "ViewState": "AgIAAIEAAAAAAAAAAAAQwJUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-04-23T18:54:29.689Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "student-dashboard.component.html",
+              "DocumentMoniker": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\student\\student-dashboard\\student-dashboard.component.html",
+              "RelativeDocumentMoniker": "src\\app\\pages\\student\\student-dashboard\\student-dashboard.component.html",
+              "ToolTip": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\student\\student-dashboard\\student-dashboard.component.html",
+              "RelativeToolTip": "src\\app\\pages\\student\\student-dashboard\\student-dashboard.component.html",
+              "ViewState": "AgIAABwBAAAAAAAAAAAQwCABAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-04-23T18:46:59.099Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "student-notifications.component.html",
+              "DocumentMoniker": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\student\\student-notifications\\student-notifications.component.html",
+              "RelativeDocumentMoniker": "src\\app\\pages\\student\\student-notifications\\student-notifications.component.html",
+              "ToolTip": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\student\\student-notifications\\student-notifications.component.html",
+              "RelativeToolTip": "src\\app\\pages\\student\\student-notifications\\student-notifications.component.html",
+              "ViewState": "AgIAACUAAAAAAAAAAAAQwDkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-04-23T18:49:18.841Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "student-resume.component.html",
+              "DocumentMoniker": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\student\\student-resume\\student-resume.component.html",
+              "RelativeDocumentMoniker": "src\\app\\pages\\student\\student-resume\\student-resume.component.html",
+              "ToolTip": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\student\\student-resume\\student-resume.component.html",
+              "RelativeToolTip": "src\\app\\pages\\student\\student-resume\\student-resume.component.html",
+              "ViewState": "AgIAAGYAAAAAAAAAAAAQwHoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-04-23T18:48:37.64Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "student-profile.component.html",
+              "DocumentMoniker": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\student\\student-profile\\student-profile.component.html",
+              "RelativeDocumentMoniker": "src\\app\\pages\\student\\student-profile\\student-profile.component.html",
+              "ToolTip": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\student\\student-profile\\student-profile.component.html",
+              "RelativeToolTip": "src\\app\\pages\\student\\student-profile\\student-profile.component.html",
+              "ViewState": "AgIAAKcAAAAAAAAAAAAQwLsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-04-23T18:48:08.178Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "student-profile.component.ts",
+              "DocumentMoniker": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\student\\student-profile\\student-profile.component.ts",
+              "RelativeDocumentMoniker": "src\\app\\pages\\student\\student-profile\\student-profile.component.ts",
+              "ToolTip": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\student\\student-profile\\student-profile.component.ts",
+              "RelativeToolTip": "src\\app\\pages\\student\\student-profile\\student-profile.component.ts",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2026-04-23T18:47:48.482Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "student-dashboard.component.ts",
+              "DocumentMoniker": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\student\\student-dashboard\\student-dashboard.component.ts",
+              "RelativeDocumentMoniker": "src\\app\\pages\\student\\student-dashboard\\student-dashboard.component.ts",
+              "ToolTip": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\student\\student-dashboard\\student-dashboard.component.ts",
+              "RelativeToolTip": "src\\app\\pages\\student\\student-dashboard\\student-dashboard.component.ts",
+              "ViewState": "AgIAAEAAAAAAAAAAAAAQwFQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2026-04-23T18:46:47.075Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "my-jobs.component.ts",
+              "DocumentMoniker": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\recruiter\\my-jobs\\my-jobs.component.ts",
+              "RelativeDocumentMoniker": "src\\app\\pages\\recruiter\\my-jobs\\my-jobs.component.ts",
+              "ToolTip": "C:\\Users\\2484894\\placement-portal-frontend\\src\\app\\pages\\recruiter\\my-jobs\\my-jobs.component.ts",
+              "RelativeToolTip": "src\\app\\pages\\recruiter\\my-jobs\\my-jobs.component.ts",
+              "ViewState": "AgIAACgAAAAAAAAAAAAgwCwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2026-04-12T08:39:51.984Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

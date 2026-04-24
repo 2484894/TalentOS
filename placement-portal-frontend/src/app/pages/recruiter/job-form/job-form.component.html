@@ -1,0 +1,183 @@
+<div class="app-layout">
+  <app-sidebar></app-sidebar>
+
+  <div class="main-area">
+    <app-navbar [pageTitle]="isEdit ? 'Edit Job' : 'Post a New Job'"></app-navbar>
+
+    <div class="page-body">
+
+      <button class="btn btn-sm btn-soft mb-4" (click)="goBack()">
+        <i class="bi bi-arrow-left"></i> Back to jobs
+      </button>
+
+      <div class="alert alert-danger" *ngIf="errorMsg">
+        <i class="bi bi-exclamation-circle-fill"></i> {{ errorMsg }}
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="row g-4">
+
+          <!-- Main Info -->
+          <div class="col-lg-8">
+            <div class="card">
+              <div class="eyebrow" style="color: #0C4A6E;">
+                <i class="bi bi-briefcase-fill"></i> Job Details
+              </div>
+              <h3 style="font-family: var(--font-display); font-size: 1.5rem;
+                         font-weight: 700; margin-bottom: 1.25rem;">
+                {{ isEdit ? 'Update job details' : 'What are you hiring for?' }}
+              </h3>
+
+              <div class="mb-3">
+                <label class="form-label">Job Title *</label>
+                <input type="text" class="form-control form-control-lg"
+                       placeholder="e.g. Senior Frontend Engineer"
+                       formControlName="title"
+                       [class.is-invalid]="title.invalid && title.touched"/>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Job Description *</label>
+                <textarea class="form-control" rows="7"
+                          placeholder="Describe the role, responsibilities, tech stack..."
+                          formControlName="description"
+                          [class.is-invalid]="description.invalid && description.touched">
+                </textarea>
+              </div>
+
+              <!-- AI Extract Button -->
+              <button type="button" class="btn-ai-extract"
+                      [disabled]="extracting"
+                      (click)="extractSkills()">
+                <div class="d-flex align-items-center gap-3">
+                  <div class="ai-extract-icon">
+                    <i class="bi bi-stars"></i>
+                  </div>
+                  <div class="flex-grow-1 text-start">
+                    <div style="font-weight: 700; color: #0C4A6E;">
+                      {{ extracting ? 'Analyzing description...' : 'Auto-extract skills with AI' }}
+                    </div>
+                    <div style="font-size: 11px; color: var(--ink-3);">
+                      Gemini reads your JD and suggests required skills
+                    </div>
+                  </div>
+                  <span *ngIf="extracting" class="spinner-border spinner-border-sm"></span>
+                  <i *ngIf="!extracting" class="bi bi-arrow-right" style="color: #06B6D4;"></i>
+                </div>
+              </button>
+
+              <div class="divider-dashed"></div>
+
+              <!-- Required Skills -->
+              <div class="mb-4">
+                <label class="form-label">Required Skills</label>
+                <div class="d-flex gap-2 mb-2">
+                  <input type="text" class="form-control"
+                         placeholder="Type and press Enter..."
+                         [(ngModel)]="skillInput"
+                         [ngModelOptions]="{standalone: true}"
+                         (keydown)="onKeydown($event, 'required')"/>
+                  <button type="button" class="btn btn-primary"
+                          (click)="addRequiredSkill()">
+                    <i class="bi bi-plus-lg"></i>
+                  </button>
+                </div>
+                <div *ngIf="requiredSkills.length === 0"
+                     style="color: var(--ink-4); font-size: 12px;">
+                  No required skills added yet.
+                </div>
+                <div>
+                  <span *ngFor="let s of requiredSkills" class="chip chip-primary">
+                    {{ s }}
+                    <i class="bi bi-x ms-1" style="cursor: pointer;"
+                       (click)="removeRequiredSkill(s)"></i>
+                  </span>
+                </div>
+              </div>
+
+              <!-- Nice to Have -->
+              <div>
+                <label class="form-label">Nice to Have Skills</label>
+                <div class="d-flex gap-2 mb-2">
+                  <input type="text" class="form-control"
+                         placeholder="Optional skills..."
+                         [(ngModel)]="niceSkillInput"
+                         [ngModelOptions]="{standalone: true}"
+                         (keydown)="onKeydown($event, 'nice')"/>
+                  <button type="button" class="btn btn-outline-primary"
+                          (click)="addNiceSkill()">
+                    <i class="bi bi-plus-lg"></i>
+                  </button>
+                </div>
+                <div>
+                  <span *ngFor="let s of niceToHaveSkills" class="chip">
+                    {{ s }}
+                    <i class="bi bi-x ms-1" style="cursor: pointer;"
+                       (click)="removeNiceSkill(s)"></i>
+                  </span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Settings Sidebar -->
+          <div class="col-lg-4">
+            <div class="card" style="position: sticky; top: calc(var(--navbar-height) + 1rem);">
+              <div class="eyebrow" style="color: #0C4A6E;">
+                <i class="bi bi-sliders"></i> Settings
+              </div>
+              <h3 style="font-family: var(--font-display); font-size: 1.25rem;
+                         font-weight: 700; margin-bottom: 1rem;">
+                Job Parameters
+              </h3>
+
+              <div class="mb-3">
+                <label class="form-label">Job Type *</label>
+                <select class="form-select" formControlName="jobType">
+                  <option value="FULLTIME">Full Time</option>
+                  <option value="INTERNSHIP">Internship</option>
+                  <option value="CONTRACT">Contract</option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Location</label>
+                <input type="text" class="form-control"
+                       placeholder="Bengaluru / Remote"
+                       formControlName="location"/>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">CTC / Stipend</label>
+                <input type="text" class="form-control"
+                       placeholder="₹38 LPA or ₹80k/month"
+                       formControlName="ctc"/>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Minimum CGPA</label>
+                <input type="number" class="form-control" step="0.1" min="0" max="10"
+                       placeholder="7.0"
+                       formControlName="minCgpa"/>
+              </div>
+
+              <div class="mb-4">
+                <label class="form-label">Application Deadline</label>
+                <input type="date" class="form-control" formControlName="deadline"/>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-lg w-100"
+                      [disabled]="saving">
+                <span *ngIf="saving" class="spinner-border spinner-border-sm"></span>
+                <i *ngIf="!saving" class="bi bi-send-fill"></i>
+                {{ saving ? 'Saving...' : (isEdit ? 'Update Job' : 'Post Job') }}
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

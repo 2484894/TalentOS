@@ -1,0 +1,32 @@
+<header class="topbar">
+
+  <!-- Left: Page Title -->
+  <div class="topbar-left">
+    <h5>{{ pageTitle }}</h5>
+    <p *ngIf="pageSubtitle">{{ pageSubtitle }}</p>
+    <p *ngIf="!pageSubtitle" style="text-transform: none; letter-spacing: 0.05em;">
+      {{ today }}
+    </p>
+  </div>
+
+  <!-- Right: Notifications + User -->
+  <div class="topbar-right">
+
+    <!-- Notification Bell -->
+    <button class="notif-btn" (click)="goToNotifications()" title="Notifications">
+      <i class="bi bi-bell"></i>
+      <span class="badge" *ngIf="unreadCount > 0"></span>
+    </button>
+
+    <!-- User Chip -->
+    <div class="user-chip">
+      <div class="user-avatar">{{ userInitials }}</div>
+      <div class="user-info">
+        <div class="name">{{ userName }}</div>
+        <div class="role">{{ userRole }}</div>
+      </div>
+    </div>
+
+  </div>
+
+</header>

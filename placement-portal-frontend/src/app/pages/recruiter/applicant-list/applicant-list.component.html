@@ -1,0 +1,138 @@
+<div class="app-layout">
+  <app-sidebar></app-sidebar>
+
+  <div class="main-area">
+    <app-navbar pageTitle="Applicants"></app-navbar>
+
+    <div class="page-body">
+
+      <button class="btn btn-sm btn-soft mb-3" (click)="goBack()">
+        <i class="bi bi-arrow-left"></i> Back to jobs
+      </button>
+
+      <!-- Hero -->
+      <div *ngIf="job" class="mb-4">
+        <div class="eyebrow" style="color: #06B6D4;">
+          <i class="bi bi-lightning-charge-fill"></i> AI-Ranked
+        </div>
+        <h1 style="font-family: var(--font-display); font-size: 2.2rem;
+                   font-weight: 800; line-height: 1; letter-spacing: -0.03em;">
+          {{ job.title }}
+        </h1>
+        <p style="margin-top: 8px; color: var(--ink-3); font-size: 13px;
+                  font-family: var(--font-mono);">
+          <strong style="color: var(--ink-2);">{{ applications.length }}</strong> applicants ·
+          sorted by AI match score ·
+          <span *ngIf="job.active" style="color: #059669;">● Active</span>
+          <span *ngIf="!job.active" style="color: #E11D48;">● Closed</span>
+        </p>
+      </div>
+
+      <!-- Filter Pills -->
+      <div class="d-flex gap-2 mb-4 flex-wrap">
+        <button *ngFor="let f of ['ALL','APPLIED','SHORTLISTED','INTERVIEW_SCHEDULED','SELECTED','REJECTED']"
+                class="filter-pill"
+                [class.active]="filter === f"
+                (click)="filter = f">
+          {{ f === 'ALL' ? 'All (' + applications.length + ')' :
+             f === 'APPLIED' ? 'New' :
+             f === 'SHORTLISTED' ? 'Shortlisted' :
+             f === 'INTERVIEW_SCHEDULED' ? 'Interview' :
+             f === 'SELECTED' ? 'Selected' : 'Rejected' }}
+        </button>
+      </div>
+
+      <app-loader *ngIf="loading"></app-loader>
+
+      <div class="empty-state card" *ngIf="!loading && filtered.length === 0">
+        <i class="bi bi-people"></i>
+        <p>No applicants in this status.</p>
+      </div>
+
+      <!-- Applicants Table -->
+      <div class="card p-0" *ngIf="!loading && filtered.length > 0"
+           style="overflow: hidden;">
+        <table class="table-modern">
+          <thead>
+            <tr>
+              <th style="width: 40px;">#</th>
+              <th>Candidate</th>
+              <th>Skills</th>
+              <th>CGPA</th>
+              <th>AI Match</th>
+              <th>Status</th>
+              <th>Applied</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let app of filtered; let i = index"
+                (click)="viewDetail(app.id)"
+                style="cursor: pointer;">
+
+              <td>
+                <span class="num fw-bold" style="color: var(--ink-4);">
+                  {{ (i + 1).toString().padStart(2, '0') }}
+                </span>
+              </td>
+
+              <td>
+                <div class="d-flex align-items-center gap-3">
+                  <div class="applicant-avatar">
+                    {{ app.studentName?.charAt(0) || '?' }}
+                  </div>
+                  <div>
+                    <div style="font-family: var(--font-display); font-weight: 700;
+                                font-size: 14px;">
+                      {{ app.studentName }}
+                    </div>
+                    <div style="font-size: 11px; color: var(--ink-3);">
+                      <i class="bi bi-mortarboard"></i>
+                      {{ app.studentDepartment || 'Unknown dept' }}
+                    </div>
+                  </div>
+                </div>
+              </td>
+
+              <td>
+                <span *ngFor="let s of app.matchedSkills?.slice(0, 3)"
+                      class="chip chip-info"
+                      style="font-size: 10px;">{{ s }}</span>
+                <span *ngIf="app.matchedSkills?.length > 3"
+                      class="chip" style="font-size: 10px;">
+                  +{{ app.matchedSkills.length - 3 }}
+                </span>
+              </td>
+
+              <td>
+                <span class="num fw-bold" style="color: #0C4A6E; font-size: 15px;">
+                  {{ app.studentCgpa || '—' }}
+                </span>
+              </td>
+
+              <td>
+                <app-gauge *ngIf="app.aiMatchScore"
+                           [value]="app.aiMatchScore" size="sm"></app-gauge>
+                <span *ngIf="!app.aiMatchScore" style="color: var(--ink-4);">—</span>
+              </td>
+
+              <td>
+                <app-status-badge [status]="app.status"></app-status-badge>
+              </td>
+
+              <td style="font-family: var(--font-mono); font-size: 12px; color: var(--ink-3);">
+                {{ app.appliedAt | date:'dd MMM' }}
+              </td>
+
+              <td>
+                <i class="bi bi-chevron-right" style="color: var(--ink-3);"></i>
+              </td>
+
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>

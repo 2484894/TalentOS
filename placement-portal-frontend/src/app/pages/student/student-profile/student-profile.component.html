@@ -1,0 +1,187 @@
+<div class="app-layout">
+  <app-sidebar></app-sidebar>
+
+  <div class="main-area">
+    <app-navbar pageTitle="My Profile"
+                pageSubtitle="Keep it fresh for better AI matches"></app-navbar>
+
+    <div class="page-body">
+
+      <app-loader *ngIf="loading"></app-loader>
+
+      <div *ngIf="!loading">
+
+        <!-- Completion Bar -->
+        <div class="card mb-4" *ngIf="profile">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <div>
+              <div class="eyebrow" style="margin-bottom: 4px;">Profile strength</div>
+              <div style="font-family: var(--font-display); font-size: 2rem;
+                          font-weight: 500; line-height: 1;">
+                {{ profile.profileCompletePct }}<span style="font-size: 1rem; color: var(--ink-3);">%</span>
+              </div>
+            </div>
+            <span class="chip"
+                  [class.chip-success]="profile.profileCompletePct >= 80"
+                  [class.chip-warning]="profile.profileCompletePct < 80 && profile.profileCompletePct >= 50"
+                  [class.chip-danger]="profile.profileCompletePct < 50">
+              {{ profile.profileCompletePct >= 80 ? 'Excellent' :
+                 profile.profileCompletePct >= 50 ? 'Good' : 'Needs work' }}
+            </span>
+          </div>
+          <div class="progress" style="height: 8px;">
+            <div class="progress-bar"
+                 [style.width]="profile.profileCompletePct + '%'"
+                 [style.background]="profile.profileCompletePct >= 80 ? '#10B981' :
+                                     profile.profileCompletePct >= 50 ? '#F59E0B' : '#EF4444'">
+            </div>
+          </div>
+        </div>
+
+        <!-- Messages -->
+        <div class="alert alert-success" *ngIf="success">
+          <i class="bi bi-check-circle-fill"></i> Profile saved successfully!
+        </div>
+        <div class="alert alert-danger" *ngIf="errorMsg">
+          <i class="bi bi-exclamation-circle-fill"></i> {{ errorMsg }}
+        </div>
+
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <div class="row g-4">
+
+            <!-- Academic Info -->
+            <div class="col-md-6">
+              <div class="card">
+                <h3 style="font-family: var(--font-display); font-size: 1.3rem;
+                           font-weight: 500; margin-bottom: 1.25rem;">
+                  <i class="bi bi-mortarboard-fill" style="color: #6D28D9;"></i>
+                  Academic Info
+                </h3>
+                <div class="mb-3">
+                  <label class="form-label">Department</label>
+                  <input type="text" class="form-control"
+                         placeholder="e.g. Computer Science"
+                         formControlName="department"/>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Batch / Year</label>
+                  <input type="text" class="form-control"
+                         placeholder="e.g. 2021-2025"
+                         formControlName="batch"/>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">CGPA</label>
+                  <input type="number" step="0.01" class="form-control"
+                         placeholder="e.g. 8.5"
+                         formControlName="cgpa"/>
+                </div>
+                <div>
+                  <label class="form-label">Phone</label>
+                  <input type="text" class="form-control"
+                         placeholder="+91 9876543210"
+                         formControlName="phone"/>
+                </div>
+              </div>
+            </div>
+
+            <!-- Links -->
+            <div class="col-md-6">
+              <div class="card">
+                <h3 style="font-family: var(--font-display); font-size: 1.3rem;
+                           font-weight: 500; margin-bottom: 1.25rem;">
+                  <i class="bi bi-link-45deg" style="color: #EC4899;"></i>
+                  Social Links
+                </h3>
+                <div class="mb-3">
+                  <label class="form-label"><i class="bi bi-linkedin"></i> LinkedIn</label>
+                  <input type="url" class="form-control"
+                         placeholder="https://linkedin.com/in/yourname"
+                         formControlName="linkedinUrl"/>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label"><i class="bi bi-github"></i> GitHub</label>
+                  <input type="url" class="form-control"
+                         placeholder="https://github.com/yourusername"
+                         formControlName="githubUrl"/>
+                </div>
+              </div>
+            </div>
+
+            <!-- Skills -->
+            <div class="col-12">
+              <div class="card">
+                <h3 style="font-family: var(--font-display); font-size: 1.3rem;
+                           font-weight: 500; margin-bottom: 1rem;">
+                  <i class="bi bi-lightning-charge-fill" style="color: #F59E0B;"></i>
+                  Skills
+                  <span class="chip chip-primary ms-2" style="font-size: 10px;">
+                    {{ skills.length }} added
+                  </span>
+                </h3>
+                <div class="d-flex gap-2 mb-3">
+                  <input type="text" class="form-control"
+                         placeholder="Type a skill and press Enter"
+                         [(ngModel)]="skillInput"
+                         [ngModelOptions]="{standalone: true}"
+                         (keydown)="onSkillKeydown($event)"/>
+                  <button type="button" class="btn btn-primary"
+                          (click)="addSkill()">
+                    <i class="bi bi-plus-lg"></i> Add
+                  </button>
+                </div>
+                <div *ngIf="skills.length === 0"
+                     class="text-center py-3"
+                     style="color: var(--ink-4); font-size: 13px;">
+                  No skills added yet. Start adding to improve your matches!
+                </div>
+                <div>
+                  <span *ngFor="let skill of skills" class="chip chip-primary">
+                    {{ skill }}
+                    <i class="bi bi-x ms-1" style="cursor: pointer;"
+                       (click)="removeSkill(skill)"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Projects + Certs -->
+            <div class="col-md-6">
+              <div class="card">
+                <h3 style="font-family: var(--font-display); font-size: 1.3rem;
+                           font-weight: 500; margin-bottom: 1rem;">
+                  <i class="bi bi-code-square" style="color: #6D28D9;"></i> Projects
+                </h3>
+                <textarea class="form-control" rows="5"
+                          placeholder="List your projects — title, tech, description..."
+                          formControlName="projects"></textarea>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card">
+                <h3 style="font-family: var(--font-display); font-size: 1.3rem;
+                           font-weight: 500; margin-bottom: 1rem;">
+                  <i class="bi bi-award-fill" style="color: #EC4899;"></i> Certifications
+                </h3>
+                <textarea class="form-control" rows="5"
+                          placeholder="List your certifications..."
+                          formControlName="certifications"></textarea>
+              </div>
+            </div>
+
+            <!-- Save -->
+            <div class="col-12 text-end">
+              <button type="submit" class="btn btn-primary btn-lg"
+                      [disabled]="saving">
+                <span *ngIf="saving" class="spinner-border spinner-border-sm"></span>
+                <i *ngIf="!saving" class="bi bi-check-lg"></i>
+                {{ saving ? 'Saving...' : 'Save Profile' }}
+              </button>
+            </div>
+
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>

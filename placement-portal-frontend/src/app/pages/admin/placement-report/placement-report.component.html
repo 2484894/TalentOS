@@ -1,0 +1,164 @@
+<div class="app-layout">
+  <app-sidebar></app-sidebar>
+
+  <div class="main-area">
+    <app-navbar pageTitle="Placement Report"
+                pageSubtitle="Export full student placement data"></app-navbar>
+
+    <div class="page-body">
+
+      <div class="alert alert-danger" *ngIf="errorMsg">
+        <i class="bi bi-exclamation-circle-fill"></i> {{ errorMsg }}
+      </div>
+
+      <!-- Hero -->
+      <div class="d-flex justify-content-between align-items-end mb-4 flex-wrap gap-3">
+        <div>
+          <div class="eyebrow" style="color: #F59E0B;">
+            <i class="bi bi-file-earmark-spreadsheet-fill"></i> Report
+          </div>
+          <h2 style="font-family: var(--font-display); font-size: 2rem;
+                     font-weight: 700; color: var(--ink); line-height: 1;
+                     letter-spacing: -0.03em;">
+            Placement data · <span class="num">{{ filtered.length }}</span> students
+          </h2>
+        </div>
+        <button class="btn btn-primary btn-lg"
+                [disabled]="downloading"
+                (click)="downloadCsv()">
+          <span *ngIf="downloading" class="spinner-border spinner-border-sm"></span>
+          <i *ngIf="!downloading" class="bi bi-download"></i>
+          {{ downloading ? 'Preparing CSV...' : 'Export as CSV' }}
+        </button>
+      </div>
+
+      <!-- Filters -->
+      <div class="card admin-card mb-4">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Search Student</label>
+            <div class="position-relative">
+              <i class="bi bi-search position-absolute"
+                 style="left: 14px; top: 50%; transform: translateY(-50%);
+                        color: var(--ink-3); pointer-events: none;"></i>
+              <input type="text" class="form-control"
+                     style="padding-left: 38px;"
+                     placeholder="Name or email..."
+                     [(ngModel)]="searchText"/>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Department</label>
+            <select class="form-select" [(ngModel)]="filterDept">
+              <option value="">All Departments</option>
+              <option *ngFor="let d of departments" [value]="d">{{ d }}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <app-loader *ngIf="loading"></app-loader>
+
+      <div class="empty-state card admin-card" *ngIf="!loading && filtered.length === 0">
+        <i class="bi bi-people"></i>
+        <p>No students found.</p>
+      </div>
+
+      <!-- Report Table -->
+      <div class="card admin-card p-0"
+           *ngIf="!loading && filtered.length > 0"
+           style="overflow: hidden;">
+        <table class="table-modern">
+          <thead>
+            <tr>
+              <th style="width: 40px;">#</th>
+              <th>Student</th>
+              <th>Department</th>
+              <th>CGPA</th>
+              <th>Skills</th>
+              <th>Profile</th>
+              <th>Resume</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let s of filtered; let i = index">
+
+              <td>
+                <span class="num fw-bold" style="color: var(--ink-4); font-size: 12px;">
+                  {{ (i + 1).toString().padStart(2, '0') }}
+                </span>
+              </td>
+
+              <td>
+                <div class="d-flex align-items-center gap-3">
+                  <div class="admin-user-avatar" style="background: #A78BFA;">
+                    {{ s.name?.charAt(0) || '?' }}
+                  </div>
+                  <div>
+                    <div style="font-family: var(--font-display); font-weight: 700;
+                                color: var(--ink); font-size: 13px;">
+                      {{ s.name }}
+                    </div>
+                    <div style="font-family: var(--font-mono); font-size: 10px;
+                                color: var(--ink-3);">
+                      {{ s.email }}
+                    </div>
+                  </div>
+                </div>
+              </td>
+
+              <td style="font-family: var(--font-mono); color: var(--ink-2); font-size: 12px;">
+                {{ s.department || '—' }}
+              </td>
+
+              <td>
+                <span *ngIf="s.cgpa" class="num fw-bold" style="color: #10B981; font-size: 15px;">
+                  {{ s.cgpa }}
+                </span>
+                <span *ngIf="!s.cgpa" style="color: var(--ink-4);">—</span>
+              </td>
+
+              <td>
+                <span *ngIf="!s.skills?.length" style="color: var(--ink-4); font-size: 11px;">—</span>
+                <span *ngFor="let skill of s.skills?.slice(0, 2)"
+                      class="chip admin-skill-chip">{{ skill }}</span>
+                <span *ngIf="s.skills?.length > 2" class="chip admin-skill-chip">
+                  +{{ s.skills.length - 2 }}
+                </span>
+              </td>
+
+              <td>
+                <div class="d-flex align-items-center gap-2">
+                  <div class="admin-progress" style="flex: 1; max-width: 80px; height: 5px;">
+                    <div [style.width]="(s.profileCompletePct || 0) + '%'"
+                         [style.background]="s.profileCompletePct >= 80 ? '#10B981' :
+                                             s.profileCompletePct >= 50 ? '#F59E0B' : '#F43F5E'">
+                    </div>
+                  </div>
+                  <span style="font-family: var(--font-mono); font-size: 11px;
+                              color: var(--ink-2); font-weight: 600;">
+                    {{ s.profileCompletePct || 0 }}%
+                  </span>
+                </div>
+              </td>
+
+              <td>
+                <a *ngIf="s.resumeUrl"
+                   [href]="s.resumeUrl" target="_blank"
+                   class="btn btn-sm admin-btn-secondary"
+                   style="padding: 4px 10px; font-size: 11px;">
+                  <i class="bi bi-file-pdf-fill"></i> View
+                </a>
+                <span *ngIf="!s.resumeUrl" style="color: var(--ink-4); font-size: 11px;">
+                  Not uploaded
+                </span>
+              </td>
+
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,222 @@
+<div class="talentos-auth">
+
+  <!-- ─── LEFT: Gradient Hero ─────────────────────────── -->
+  <div class="auth-hero">
+    <div class="auth-hero-blur auth-hero-blur-1"></div>
+    <div class="auth-hero-blur auth-hero-blur-2"></div>
+    <div class="auth-hero-blur auth-hero-blur-3"></div>
+
+    <div class="auth-hero-content">
+      <!-- Brand -->
+      <div class="d-flex align-items-center gap-2">
+        <div class="auth-logo-mark">t</div>
+        <div>
+          <div style="font-family: var(--font-display); font-size: 20px;
+                      font-weight: 700; color: white; line-height: 1;">
+            TalentOS
+          </div>
+          <div style="font-family: var(--font-mono); font-size: 9px;
+                      letter-spacing: 0.2em; text-transform: uppercase;
+                      color: rgba(255,255,255,0.6); margin-top: 4px;">
+            AI-Powered Placement Portal
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero -->
+      <div>
+        <div class="auth-eyebrow">
+          <span class="pulse-dot" style="background: #10B981;"></span>
+          <span>Join the platform</span>
+        </div>
+        <h1 class="auth-hero-title">
+          Start your <em>journey</em><br/>
+          with
+          <span style="background: linear-gradient(135deg, #EC4899, #FBBF24);
+                       -webkit-background-clip: text;
+                       -webkit-text-fill-color: transparent;
+                       background-clip: text;">
+            TalentOS.
+          </span>
+        </h1>
+        <p class="auth-hero-sub">
+          Whether you're a student looking for placement or a recruiter hunting for talent — we've got AI working for you.
+        </p>
+      </div>
+
+      <!-- Stats row -->
+      <div class="d-flex gap-4 flex-wrap">
+        <div>
+          <div style="font-family: var(--font-display); font-size: 2.2rem;
+                      font-weight: 700; color: white; line-height: 1;">
+            847<span style="opacity:0.6;">+</span>
+          </div>
+          <div style="font-family: var(--font-mono); font-size: 10px;
+                      letter-spacing: 0.15em; text-transform: uppercase;
+                      color: rgba(255,255,255,0.6); margin-top: 4px;">
+            Students
+          </div>
+        </div>
+        <div>
+          <div style="font-family: var(--font-display); font-size: 2.2rem;
+                      font-weight: 700; color: white; line-height: 1;">
+            62<span style="opacity:0.6;">+</span>
+          </div>
+          <div style="font-family: var(--font-mono); font-size: 10px;
+                      letter-spacing: 0.15em; text-transform: uppercase;
+                      color: rgba(255,255,255,0.6); margin-top: 4px;">
+            Companies
+          </div>
+        </div>
+        <div>
+          <div style="font-family: var(--font-display); font-size: 2.2rem;
+                      font-weight: 700; color: white; line-height: 1;">
+            4<span style="opacity:0.6;">✦</span>
+          </div>
+          <div style="font-family: var(--font-mono); font-size: 10px;
+                      letter-spacing: 0.15em; text-transform: uppercase;
+                      color: rgba(255,255,255,0.6); margin-top: 4px;">
+            AI Features
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div style="font-family: var(--font-mono); font-size: 10px;
+                  letter-spacing: 0.15em; text-transform: uppercase;
+                  color: rgba(255,255,255,0.4);">
+        v1.0 · Powered by Gemini AI
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── RIGHT: Form ──────────────────────────────────── -->
+  <div class="auth-form-wrap">
+    <div class="auth-form-card">
+
+      <div class="text-center mb-4">
+        <h3 style="font-family: var(--font-display); font-size: 2rem;
+                   font-weight: 500; color: var(--ink); letter-spacing: -0.02em;">
+          Create <em style="color: #6D28D9; font-style: italic;">account</em>
+        </h3>
+        <p style="color: var(--ink-3); font-size: 14px; margin-top: 4px;">
+          Pick your role and get started
+        </p>
+      </div>
+
+      <!-- Error -->
+      <div class="alert alert-danger d-flex align-items-center gap-2"
+           *ngIf="errorMsg">
+        <i class="bi bi-exclamation-circle-fill"></i>
+        <span>{{ errorMsg }}</span>
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+        <!-- Role Cards -->
+        <div class="mb-4">
+          <label class="form-label">I am a</label>
+          <div class="d-grid gap-2" style="grid-template-columns: 1fr 1fr;">
+
+            <!-- Student -->
+            <div class="role-card"
+                 [class.selected]="role.value === 'STUDENT'"
+                 (click)="selectRole('STUDENT')">
+              <i class="bi bi-mortarboard-fill role-icon"></i>
+              <div class="role-title">Student</div>
+              <div class="role-sub">Looking for jobs</div>
+            </div>
+
+            <!-- Recruiter -->
+            <div class="role-card"
+                 [class.selected]="role.value === 'RECRUITER'"
+                 (click)="selectRole('RECRUITER')">
+              <i class="bi bi-building-fill role-icon"></i>
+              <div class="role-title">Recruiter</div>
+              <div class="role-sub">Hiring talent</div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Name -->
+        <div class="mb-3">
+          <label class="form-label">Full Name</label>
+          <div class="auth-input-wrap">
+            <i class="bi bi-person auth-input-icon"></i>
+            <input type="text" class="form-control auth-input"
+                   placeholder="Your full name"
+                   formControlName="name"
+                   [class.is-invalid]="name.invalid && name.touched"/>
+          </div>
+          <div class="auth-error" *ngIf="name.invalid && name.touched">
+            <span *ngIf="name.errors?.['required']">Name is required</span>
+            <span *ngIf="name.errors?.['minlength']">Minimum 2 characters</span>
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="mb-3">
+          <label class="form-label">Email Address</label>
+          <div class="auth-input-wrap">
+            <i class="bi bi-envelope auth-input-icon"></i>
+            <input type="email" class="form-control auth-input"
+                   placeholder="you@example.com"
+                   formControlName="email"
+                   [class.is-invalid]="email.invalid && email.touched"/>
+          </div>
+          <div class="auth-error" *ngIf="email.invalid && email.touched">
+            <span *ngIf="email.errors?.['required']">Email is required</span>
+            <span *ngIf="email.errors?.['email']">Enter a valid email</span>
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div class="mb-4">
+          <label class="form-label">Password</label>
+          <div class="auth-input-wrap">
+            <i class="bi bi-lock auth-input-icon"></i>
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              class="form-control auth-input auth-input-password"
+              placeholder="Minimum 6 characters"
+              formControlName="password"
+              [class.is-invalid]="password.invalid && password.touched"/>
+            <button type="button" class="auth-input-toggle"
+                    (click)="showPassword = !showPassword">
+              <i class="bi"
+                 [class.bi-eye]="!showPassword"
+                 [class.bi-eye-slash]="showPassword"></i>
+            </button>
+          </div>
+          <div class="auth-error" *ngIf="password.invalid && password.touched">
+            <span *ngIf="password.errors?.['required']">Password is required</span>
+            <span *ngIf="password.errors?.['minlength']">Minimum 6 characters</span>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-auth-submit" [disabled]="loading">
+          <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
+          <span *ngIf="!loading">Create account</span>
+          <span *ngIf="loading">Creating...</span>
+          <i *ngIf="!loading" class="bi bi-arrow-right ms-1"></i>
+        </button>
+
+      </form>
+
+      <div class="auth-separator">
+        <span>or</span>
+      </div>
+
+      <p class="text-center" style="font-size: 13px; color: var(--ink-3); margin: 0;">
+        Already have an account?
+        <a routerLink="/login"
+           style="color: #6D28D9; font-weight: 600; margin-left: 4px;">
+          Sign in →
+        </a>
+      </p>
+
+    </div>
+  </div>
+
+</div>

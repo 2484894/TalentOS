@@ -1,0 +1,149 @@
+<div class="app-layout">
+  <app-sidebar></app-sidebar>
+
+  <div class="main-area">
+    <app-navbar pageTitle="Browse Jobs"
+                pageSubtitle="Find your perfect match"></app-navbar>
+
+    <div class="page-body">
+
+      <!-- Hero intro -->
+      <div class="mb-4">
+        <div class="eyebrow">
+          <i class="bi bi-lightning-charge-fill"></i>
+          <span>Live Opportunities</span>
+        </div>
+        <h2 style="font-family: var(--font-display); font-size: 2.4rem;
+                   font-weight: 500; letter-spacing: -0.03em; line-height: 1;">
+          <span *ngIf="!loading">
+            <span class="num">{{ jobs.length }}</span>
+            <em style="font-style: italic; color: var(--ink-3); font-weight: 400;">
+              jobs waiting for
+            </em>
+            <span style="background: linear-gradient(135deg, #6D28D9, #EC4899);
+                         -webkit-background-clip: text;
+                         -webkit-text-fill-color: transparent;
+                         background-clip: text;">
+              you.
+            </span>
+          </span>
+          <span *ngIf="loading" style="color: var(--ink-3);">
+            <em style="font-style: italic;">Searching for opportunities...</em>
+          </span>
+        </h2>
+      </div>
+
+      <!-- Filters Card -->
+      <div class="card mb-4">
+        <div class="row g-3 align-items-end">
+
+          <div class="col-md-5">
+            <label class="form-label">Search</label>
+            <div class="position-relative">
+              <i class="bi bi-search position-absolute"
+                 style="left: 14px; top: 50%; transform: translateY(-50%);
+                        color: var(--ink-3); pointer-events: none; font-size: 14px;"></i>
+              <input type="text" class="form-control"
+                     style="padding-left: 38px;"
+                     placeholder="Job title or company..."
+                     [(ngModel)]="keyword"
+                     (keyup.enter)="onSearch()"/>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label">Job Type</label>
+            <select class="form-select" [(ngModel)]="jobType">
+              <option value="">All Types</option>
+              <option value="FULLTIME">Full Time</option>
+              <option value="INTERNSHIP">Internship</option>
+              <option value="CONTRACT">Contract</option>
+            </select>
+          </div>
+
+          <div class="col-md-2">
+            <label class="form-label">Min CGPA</label>
+            <input type="number" class="form-control" step="0.1"
+                   placeholder="7.0" [(ngModel)]="minCgpa"/>
+          </div>
+
+          <div class="col-md-2 d-flex gap-2">
+            <button class="btn btn-primary flex-fill" (click)="onSearch()">
+              <i class="bi bi-search"></i> Search
+            </button>
+            <button class="btn btn-icon" (click)="clearFilters()" title="Clear filters">
+              <i class="bi bi-x-lg"></i>
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <app-loader *ngIf="loading"></app-loader>
+
+      <div class="empty-state card" *ngIf="!loading && jobs.length === 0">
+        <i class="bi bi-briefcase"></i>
+        <p>No jobs match your filters. Try something else!</p>
+        <button class="btn btn-outline-primary btn-sm" (click)="clearFilters()">
+          Clear all filters
+        </button>
+      </div>
+
+      <!-- Job Cards Grid -->
+      <div class="row g-3" *ngIf="!loading && jobs.length > 0">
+        <div class="col-md-6 col-lg-4" *ngFor="let job of jobs">
+          <div class="job-card-browse" (click)="viewJob(job.id)">
+
+            <!-- Header -->
+            <div class="d-flex align-items-start gap-3 mb-3">
+              <div class="job-logo-sm">{{ job.companyName.charAt(0) }}</div>
+              <div class="flex-grow-1 min-w-0">
+                <h3 class="job-title">{{ job.title }}</h3>
+                <div class="job-company">{{ job.companyName }}</div>
+              </div>
+              <span class="chip"
+                    [class.chip-primary]="job.jobType === 'FULLTIME'"
+                    [class.chip-warning]="job.jobType === 'INTERNSHIP'">
+                {{ job.jobType }}
+              </span>
+            </div>
+
+            <!-- Meta -->
+            <div class="d-flex gap-3 flex-wrap job-meta">
+              <span *ngIf="job.location">
+                <i class="bi bi-geo-alt"></i>{{ job.location }}
+              </span>
+              <span *ngIf="job.ctc" class="fw-semibold" style="color: #6D28D9;">
+                <i class="bi bi-currency-rupee"></i>{{ job.ctc }}
+              </span>
+            </div>
+
+            <!-- Skills -->
+            <div class="mb-3" *ngIf="job.requiredSkills?.length">
+              <span *ngFor="let s of job.requiredSkills.slice(0,3)"
+                    class="chip chip-primary">{{ s }}</span>
+              <span *ngIf="job.requiredSkills.length > 3" class="chip">
+                +{{ job.requiredSkills.length - 3 }}
+              </span>
+            </div>
+
+            <!-- Footer -->
+            <div class="job-footer">
+              <span>
+                <i class="bi bi-people"></i>
+                <span class="num" style="font-weight: 600;">{{ job.applicantCount }}</span> applicants
+              </span>
+              <span *ngIf="job.deadline" class="job-deadline"
+                    [class.urgent]="getDaysLeft(job.deadline) <= 3">
+                <i class="bi bi-clock"></i>
+                {{ getDaysLeft(job.deadline) }}d left
+              </span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
