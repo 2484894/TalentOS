@@ -1,5 +1,4 @@
 package com.arpan.placementBackend.service;
-
 import com.arpan.placementBackend.dto.request.StudentProfileRequest;
 import com.arpan.placementBackend.dto.response.StudentProfileResponse;
 import com.arpan.placementBackend.exception.ResourceNotFoundException;
@@ -32,6 +31,7 @@ public class StudentProfileService {
         StudentProfile profile = profileRepository.findByUserId(userId)
                 .orElse(StudentProfile.builder().user(user).build());
 
+        if (request.getCollege() != null) profile.setCollege(request.getCollege());           // NEW
         if (request.getDepartment() != null) profile.setDepartment(request.getDepartment());
         if (request.getBatch() != null) profile.setBatch(request.getBatch());
         if (request.getCgpa() != null) profile.setCgpa(request.getCgpa());
@@ -62,14 +62,15 @@ public class StudentProfileService {
 
     private int calculateCompletion(StudentProfile p) {
         int score = 0;
-        if (p.getDepartment() != null && !p.getDepartment().isBlank()) score += 15;
+        if (p.getCollege()    != null && !p.getCollege().isBlank())    score += 10;   // NEW (10)
+        if (p.getDepartment() != null && !p.getDepartment().isBlank()) score += 10;   // was 15, redistributed
         if (p.getCgpa() != null) score += 15;
         if (p.getSkills() != null && !p.getSkills().isEmpty()) score += 20;
         if (p.getResumeUrl() != null && !p.getResumeUrl().isBlank()) score += 20;
-        if (p.getProjects() != null && !p.getProjects().isBlank()) score += 15;
+        if (p.getProjects()  != null && !p.getProjects().isBlank())  score += 10;     // was 15
         if (p.getLinkedinUrl() != null && !p.getLinkedinUrl().isBlank()) score += 8;
-        if (p.getGithubUrl() != null && !p.getGithubUrl().isBlank()) score += 7;
-        return score;
+        if (p.getGithubUrl()   != null && !p.getGithubUrl().isBlank())   score += 7;
+        return score;   // total: 100
     }
 
     public StudentProfileResponse mapToResponse(StudentProfile p) {
@@ -78,6 +79,7 @@ public class StudentProfileService {
                 .userId(p.getUser().getId())
                 .name(p.getUser().getName())
                 .email(p.getUser().getEmail())
+                .college(p.getCollege())        // NEW
                 .department(p.getDepartment())
                 .batch(p.getBatch())
                 .cgpa(p.getCgpa())

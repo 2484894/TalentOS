@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostBinding } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { AuthService } from '../../services/auth.service';
@@ -21,31 +21,35 @@ export class SidebarComponent implements OnInit {
   userInitials = '';
   currentUrl   = '';
 
-  // Role-based brand sub-label (shows in sidebar logo)
   brandSubLabel = '';
+
+  collapsed = false;
+
+  @HostBinding('class.collapsed') get isCollapsed() { return this.collapsed; }
 
   navItems: NavItem[] = [];
 
   studentNav: NavItem[] = [
-    { label: 'Dashboard',     icon: 'bi-grid-1x2-fill',   route: '/student/dashboard'     },
-    { label: 'Jobs',          icon: 'bi-briefcase-fill',  route: '/student/jobs'          },
-    { label: 'Applications',  icon: 'bi-send-fill',       route: '/student/applications'  },
-    { label: 'Profile',       icon: 'bi-person-circle',   route: '/student/profile'       },
-    { label: 'Resume',        icon: 'bi-file-earmark-text-fill', route: '/student/resume'},
-    { label: 'Notifications', icon: 'bi-bell-fill',       route: '/student/notifications' }
+    { label: 'Dashboard',     icon: 'bi-grid-1x2-fill',          route: '/student/dashboard'     },
+    { label: 'Jobs',          icon: 'bi-briefcase-fill',         route: '/student/jobs'          },
+    { label: 'Applications',  icon: 'bi-send-fill',              route: '/student/applications'  },
+    { label: 'Profile',       icon: 'bi-person-circle',          route: '/student/profile'       },
+    { label: 'Resume',        icon: 'bi-file-earmark-text-fill', route: '/student/resume'        },
+    { label: 'Notifications', icon: 'bi-bell-fill',              route: '/student/notifications' }
   ];
 
   recruiterNav: NavItem[] = [
-    { label: 'Overview',       icon: 'bi-grid-1x2-fill',      route: '/recruiter/dashboard'     },
-    { label: 'My Jobs',        icon: 'bi-briefcase-fill',     route: '/recruiter/jobs'          },
-    { label: 'Post a Job',     icon: 'bi-plus-square-fill',   route: '/recruiter/jobs/new'      },
-    { label: 'Notifications',  icon: 'bi-bell-fill',          route: '/recruiter/notifications' }
+    { label: 'Overview',       icon: 'bi-grid-1x2-fill',    route: '/recruiter/dashboard'     },
+    { label: 'My Jobs',        icon: 'bi-briefcase-fill',   route: '/recruiter/jobs'          },
+    { label: 'Post a Job',     icon: 'bi-plus-square-fill', route: '/recruiter/jobs/new'      },
+    { label: 'Notifications',  icon: 'bi-bell-fill',        route: '/recruiter/notifications' }
   ];
 
   adminNav: NavItem[] = [
-    { label: 'Overview',       icon: 'bi-grid-1x2-fill',         route: '/admin/dashboard' },
-    { label: 'Users',          icon: 'bi-people-fill',           route: '/admin/users'     },
-    { label: 'Placement Report', icon: 'bi-file-earmark-bar-graph-fill', route: '/admin/report' }
+    { label: 'Overview',            icon: 'bi-grid-1x2-fill',                route: '/admin/dashboard'  },
+    { label: 'Users',               icon: 'bi-people-fill',                  route: '/admin/users'      },
+    { label: 'Selected Candidates', icon: 'bi-mortarboard-fill',             route: '/admin/placements' },
+    { label: 'Placement Report',    icon: 'bi-file-earmark-bar-graph-fill',  route: '/admin/report'     }
   ];
 
   constructor(
@@ -62,18 +66,13 @@ export class SidebarComponent implements OnInit {
       this.userInitials = this.getInitials(user.name);
     }
 
-    if (this.role === 'STUDENT') {
-      this.navItems      = this.studentNav;
-      this.brandSubLabel = 'Student';
-    }
-    if (this.role === 'RECRUITER') {
-      this.navItems      = this.recruiterNav;
-      this.brandSubLabel = 'Recruiter';
-    }
-    if (this.role === 'ADMIN') {
-      this.navItems      = this.adminNav;
-      this.brandSubLabel = 'Placement Officer';
-    }
+    if (this.role === 'STUDENT')   { this.navItems = this.studentNav;   this.brandSubLabel = 'Student'; }
+    if (this.role === 'RECRUITER') { this.navItems = this.recruiterNav; this.brandSubLabel = 'Recruiter'; }
+    if (this.role === 'ADMIN')     { this.navItems = this.adminNav;     this.brandSubLabel = 'Placement Officer'; }
+
+    const stored = localStorage.getItem('sidebarCollapsed');
+    this.collapsed = stored === null ? true : stored === 'true';
+    this.applyBodyClass();
 
     this.currentUrl = this.router.url;
     this.router.events
@@ -81,13 +80,19 @@ export class SidebarComponent implements OnInit {
       .subscribe((e: any) => this.currentUrl = e.urlAfterRedirects);
   }
 
+  toggleCollapse(): void {
+    this.collapsed = !this.collapsed;
+    localStorage.setItem('sidebarCollapsed', String(this.collapsed));
+    this.applyBodyClass();
+  }
+
+  private applyBodyClass(): void {
+    if (this.collapsed) document.body.classList.add('sidebar-collapsed');
+    else                 document.body.classList.remove('sidebar-collapsed');
+  }
+
   private getInitials(name: string): string {
-    return name
-      .split(' ')
-      .map(n => n.charAt(0))
-      .slice(0, 2)
-      .join('')
-      .toUpperCase();
+    return name.split(' ').map(n => n.charAt(0)).slice(0, 2).join('').toUpperCase();
   }
 
   isActive(route: string): boolean {
@@ -95,11 +100,7 @@ export class SidebarComponent implements OnInit {
     return this.currentUrl === route || this.currentUrl.startsWith(route + '/');
   }
 
-  navigate(route: string): void {
-    this.router.navigate([route]);
-  }
+  navigate(route: string): void { this.router.navigate([route]); }
 
-  logout(): void {
-    this.authService.logout();
-  }
+  logout(): void { this.authService.logout(); }
 }

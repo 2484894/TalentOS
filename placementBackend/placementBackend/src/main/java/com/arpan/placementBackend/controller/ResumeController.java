@@ -33,6 +33,7 @@ import java.util.List;
 public class ResumeController {
 
     private final FileStorageService fileStorageService;
+
     private final StudentProfileService profileService;
     private final AIService aiService;
     private final StudentProfileService studentProfileService;

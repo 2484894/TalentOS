@@ -27,6 +27,24 @@ export interface AdminUser {
   createdAt: string;
 }
 
+/** One row in the Selected Candidates report. Mirrors PlacementRecord on the backend. */
+export interface PlacementRecord {
+  applicationId: number;
+  studentId: number;
+  studentName: string;
+  studentEmail: string;
+  college: string | null;
+  department: string | null;
+  batch: string | null;
+  cgpa: number | null;
+  jobId: number;
+  jobTitle: string;
+  companyName: string;
+  ctc: string | null;
+  location: string | null;
+  appliedAt: string;
+}
+
 @Injectable({ providedIn: 'root' })
 export class AdminService {
 
@@ -35,13 +53,11 @@ export class AdminService {
   constructor(private http: HttpClient) {}
 
   getDashboardStats(): Observable<ApiResponse<DashboardStats>> {
-    return this.http.get<ApiResponse<DashboardStats>>(
-      `${this.api}/admin/dashboard`);
+    return this.http.get<ApiResponse<DashboardStats>>(`${this.api}/admin/dashboard`);
   }
 
   getAllUsers(): Observable<ApiResponse<AdminUser[]>> {
-    return this.http.get<ApiResponse<AdminUser[]>>(
-      `${this.api}/admin/users`);
+    return this.http.get<ApiResponse<AdminUser[]>>(`${this.api}/admin/users`);
   }
 
   toggleUserStatus(userId: number): Observable<ApiResponse<void>> {
@@ -50,14 +66,15 @@ export class AdminService {
   }
 
   getAllStudents(): Observable<ApiResponse<StudentProfile[]>> {
-    return this.http.get<ApiResponse<StudentProfile[]>>(
-      `${this.api}/admin/students`);
+    return this.http.get<ApiResponse<StudentProfile[]>>(`${this.api}/admin/students`);
+  }
+
+  /** NEW — flat list of all selected candidates with company info. */
+  getPlacements(): Observable<ApiResponse<PlacementRecord[]>> {
+    return this.http.get<ApiResponse<PlacementRecord[]>>(`${this.api}/admin/placements`);
   }
 
   downloadCsvReport(): Observable<string> {
-    return this.http.get(
-      `${this.api}/admin/report/csv`,
-      { responseType: 'text' }
-    );
+    return this.http.get(`${this.api}/admin/report/csv`, { responseType: 'text' });
   }
 }

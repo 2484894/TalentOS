@@ -10,129 +10,334 @@
         <i class="bi bi-arrow-left"></i> Back to jobs
       </button>
 
-      <!-- Hero -->
-      <div *ngIf="job" class="mb-4">
-        <div class="eyebrow" style="color: #06B6D4;">
-          <i class="bi bi-lightning-charge-fill"></i> AI-Ranked
+      <div class="page-head" *ngIf="job">
+        <div>
+          <h1 class="page-title">{{ job.title }}</h1>
+          <p class="page-sub">
+            <strong>{{ filtered.length }}</strong> of {{ applications.length }}
+            applicant<span *ngIf="applications.length !== 1">s</span>
+            <span class="dot-sep">·</span>
+            <span [class.status-active]="job.active" [class.status-closed]="!job.active">
+              {{ job.active ? 'Active' : 'Closed' }}
+            </span>
+          </p>
         </div>
-        <h1 style="font-family: var(--font-display); font-size: 2.2rem;
-                   font-weight: 800; line-height: 1; letter-spacing: -0.03em;">
-          {{ job.title }}
-        </h1>
-        <p style="margin-top: 8px; color: var(--ink-3); font-size: 13px;
-                  font-family: var(--font-mono);">
-          <strong style="color: var(--ink-2);">{{ applications.length }}</strong> applicants ·
-          sorted by AI match score ·
-          <span *ngIf="job.active" style="color: #059669;">● Active</span>
-          <span *ngIf="!job.active" style="color: #E11D48;">● Closed</span>
-        </p>
+
+        <div class="head-actions">
+          <button class="btn btn-sm btn-soft"
+                  [class.btn-primary]="compareMode"
+                  (click)="toggleCompareMode()">
+            <i class="bi bi-bar-chart-line"></i>
+            {{ compareMode ? 'Cancel compare' : 'Compare' }}
+          </button>
+
+          <button class="btn btn-sm btn-soft"
+                  *ngIf="compareMode && selectedForCompare.size >= 2"
+                  (click)="openCompare()">
+            <i class="bi bi-arrow-right"></i>
+            Compare {{ selectedForCompare.size }}
+          </button>
+
+          <button class="btn btn-sm btn-soft" (click)="exportCsv()">
+            <i class="bi bi-download"></i> Export CSV
+          </button>
+        </div>
       </div>
 
-      <!-- Filter Pills -->
-      <div class="d-flex gap-2 mb-4 flex-wrap">
-        <button *ngFor="let f of ['ALL','APPLIED','SHORTLISTED','INTERVIEW_SCHEDULED','SELECTED','REJECTED']"
-                class="filter-pill"
-                [class.active]="filter === f"
-                (click)="filter = f">
-          {{ f === 'ALL' ? 'All (' + applications.length + ')' :
-             f === 'APPLIED' ? 'New' :
-             f === 'SHORTLISTED' ? 'Shortlisted' :
-             f === 'INTERVIEW_SCHEDULED' ? 'Interview' :
-             f === 'SELECTED' ? 'Selected' : 'Rejected' }}
+      <div class="alert alert-success" *ngIf="successMsg">
+        <i class="bi bi-check-circle-fill"></i> {{ successMsg }}
+      </div>
+      <div class="alert alert-danger" *ngIf="errorMsg">
+        <i class="bi bi-exclamation-circle-fill"></i> {{ errorMsg }}
+      </div>
+
+      <div class="filters-toolbar">
+        <div class="filter-search">
+          <i class="bi bi-search"></i>
+          <input type="text"
+                 placeholder="Search by name, email, college, or skill…"
+                 [(ngModel)]="search" />
+        </div>
+
+        <div class="filter-group">
+          <label>Sort by</label>
+          <select class="filter-select" [(ngModel)]="sortKey">
+            <option value="match-desc">AI Match — high to low</option>
+            <option value="match-asc">AI Match — low to high</option>
+            <option value="cgpa-desc">CGPA — high to low</option>
+            <option value="cgpa-asc">CGPA — low to high</option>
+            <option value="date-desc">Applied — newest first</option>
+            <option value="date-asc">Applied — oldest first</option>
+            <option value="name-asc">Name — A to Z</option>
+          </select>
+        </div>
+
+        <div class="filter-group filter-slider">
+          <label>Min AI ≥ <strong>{{ minAiScore }}%</strong></label>
+          <input type="range" min="0" max="100" step="5" [(ngModel)]="minAiScore" />
+        </div>
+
+        <button class="btn btn-soft btn-sm clear-btn"
+                *ngIf="hasActiveFilters"
+                (click)="clearFilters()">
+          <i class="bi bi-x-lg"></i> Clear all
+        </button>
+      </div>
+
+      <div class="filter-pills">
+        <button class="filter-pill" [class.active]="statusFilter === 'ALL'"
+                (click)="statusFilter = 'ALL'">
+          All <span class="pill-count">{{ countOf('ALL') }}</span>
+        </button>
+        <button class="filter-pill" [class.active]="statusFilter === 'APPLIED'"
+                (click)="statusFilter = 'APPLIED'">
+          New <span class="pill-count">{{ countOf('APPLIED') }}</span>
+        </button>
+        <button class="filter-pill" [class.active]="statusFilter === 'SHORTLISTED'"
+                (click)="statusFilter = 'SHORTLISTED'">
+          Shortlisted <span class="pill-count">{{ countOf('SHORTLISTED') }}</span>
+        </button>
+        <button class="filter-pill" [class.active]="statusFilter === 'INTERVIEW_SCHEDULED'"
+                (click)="statusFilter = 'INTERVIEW_SCHEDULED'">
+          Interview <span class="pill-count">{{ countOf('INTERVIEW_SCHEDULED') }}</span>
+        </button>
+        <button class="filter-pill" [class.active]="statusFilter === 'SELECTED'"
+                (click)="statusFilter = 'SELECTED'">
+          Selected <span class="pill-count">{{ countOf('SELECTED') }}</span>
+        </button>
+        <button class="filter-pill" [class.active]="statusFilter === 'REJECTED'"
+                (click)="statusFilter = 'REJECTED'">
+          Rejected <span class="pill-count">{{ countOf('REJECTED') }}</span>
+        </button>
+      </div>
+
+      <div class="skill-filter-row" *ngIf="skillPool.length > 0">
+        <span class="skill-filter-label">Filter by skill:</span>
+        <button *ngFor="let s of skillPool"
+                class="skill-chip"
+                [class.active]="isSkillActive(s.skill)"
+                (click)="toggleSkillFilter(s.skill)">
+          {{ s.skill }} <span class="skill-chip-count">{{ s.count }}</span>
         </button>
       </div>
 
       <app-loader *ngIf="loading"></app-loader>
 
-      <div class="empty-state card" *ngIf="!loading && filtered.length === 0">
-        <i class="bi bi-people"></i>
-        <p>No applicants in this status.</p>
+      <div class="empty-state" *ngIf="!loading && filtered.length === 0">
+        <i class="bi bi-funnel"></i>
+        <p *ngIf="hasActiveFilters">No applicants match your filters.</p>
+        <p *ngIf="!hasActiveFilters">No applicants in this status.</p>
       </div>
 
-      <!-- Applicants Table -->
-      <div class="card p-0" *ngIf="!loading && filtered.length > 0"
-           style="overflow: hidden;">
-        <table class="table-modern">
-          <thead>
-            <tr>
-              <th style="width: 40px;">#</th>
-              <th>Candidate</th>
-              <th>Skills</th>
-              <th>CGPA</th>
-              <th>AI Match</th>
-              <th>Status</th>
-              <th>Applied</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let app of filtered; let i = index"
-                (click)="viewDetail(app.id)"
-                style="cursor: pointer;">
+      <div class="applicant-stack" *ngIf="!loading && filtered.length > 0">
+        <div class="applicant-row-wrap" *ngFor="let app of filtered">
 
-              <td>
-                <span class="num fw-bold" style="color: var(--ink-4);">
-                  {{ (i + 1).toString().padStart(2, '0') }}
-                </span>
-              </td>
+          <div class="applicant-row"
+               [class.is-pending]="pendingId === app.id"
+               [class.is-expanded]="isExpanded(app.id)"
+               [class.is-selected-compare]="isInCompare(app.id)"
+               (click)="toggleExpand(app.id)">
 
-              <td>
-                <div class="d-flex align-items-center gap-3">
-                  <div class="applicant-avatar">
-                    {{ app.studentName?.charAt(0) || '?' }}
-                  </div>
-                  <div>
-                    <div style="font-family: var(--font-display); font-weight: 700;
-                                font-size: 14px;">
-                      {{ app.studentName }}
-                    </div>
-                    <div style="font-size: 11px; color: var(--ink-3);">
-                      <i class="bi bi-mortarboard"></i>
-                      {{ app.studentDepartment || 'Unknown dept' }}
-                    </div>
-                  </div>
+            <div class="cell-compare" *ngIf="compareMode">
+              <input type="checkbox"
+                     [checked]="isInCompare(app.id)"
+                     (click)="toggleCompareSelection(app.id, $event)" />
+            </div>
+
+            <div class="cell cell-candidate">
+              <div class="avatar">{{ app.studentName?.charAt(0) || '?' }}</div>
+              <div class="info">
+                <div class="name">{{ app.studentName }}</div>
+                <div class="email">{{ app.studentEmail }}</div>
+                <div class="college-line" *ngIf="app.studentCollege">
+                  <i class="bi bi-mortarboard"></i> {{ app.studentCollege }}
                 </div>
-              </td>
+              </div>
+            </div>
 
-              <td>
-                <span *ngFor="let s of app.matchedSkills?.slice(0, 3)"
-                      class="chip chip-info"
-                      style="font-size: 10px;">{{ s }}</span>
-                <span *ngIf="app.matchedSkills?.length > 3"
-                      class="chip" style="font-size: 10px;">
-                  +{{ app.matchedSkills.length - 3 }}
-                </span>
-              </td>
+            <div class="cell cell-dept">
+              <div class="cell-label">Dept · Batch</div>
+              <div class="cell-value">
+                {{ app.studentDepartment || '—' }}
+                <span *ngIf="app.studentBatch" class="batch-tag">{{ app.studentBatch }}</span>
+              </div>
+            </div>
 
-              <td>
-                <span class="num fw-bold" style="color: #0C4A6E; font-size: 15px;">
-                  {{ app.studentCgpa || '—' }}
-                </span>
-              </td>
+            <div class="cell cell-cgpa">
+              <div class="cell-label">CGPA</div>
+              <div class="cell-value cgpa">{{ app.studentCgpa ?? '—' }}</div>
+            </div>
 
-              <td>
-                <app-gauge *ngIf="app.aiMatchScore"
-                           [value]="app.aiMatchScore" size="sm"></app-gauge>
-                <span *ngIf="!app.aiMatchScore" style="color: var(--ink-4);">—</span>
-              </td>
+            <div class="cell cell-match" [ngClass]="matchClass(app.aiMatchScore)">
+  <div class="cell-label">AI Match</div>
+  <div class="match-score" *ngIf="app.aiMatchScore">
+    <span class="match-pct">{{ app.aiMatchScore }}%</span>
+  </div>
+  <button class="recompute-btn"
+          *ngIf="!app.aiMatchScore"
+          title="Compute AI match score now"
+          (click)="recomputeMatch(app, $event)"
+          [disabled]="pendingId === app.id">
+    <i class="bi bi-stars"></i> Compute
+  </button>
+</div>
 
-              <td>
-                <app-status-badge [status]="app.status"></app-status-badge>
-              </td>
+            <div class="cell cell-status">
+              <div class="cell-label">Status</div>
+              <app-status-badge [status]="app.status"></app-status-badge>
+            </div>
 
-              <td style="font-family: var(--font-mono); font-size: 12px; color: var(--ink-3);">
-                {{ app.appliedAt | date:'dd MMM' }}
-              </td>
+            <div class="cell cell-date">
+              <div class="cell-label">Applied</div>
+              <div class="applied-date">{{ app.appliedAt | date:'mediumDate' }}</div>
+              <div class="applied-time">{{ app.appliedAt | date:'shortTime' }}</div>
+            </div>
 
-              <td>
-                <i class="bi bi-chevron-right" style="color: var(--ink-3);"></i>
-              </td>
+            <div class="cell cell-actions" (click)="$event.stopPropagation()">
+              <button class="action-btn action-resume"
+                      *ngIf="app.studentResumeUrl"
+                      title="Open resume"
+                      (click)="openResume(app, $event)">
+                <i class="bi bi-file-earmark-pdf"></i>
+                <span class="action-label">Resume</span>
+              </button>
 
-            </tr>
-          </tbody>
-        </table>
+              <button class="action-btn action-shortlist"
+                      *ngIf="app.status === 'APPLIED'"
+                      [disabled]="pendingId === app.id"
+                      (click)="setStatus(app, 'SHORTLISTED', $event)">
+                <i class="bi bi-star-fill"></i>
+                <span class="action-label">Shortlist</span>
+              </button>
+
+              <button class="action-btn action-schedule"
+                      *ngIf="app.status === 'SHORTLISTED'"
+                      [disabled]="pendingId === app.id"
+                      (click)="openSchedule(app, $event)">
+                <i class="bi bi-calendar-event-fill"></i>
+                <span class="action-label">Schedule</span>
+              </button>
+
+              <button class="action-btn action-select"
+                      *ngIf="app.status === 'SHORTLISTED' || app.status === 'INTERVIEW_SCHEDULED'"
+                      [disabled]="pendingId === app.id"
+                      (click)="setStatus(app, 'SELECTED', $event)">
+                <i class="bi bi-check-circle-fill"></i>
+                <span class="action-label">Select</span>
+              </button>
+
+              <button class="action-btn action-reject"
+                      *ngIf="app.status !== 'REJECTED' && app.status !== 'SELECTED'"
+                      [disabled]="pendingId === app.id"
+                      (click)="setStatus(app, 'REJECTED', $event)">
+                <i class="bi bi-x-circle-fill"></i>
+                <span class="action-label">Reject</span>
+              </button>
+
+              <button class="action-btn action-expand-chevron"
+                      title="{{ isExpanded(app.id) ? 'Collapse' : 'Expand' }} details"
+                      (click)="toggleExpand(app.id, $event)">
+                <i class="bi"
+                   [class.bi-chevron-down]="!isExpanded(app.id)"
+                   [class.bi-chevron-up]="isExpanded(app.id)"></i>
+              </button>
+
+              <span class="row-spinner" *ngIf="pendingId === app.id">
+                <span class="spinner-border spinner-border-sm"></span>
+              </span>
+            </div>
+          </div>
+
+          <div class="applicant-detail" *ngIf="isExpanded(app.id)">
+
+            <div class="detail-section">
+              <div class="detail-section-h">All skills <span class="muted">({{ (app.studentSkills || []).length }})</span></div>
+              <div *ngIf="(app.studentSkills || []).length === 0" class="muted-text">No skills listed.</div>
+              <div *ngIf="(app.studentSkills || []).length > 0">
+                <span *ngFor="let s of app.studentSkills" class="chip">{{ s }}</span>
+              </div>
+            </div>
+
+            <div class="detail-section" *ngIf="(app.matchedSkills || []).length || (app.missingSkills || []).length">
+              <div class="detail-section-h">AI match breakdown</div>
+              <div class="match-breakdown-grid">
+                <div *ngIf="(app.matchedSkills || []).length">
+                  <div class="match-sub-label have">
+                    <i class="bi bi-check-circle-fill"></i>
+                    Matched ({{ app.matchedSkills.length }})
+                  </div>
+                  <span *ngFor="let s of app.matchedSkills" class="chip matched">{{ s }}</span>
+                </div>
+                <div *ngIf="(app.missingSkills || []).length">
+                  <div class="match-sub-label need">
+                    <i class="bi bi-x-circle-fill"></i>
+                    Missing ({{ app.missingSkills.length }})
+                  </div>
+                  <span *ngFor="let s of app.missingSkills" class="chip missing">{{ s }}</span>
+                </div>
+              </div>
+              <p *ngIf="app.aiSuggestion" class="ai-suggestion-inline">
+                <i class="bi bi-stars"></i> {{ app.aiSuggestion }}
+              </p>
+            </div>
+
+            <div class="detail-section" *ngIf="app.studentProjects">
+              <div class="detail-section-h">Projects</div>
+              <p class="detail-body-text">{{ app.studentProjects }}</p>
+            </div>
+
+            <div class="detail-section" *ngIf="app.studentCertifications">
+              <div class="detail-section-h">Certifications</div>
+              <p class="detail-body-text">{{ app.studentCertifications }}</p>
+            </div>
+
+            <div class="detail-section detail-contact-row">
+              <a *ngIf="app.studentPhone" href="tel:{{app.studentPhone}}" class="contact-pill">
+                <i class="bi bi-telephone"></i> {{ app.studentPhone }}
+              </a>
+              <a *ngIf="app.studentLinkedinUrl" [href]="app.studentLinkedinUrl"
+                 target="_blank" rel="noopener" class="contact-pill">
+                <i class="bi bi-linkedin"></i> LinkedIn
+              </a>
+              <a *ngIf="app.studentGithubUrl" [href]="app.studentGithubUrl"
+                 target="_blank" rel="noopener" class="contact-pill">
+                <i class="bi bi-github"></i> GitHub
+              </a>
+              <a *ngIf="app.studentEmail" href="mailto:{{app.studentEmail}}" class="contact-pill">
+                <i class="bi bi-envelope"></i> Email
+              </a>
+              <button *ngIf="app.studentResumeUrl"
+                      class="contact-pill contact-pill-primary"
+                      (click)="openResume(app, $event)">
+                <i class="bi bi-file-earmark-pdf"></i> Open resume
+              </button>
+              <button class="contact-pill contact-pill-primary"
+                      (click)="viewDetail(app.id, $event)">
+                <i class="bi bi-arrow-up-right"></i> Full review page
+              </button>
+            </div>
+
+            <div *ngIf="app.studentProfileCompletePct != null" class="profile-completion">
+              Profile completion: <strong>{{ app.studentProfileCompletePct }}%</strong>
+            </div>
+          </div>
+
+        </div>
       </div>
 
     </div>
   </div>
 </div>
+
+<app-schedule-interview-modal
+  [applicationId]="scheduleAppId"
+  [candidateName]="scheduleCandidateName"
+  (closed)="closeSchedule()"
+  (scheduled)="onScheduled()">
+</app-schedule-interview-modal>
+
+<app-applicant-compare-modal
+  *ngIf="showCompareModal"
+  [applicants]="compareApplicants"
+  (closed)="closeCompare()">
+</app-applicant-compare-modal>

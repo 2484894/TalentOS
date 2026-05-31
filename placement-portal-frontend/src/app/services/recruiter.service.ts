@@ -36,8 +36,7 @@ export class RecruiterService {
   }
 
   toggleJobStatus(id: number): Observable<ApiResponse<Job>> {
-    return this.http.patch<ApiResponse<Job>>(
-      `${this.api}/recruiter/jobs/${id}/toggle`, {});
+    return this.http.patch<ApiResponse<Job>>(`${this.api}/recruiter/jobs/${id}/toggle`, {});
   }
 
   extractSkills(title: string, description: string):
@@ -54,9 +53,13 @@ export class RecruiterService {
       `${this.api}/recruiter/jobs/${jobId}/applicants`);
   }
 
+  /**
+   * FIX — was hitting /student/applications/{id} which is restricted to ROLE_STUDENT
+   * (returns 403 for recruiters). Now uses the new /recruiter/applications/{id}.
+   */
   getApplicationById(id: number): Observable<ApiResponse<Application>> {
     return this.http.get<ApiResponse<Application>>(
-      `${this.api}/student/applications/${id}`);
+      `${this.api}/recruiter/applications/${id}`);
   }
 
   updateApplicationStatus(applicationId: number,
@@ -81,4 +84,8 @@ export class RecruiterService {
     return this.http.patch<ApiResponse<InterviewSlot>>(
       `${this.api}/recruiter/interviews/${applicationId}/cancel`, {});
   }
+   recomputeAiMatch(applicationId: number): Observable<ApiResponse<Application>> {
+  return this.http.post<ApiResponse<Application>>(
+    `${this.api}/recruiter/applications/${applicationId}/recompute-match`, {});
+}
 }

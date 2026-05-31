@@ -25,6 +25,7 @@ public class StudentProfile {
     @JoinColumn(name = "user_id", nullable = false, unique = true)
     private User user;
 
+    private String college;       // NEW — e.g. "IIT Bombay" / "Anna University"
     private String department;
     private String batch;
 

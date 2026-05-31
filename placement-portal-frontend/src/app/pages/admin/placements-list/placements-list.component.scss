@@ -1,0 +1,184 @@
+/* Page header */
+.page-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.page-title {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0;
+  color: var(--ink);
+}
+
+.page-sub {
+  margin: 0.25rem 0 0;
+  font-size: 0.875rem;
+  color: var(--ink-3);
+}
+
+/* Filters */
+.filters-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.filter-row {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.filter-search {
+  position: relative;
+  flex: 1;
+  min-width: 240px;
+
+  i {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--ink-3);
+    pointer-events: none;
+  }
+
+  input {
+    width: 100%;
+    padding: 0.55rem 0.85rem 0.55rem 2.25rem;
+    border: 1px solid var(--line-2);
+    border-radius: 8px;
+    background: var(--bg);
+    font-size: 14px;
+    color: var(--ink);
+
+    &:focus {
+      outline: none;
+      border-color: var(--ink-2);
+      background: var(--surface);
+    }
+  }
+}
+
+.filter-select {
+  padding: 0.55rem 0.85rem;
+  border: 1px solid var(--line-2);
+  border-radius: 8px;
+  background: var(--bg);
+  font-size: 14px;
+  color: var(--ink);
+  cursor: pointer;
+  min-width: 160px;
+
+  &:focus {
+    outline: none;
+    border-color: var(--ink-2);
+  }
+}
+
+/* College groups */
+.college-group { margin-bottom: 2rem; }
+
+.college-head {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0 0 0.75rem;
+
+  h2 {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin: 0;
+    color: var(--ink);
+  }
+}
+
+.count-pill {
+  background: var(--bg-2);
+  color: var(--ink-2);
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* Table */
+.placements-table-wrap {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+  overflow-x: auto;
+}
+
+.placements-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+
+  th {
+    text-align: left;
+    padding: 0.75rem 1rem;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-3);
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink-2);
+    vertical-align: middle;
+  }
+
+  tr:last-child td { border-bottom: none; }
+
+  tr:hover td { background: var(--bg); }
+}
+
+.candidate-cell .candidate-name {
+  font-weight: 600;
+  color: var(--ink);
+  font-size: 14px;
+}
+
+.candidate-cell .candidate-email {
+  font-size: 12px;
+  color: var(--ink-3);
+  margin-top: 2px;
+}
+
+/* Empty */
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  background: var(--surface);
+  border: 1px dashed var(--line-2);
+  border-radius: 12px;
+  color: var(--ink-3);
+
+  i {
+    font-size: 2.5rem;
+    color: var(--ink-4);
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  p { margin: 0; font-size: 14px; }
+}

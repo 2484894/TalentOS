@@ -16,6 +16,7 @@ public class StudentProfileResponse {
     private Long userId;
     private String name;
     private String email;
+    private String college;        // NEW
     private String department;
     private String batch;
     private Double cgpa;

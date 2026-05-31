@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -7,7 +7,7 @@ import { AuthService } from '../../services/auth.service';
   selector: 'app-login',
   templateUrl: './login.component.html'
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
 
   form: FormGroup;
   loading = false;
@@ -19,13 +19,19 @@ export class LoginComponent {
     private authService: AuthService,
     private router: Router
   ) {
-    // Redirect if already logged in
     if (this.authService.isLoggedIn()) this.redirectByRole();
 
     this.form = this.fb.group({
       email:    ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
+  }
+
+  ngOnInit(): void {
+    // Defense in depth: even if the browser tried to autofill, blank the form
+    // after the view initializes. setTimeout(0) lets the browser finish its
+    // autofill pass first, then we wipe it.
+    setTimeout(() => this.form.reset({ email: '', password: '' }), 0);
   }
 
   get email()    { return this.form.get('email')!; }

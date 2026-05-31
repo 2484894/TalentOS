@@ -1,0 +1,102 @@
+<div class="cmp-overlay" (click)="close()">
+  <div class="cmp-card" (click)="$event.stopPropagation()">
+
+    <div class="cmp-head">
+      <div>
+        <div class="cmp-eyebrow">Side-by-side comparison</div>
+        <h3>{{ applicants.length }} candidates</h3>
+      </div>
+      <button class="cmp-close" type="button" (click)="close()" aria-label="Close">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+
+    <div class="cmp-body">
+      <div class="cmp-grid" [style.grid-template-columns]="'200px repeat(' + applicants.length + ', 1fr)'">
+
+        <div class="cmp-cell cmp-row-label"></div>
+        <div class="cmp-cell cmp-candidate-cell" *ngFor="let a of applicants">
+          <div class="cmp-avatar">{{ a.studentName?.charAt(0) }}</div>
+          <div class="cmp-name">{{ a.studentName }}</div>
+          <div class="cmp-email">{{ a.studentEmail }}</div>
+        </div>
+
+        <div class="cmp-cell cmp-row-label">AI Match</div>
+        <div class="cmp-cell cmp-match" *ngFor="let a of applicants" [ngClass]="matchClass(a.aiMatchScore)">
+          <div class="cmp-big">{{ a.aiMatchScore ?? '—' }}<span *ngIf="a.aiMatchScore">%</span></div>
+        </div>
+
+        <div class="cmp-cell cmp-row-label">Status</div>
+        <div class="cmp-cell" *ngFor="let a of applicants">
+          <app-status-badge [status]="a.status"></app-status-badge>
+        </div>
+
+        <div class="cmp-cell cmp-row-label">College</div>
+        <div class="cmp-cell" *ngFor="let a of applicants">
+          {{ a.studentCollege || '—' }}
+        </div>
+
+        <div class="cmp-cell cmp-row-label">Dept · Batch</div>
+        <div class="cmp-cell" *ngFor="let a of applicants">
+          {{ a.studentDepartment || '—' }}
+          <span *ngIf="a.studentBatch" class="cmp-muted"> · {{ a.studentBatch }}</span>
+        </div>
+
+        <div class="cmp-cell cmp-row-label">CGPA</div>
+        <div class="cmp-cell" *ngFor="let a of applicants">
+          <strong>{{ a.studentCgpa ?? '—' }}</strong>
+        </div>
+
+        <div class="cmp-cell cmp-row-label">Applied</div>
+        <div class="cmp-cell" *ngFor="let a of applicants">
+          {{ a.appliedAt | date:'mediumDate' }}
+        </div>
+
+        <div class="cmp-cell cmp-row-label">Total skills</div>
+        <div class="cmp-cell" *ngFor="let a of applicants">
+          <strong>{{ (a.studentSkills || []).length }}</strong>
+        </div>
+
+        <div class="cmp-cell cmp-row-label">Matched skills</div>
+        <div class="cmp-cell" *ngFor="let a of applicants">
+          <span class="chip matched">{{ (a.matchedSkills || []).length }}</span>
+        </div>
+
+        <div class="cmp-cell cmp-row-label">Missing skills</div>
+        <div class="cmp-cell" *ngFor="let a of applicants">
+          <span class="chip missing">{{ (a.missingSkills || []).length }}</span>
+        </div>
+
+        <div class="cmp-cell cmp-section-divider" [style.grid-column]="'span ' + (applicants.length + 1)">
+          Skill-by-skill comparison
+        </div>
+
+        <ng-container *ngFor="let skill of skillsToShow">
+          <div class="cmp-cell cmp-row-label cmp-skill-label">{{ skill }}</div>
+          <div class="cmp-cell cmp-skill-cell" *ngFor="let a of applicants"
+               [class.has]="applicantHasSkill(a, skill)">
+            <i class="bi" [class.bi-check-circle-fill]="applicantHasSkill(a, skill)"
+                          [class.bi-dash]="!applicantHasSkill(a, skill)"></i>
+          </div>
+        </ng-container>
+
+        <div class="cmp-cell cmp-section-divider cmp-section-divider-light"
+             *ngIf="hasMoreSkills"
+             [style.grid-column]="'span ' + (applicants.length + 1)">
+          + {{ allSkillsUnion.length - 25 }} more skills (see individual profiles)
+        </div>
+
+        <div class="cmp-cell cmp-row-label">Actions</div>
+        <div class="cmp-cell" *ngFor="let a of applicants">
+          <button class="btn btn-sm btn-soft"
+                  *ngIf="a.studentResumeUrl"
+                  (click)="openResume(a)">
+            <i class="bi bi-file-earmark-pdf"></i> Resume
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>

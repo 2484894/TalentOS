@@ -18,6 +18,7 @@ export class JobDetailComponent implements OnInit {
   errorMsg      = '';
   successMsg    = '';
   previewResult: Application | null = null;
+  previewError  = '';   // separate error so a preview failure doesn't block apply
 
   constructor(
     private route: ActivatedRoute,
@@ -30,7 +31,11 @@ export class JobDetailComponent implements OnInit {
     this.studentService.getJobById(id).subscribe({
       next: res => {
         this.loading = false;
-        if (res.success) this.job = res.data;
+        if (res.success) {
+          this.job = res.data;
+          // CHANGE — auto-fetch AI match as soon as job loads, no button needed
+          this.previewMatch();
+        }
       },
       error: () => { this.loading = false; }
     });
@@ -38,16 +43,17 @@ export class JobDetailComponent implements OnInit {
 
   previewMatch(): void {
     if (!this.job) return;
-    this.previewing    = true;
+    this.previewing   = true;
+    this.previewError = '';
     this.previewResult = null;
     this.studentService.previewMatch(this.job.id).subscribe({
       next: res => {
-        this.previewing    = false;
+        this.previewing = false;
         if (res.success) this.previewResult = res.data;
       },
       error: err => {
-        this.previewing = false;
-        this.errorMsg   = err.message || 'Preview failed.';
+        this.previewing  = false;
+        this.previewError = err?.message || 'Could not compute match score. You can still apply.';
       }
     });
   }
@@ -62,7 +68,7 @@ export class JobDetailComponent implements OnInit {
         this.applying = false;
         if (res.success) {
           this.applied    = true;
-          this.successMsg = 'Application submitted! AI is calculating your match score...';
+          this.successMsg = 'Application submitted!';
         } else {
           this.errorMsg = res.message;
         }

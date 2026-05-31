@@ -6,7 +6,7 @@
 
     <div class="page-body">
 
-      <button class="btn btn-sm btn-soft mb-4" (click)="goBack()">
+      <button class="btn btn-sm btn-soft mb-3" (click)="goBack()">
         <i class="bi bi-arrow-left"></i> Back
       </button>
 
@@ -23,132 +23,105 @@
 
         <div class="row g-4">
 
-          <!-- Main -->
+          <!-- ─── Main column ─── -->
           <div class="col-lg-8">
 
-            <!-- Applicant Header Card -->
-            <div class="card mb-4">
-              <div class="d-flex align-items-start gap-3">
-                <div class="applicant-avatar-lg">
-                  {{ application.studentName?.charAt(0) }}
-                </div>
-                <div class="flex-grow-1">
-                  <h1 style="font-family: var(--font-display); font-size: 1.8rem;
-                             font-weight: 800; line-height: 1;">
-                    {{ application.studentName }}
-                  </h1>
-                  <div style="font-size: 13px; color: var(--ink-2); margin-top: 4px;">
-                    {{ application.studentEmail }}
-                  </div>
-                  <div class="d-flex gap-3 mt-2 flex-wrap"
-                       style="font-size: 12px; color: var(--ink-3);
-                              font-family: var(--font-mono);">
+            <!-- Applicant header -->
+            <div class="card mb-3">
+              <div class="applicant-header">
+                <div class="applicant-avatar-lg">{{ application.studentName?.charAt(0) }}</div>
+                <div class="applicant-info">
+                  <h1 class="applicant-name">{{ application.studentName }}</h1>
+                  <div class="applicant-email">{{ application.studentEmail }}</div>
+                  <div class="applicant-meta">
                     <span *ngIf="application.studentDepartment">
                       <i class="bi bi-mortarboard"></i> {{ application.studentDepartment }}
                     </span>
                     <span *ngIf="application.studentCgpa">
-                      <i class="bi bi-star"></i> CGPA: <strong>{{ application.studentCgpa }}</strong>
+                      <i class="bi bi-star"></i> CGPA <strong>{{ application.studentCgpa }}</strong>
                     </span>
                     <span>
-                      <i class="bi bi-calendar"></i> Applied {{ application.appliedAt | date:'dd MMM' }}
+                      <i class="bi bi-calendar"></i>
+                      Applied {{ application.appliedAt | date:'mediumDate' }}
+                      at {{ application.appliedAt | date:'shortTime' }}
                     </span>
                   </div>
+                </div>
+                <div class="applicant-current-status">
+                  <div class="status-label">Current</div>
+                  <app-status-badge [status]="application.status"></app-status-badge>
                 </div>
               </div>
             </div>
 
             <!-- AI Match Analysis -->
-            <div class="card mb-4" *ngIf="application.aiMatchScore">
-              <div class="eyebrow" style="color: #06B6D4;">
-                <i class="bi bi-stars"></i> AI Analysis
-              </div>
-              <h3 style="font-family: var(--font-display); font-size: 1.5rem;
-                         font-weight: 800; margin-bottom: 1.25rem;">
-                Match Breakdown
+            <div class="card mb-3" *ngIf="application.aiMatchScore">
+              <h3 class="card-h3">
+                <i class="bi bi-stars match-icon"></i> AI Match Analysis
               </h3>
 
-              <div class="text-center py-3">
+              <div class="text-center py-2">
                 <app-gauge [value]="application.aiMatchScore" size="lg"></app-gauge>
-                <div *ngIf="application.aiSuggestion"
-                     style="font-size: 13px; color: var(--ink-2);
-                            max-width: 28rem; margin: 12px auto 0;
-                            font-style: italic;">
-                  <i class="bi bi-quote" style="color: #0C4A6E;"></i>
+                <div *ngIf="application.aiSuggestion" class="ai-suggestion">
                   {{ application.aiSuggestion }}
                 </div>
               </div>
 
-              <div class="divider-dashed"></div>
-
-              <div class="row g-3">
-                <div class="col-md-6" *ngIf="application.matchedSkills?.length">
-                  <div class="skill-block matched-block">
-                    <div class="eyebrow" style="color: #065F46; margin-bottom: 8px;">
-                      <i class="bi bi-check-circle-fill"></i>
-                      Has ({{ application.matchedSkills.length }})
-                    </div>
-                    <div>
-                      <span *ngFor="let s of application.matchedSkills"
-                            class="chip matched">{{ s }}</span>
-                    </div>
+              <div class="skills-grid" *ngIf="application.matchedSkills?.length || application.missingSkills?.length">
+                <div class="skill-block matched-block" *ngIf="application.matchedSkills?.length">
+                  <div class="skill-block-head matched">
+                    <i class="bi bi-check-circle-fill"></i>
+                    Has ({{ application.matchedSkills.length }})
+                  </div>
+                  <div>
+                    <span *ngFor="let s of application.matchedSkills" class="chip matched">{{ s }}</span>
                   </div>
                 </div>
-                <div class="col-md-6" *ngIf="application.missingSkills?.length">
-                  <div class="skill-block missing-block">
-                    <div class="eyebrow" style="color: #BE185D; margin-bottom: 8px;">
-                      <i class="bi bi-x-circle-fill"></i>
-                      Missing ({{ application.missingSkills.length }})
-                    </div>
-                    <div>
-                      <span *ngFor="let s of application.missingSkills"
-                            class="chip missing">{{ s }}</span>
-                    </div>
+                <div class="skill-block missing-block" *ngIf="application.missingSkills?.length">
+                  <div class="skill-block-head missing">
+                    <i class="bi bi-x-circle-fill"></i>
+                    Missing ({{ application.missingSkills.length }})
+                  </div>
+                  <div>
+                    <span *ngFor="let s of application.missingSkills" class="chip missing">{{ s }}</span>
                   </div>
                 </div>
               </div>
             </div>
 
-            <!-- Interview Slot Proposer -->
+            <!-- Interview slot proposer -->
             <div class="card"
                  *ngIf="selectedStatus === 'SHORTLISTED' || selectedStatus === 'INTERVIEW_SCHEDULED'">
-              <div class="eyebrow" style="color: #D97706;">
-                <i class="bi bi-calendar-event-fill"></i> Schedule Interview
-              </div>
-              <h3 style="font-family: var(--font-display); font-size: 1.5rem;
-                         font-weight: 800; margin-bottom: 1rem;">
-                Propose Slots
+              <h3 class="card-h3">
+                <i class="bi bi-calendar-event-fill schedule-icon"></i> Schedule Interview
               </h3>
 
               <div *ngIf="slot?.confirmed" class="alert alert-success">
                 <i class="bi bi-check-circle-fill"></i>
-                Confirmed: <strong>{{ slot!.confirmedTime | date:'dd MMM · h:mm a' }}</strong>
+                Confirmed: <strong>{{ slot!.confirmedTime | date:'mediumDate' }} at {{ slot!.confirmedTime | date:'shortTime' }}</strong>
               </div>
 
               <div *ngIf="!slot?.confirmed">
-                <p style="font-size: 13px; color: var(--ink-3); margin-bottom: 1rem;">
-                  Propose 1–3 datetime options for the candidate:
-                </p>
-                <div *ngFor="let s of newSlots; let i = index" class="d-flex gap-2 mb-2">
-                  <input type="datetime-local" class="form-control"
-                         [(ngModel)]="newSlots[i]"/>
+                <p class="hint">Propose 1–3 datetime options for the candidate:</p>
+                <div *ngFor="let s of newSlots; let i = index" class="slot-row">
+                  <input type="datetime-local" class="form-control" [(ngModel)]="newSlots[i]" />
                   <button type="button" class="btn btn-icon"
                           *ngIf="newSlots.length > 1"
                           (click)="removeSlot(i)"
-                          style="color: #E11D48;">
+                          aria-label="Remove slot">
                     <i class="bi bi-x-lg"></i>
                   </button>
                 </div>
-                <div class="d-flex gap-2 mt-3">
-                  <button type="button" class="btn btn-outline-primary btn-sm"
-                          (click)="addSlotField()">
-                    <i class="bi bi-plus-lg"></i> Add Slot
+                <div class="slot-actions">
+                  <button type="button" class="btn btn-soft btn-sm" (click)="addSlotField()">
+                    <i class="bi bi-plus-lg"></i> Add slot
                   </button>
                   <button type="button" class="btn btn-primary btn-sm"
                           [disabled]="proposingSlots"
                           (click)="proposeSlots()">
                     <span *ngIf="proposingSlots" class="spinner-border spinner-border-sm"></span>
                     <i *ngIf="!proposingSlots" class="bi bi-send-fill"></i>
-                    Send to Candidate
+                    Send to candidate
                   </button>
                 </div>
               </div>
@@ -156,33 +129,26 @@
 
           </div>
 
-          <!-- Right: Status Manager -->
+          <!-- ─── Sidebar — status manager ─── -->
           <div class="col-lg-4">
-            <div class="card" style="position: sticky; top: calc(var(--navbar-height) + 1rem);">
-              <div class="eyebrow" style="color: #0C4A6E;">
-                <i class="bi bi-gear-fill"></i> Action Center
-              </div>
-              <h3 style="font-family: var(--font-display); font-size: 1.25rem;
-                         font-weight: 800; margin-bottom: 1rem;">
-                Update Status
-              </h3>
+            <div class="card status-manager">
+              <h3 class="card-h3">Update status</h3>
 
               <div class="mb-3">
-                <label class="form-label">Status</label>
+                <label class="form-label">Move applicant to</label>
                 <select class="form-select" [(ngModel)]="selectedStatus">
-                  <option *ngFor="let s of statuses" [value]="s">
-                    {{ s === 'APPLIED' ? '● Applied' :
-                       s === 'SHORTLISTED' ? '★ Shortlisted' :
-                       s === 'INTERVIEW_SCHEDULED' ? '📅 Interview Scheduled' :
-                       s === 'SELECTED' ? '✓ Selected' : '✗ Rejected' }}
-                  </option>
+                  <option value="APPLIED">New</option>
+                  <option value="SHORTLISTED">Shortlisted</option>
+                  <option value="INTERVIEW_SCHEDULED">Interview scheduled</option>
+                  <option value="SELECTED">Selected ✓</option>
+                  <option value="REJECTED">Rejected</option>
                 </select>
               </div>
 
               <div class="mb-3">
-                <label class="form-label">Note to Candidate</label>
+                <label class="form-label">Note to candidate <span class="optional">(optional)</span></label>
                 <textarea class="form-control" rows="4"
-                          placeholder="Optional feedback..."
+                          placeholder="Brief feedback or next steps…"
                           [(ngModel)]="recruiterNote"></textarea>
               </div>
 
@@ -191,18 +157,12 @@
                       (click)="updateStatus()">
                 <span *ngIf="updatingStatus" class="spinner-border spinner-border-sm"></span>
                 <i *ngIf="!updatingStatus" class="bi bi-check-lg"></i>
-                {{ updatingStatus ? 'Saving...' : 'Update Status' }}
+                {{ updatingStatus ? 'Saving…' : 'Save changes' }}
               </button>
 
-              <div class="mt-3 pt-3 text-center" style="border-top: 1px solid var(--line);">
-                <div style="font-size: 11px; color: var(--ink-3);
-                            font-family: var(--font-mono);
-                            text-transform: uppercase;
-                            letter-spacing: 0.15em; margin-bottom: 6px;">
-                  Current
-                </div>
-                <app-status-badge [status]="application.status"></app-status-badge>
-              </div>
+              <p class="hint-tiny" *ngIf="selectedStatus === 'SELECTED'">
+                Selecting will notify the candidate immediately.
+              </p>
             </div>
           </div>
 

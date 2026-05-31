@@ -1,0 +1,205 @@
+.cmp-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+  animation: cmpFadeIn 0.15s ease;
+}
+
+@keyframes cmpFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.cmp-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  width: 100%;
+  max-width: 1100px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.35);
+  animation: cmpSlideUp 0.2s ease;
+}
+
+@keyframes cmpSlideUp {
+  from { transform: translateY(12px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+
+.cmp-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.cmp-eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #4F46E5;
+  margin-bottom: 0.25rem;
+}
+
+.cmp-head h3 {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--ink);
+}
+
+.cmp-close {
+  background: none;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  color: var(--ink-3);
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cmp-close:hover { background: var(--bg); color: var(--ink); }
+
+.cmp-body {
+  padding: 0.5rem 0;
+  overflow: auto;
+  flex: 1;
+}
+
+.cmp-grid {
+  display: grid;
+  min-width: 100%;
+}
+
+.cmp-cell {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--line);
+  font-size: 13px;
+  color: var(--ink-2);
+  display: flex;
+  align-items: center;
+}
+
+.cmp-row-label {
+  background: var(--bg);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-3);
+  border-right: 1px solid var(--line);
+}
+
+.cmp-candidate-cell {
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 1rem;
+  gap: 4px;
+}
+
+.cmp-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--accent, #EC4899));
+  color: white;
+  font-weight: 700;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 6px;
+}
+
+.cmp-name {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--ink);
+}
+
+.cmp-email {
+  font-size: 11px;
+  color: var(--ink-3);
+}
+
+.cmp-match {
+  font-weight: 700;
+}
+
+.cmp-match.cmp-high   { background: rgba(16, 185, 129, 0.06); }
+.cmp-match.cmp-medium { background: rgba(245, 158, 11, 0.06); }
+.cmp-match.cmp-low    { background: rgba(225, 29, 72, 0.06); }
+
+.cmp-big {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.cmp-high  .cmp-big { color: #065F46; }
+.cmp-medium .cmp-big { color: #92400E; }
+.cmp-low   .cmp-big { color: #991B1B; }
+
+.cmp-muted { color: var(--ink-3); }
+
+.cmp-section-divider {
+  background: linear-gradient(to right, var(--primary-softer), transparent);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--primary);
+  padding: 0.85rem 1rem 0.5rem;
+  border-bottom: 2px solid var(--primary-soft);
+}
+
+.cmp-section-divider-light {
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: var(--ink-3);
+  background: var(--bg);
+  border-bottom: none;
+}
+
+.cmp-skill-label {
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 12.5px;
+  color: var(--ink-2);
+}
+
+.cmp-skill-cell {
+  justify-content: center;
+}
+
+.cmp-skill-cell i {
+  font-size: 1.1rem;
+}
+
+.cmp-skill-cell.has i { color: #10B981; }
+.cmp-skill-cell:not(.has) i { color: var(--ink-4); opacity: 0.6; }
+
+@media (max-width: 720px) {
+  .cmp-card { max-width: 95vw; }
+  .cmp-grid {
+    min-width: 600px;
+  }
+}

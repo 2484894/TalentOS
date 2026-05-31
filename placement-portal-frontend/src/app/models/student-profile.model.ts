@@ -3,6 +3,7 @@ export interface StudentProfile {
   userId: number;
   name: string;
   email: string;
+  college: string;          // NEW
   department: string;
   batch: string;
   cgpa: number;
@@ -23,4 +24,3 @@ export interface ResumeParseResult {
   parsedEducation: string;
   parsedExperience: string;
 }
-

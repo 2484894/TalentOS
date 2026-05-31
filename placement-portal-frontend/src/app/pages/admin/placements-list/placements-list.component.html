@@ -1,0 +1,112 @@
+<div class="app-layout">
+  <app-sidebar></app-sidebar>
+
+  <div class="main-area">
+    <app-navbar pageTitle="Selected Candidates"></app-navbar>
+
+    <div class="page-body">
+
+      <!-- Header -->
+      <div class="page-head">
+        <div>
+          <h1 class="page-title">Selected Candidates</h1>
+          <p class="page-sub" *ngIf="!loading">
+            <strong>{{ filtered.length }}</strong> of {{ placements.length }} placements
+          </p>
+        </div>
+        <button class="btn btn-primary" (click)="exportCsv()" [disabled]="loading">
+          <i class="bi bi-download"></i> Export CSV
+        </button>
+      </div>
+
+      <app-loader *ngIf="loading"></app-loader>
+
+      <div class="alert alert-danger" *ngIf="errorMsg">
+        <i class="bi bi-exclamation-circle-fill"></i> {{ errorMsg }}
+      </div>
+
+      <div *ngIf="!loading && !errorMsg">
+
+        <!-- Filters -->
+        <div class="filters-card">
+          <div class="filter-row">
+            <div class="filter-search">
+              <i class="bi bi-search"></i>
+              <input type="text"
+                     placeholder="Search name, email, company, or role…"
+                     [(ngModel)]="search" />
+            </div>
+
+            <select [(ngModel)]="collegeFilter" class="filter-select">
+              <option value="">All colleges</option>
+              <option *ngFor="let c of colleges" [value]="c">{{ c }}</option>
+            </select>
+
+            <select [(ngModel)]="departmentFilter" class="filter-select">
+              <option value="">All departments</option>
+              <option *ngFor="let d of departments" [value]="d">{{ d }}</option>
+            </select>
+
+            <select [(ngModel)]="companyFilter" class="filter-select">
+              <option value="">All companies</option>
+              <option *ngFor="let c of companies" [value]="c">{{ c }}</option>
+            </select>
+
+            <button class="btn btn-soft btn-sm"
+                    (click)="resetFilters()"
+                    *ngIf="search || collegeFilter || departmentFilter || companyFilter">
+              Clear
+            </button>
+          </div>
+        </div>
+
+        <!-- Empty -->
+        <div class="empty-state" *ngIf="filtered.length === 0">
+          <i class="bi bi-mortarboard"></i>
+          <p>No selected candidates match your filters.</p>
+        </div>
+
+        <!-- Grouped by college -->
+        <div class="college-group" *ngFor="let g of grouped">
+          <div class="college-head">
+            <h2>{{ g.college }}</h2>
+            <span class="count-pill">{{ g.rows.length }}</span>
+          </div>
+
+          <div class="placements-table-wrap">
+            <table class="placements-table">
+              <thead>
+                <tr>
+                  <th>Candidate</th>
+                  <th>Department</th>
+                  <th>CGPA</th>
+                  <th>Company</th>
+                  <th>Role</th>
+                  <th>CTC</th>
+                  <th>Selected on</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let r of g.rows">
+                  <td>
+                    <div class="candidate-cell">
+                      <div class="candidate-name">{{ r.studentName }}</div>
+                      <div class="candidate-email">{{ r.studentEmail }}</div>
+                    </div>
+                  </td>
+                  <td>{{ r.department || '—' }}</td>
+                  <td><strong>{{ r.cgpa ?? '—' }}</strong></td>
+                  <td><strong>{{ r.companyName }}</strong></td>
+                  <td>{{ r.jobTitle }}</td>
+                  <td>{{ r.ctc || '—' }}</td>
+                  <td>{{ r.appliedAt | date:'mediumDate' }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

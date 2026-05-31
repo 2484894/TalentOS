@@ -22,6 +22,7 @@ export class StudentProfileComponent implements OnInit {
     private studentService: StudentService
   ) {
     this.form = this.fb.group({
+      college:        [''],   // NEW
       department:     [''],
       batch:          [''],
       cgpa:           ['', [Validators.min(0), Validators.max(10)]],
@@ -47,9 +48,7 @@ export class StudentProfileComponent implements OnInit {
     });
   }
 
-  get skills(): string[] {
-    return this.profile?.skills || [];
-  }
+  get skills(): string[] { return this.profile?.skills || []; }
 
   addSkill(): void {
     const s = this.skillInput.trim();

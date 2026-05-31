@@ -22,6 +22,7 @@ import { RecruiterNotificationsComponent } from './pages/recruiter/recruiter-not
 import { AdminDashboardComponent } from './pages/admin/admin-dashboard/admin-dashboard.component';
 import { UserListComponent } from './pages/admin/user-list/user-list.component';
 import { PlacementReportComponent } from './pages/admin/placement-report/placement-report.component';
+import { PlacementsListComponent } from './pages/admin/placements-list/placements-list.component';   // NEW
 
 const routes: Routes = [
   { path: 'login',    component: LoginComponent },
@@ -65,10 +66,11 @@ const routes: Routes = [
     canActivate: [AuthGuard, RoleGuard],
     data: { role: 'ADMIN' },
     children: [
-      { path: '',          redirectTo: 'dashboard', pathMatch: 'full' },
-      { path: 'dashboard', component: AdminDashboardComponent },
-      { path: 'users',     component: UserListComponent },
-      { path: 'report',    component: PlacementReportComponent }
+      { path: '',           redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: 'dashboard',  component: AdminDashboardComponent },
+      { path: 'users',      component: UserListComponent },
+      { path: 'placements', component: PlacementsListComponent },   // NEW
+      { path: 'report',     component: PlacementReportComponent }
     ]
   },
 

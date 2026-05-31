@@ -3,7 +3,7 @@
   <!-- Brand / Logo -->
   <div class="sidebar-logo">
     <div class="logo-mark">t</div>
-    <div>
+    <div class="label-text">
       <div class="logo-text">TalentOS</div>
       <div class="logo-sub">{{ brandSubLabel }}</div>
     </div>
@@ -11,26 +11,48 @@
 
   <!-- Navigation -->
   <nav class="sidebar-section">
-    <div class="sidebar-label">Menu</div>
+    <div class="sidebar-label label-text">Menu</div>
 
     <a
       *ngFor="let item of navItems"
       class="sidebar-link"
       [class.active]="isActive(item.route)"
+      [attr.data-tooltip]="item.label"
       (click)="navigate(item.route)">
       <i class="bi {{ item.icon }}"></i>
-      <span>{{ item.label }}</span>
+      <span class="label-text">{{ item.label }}</span>
     </a>
   </nav>
 
   <!-- User Footer -->
   <div class="sidebar-footer">
-    <div class="user-name">{{ userName }}</div>
-    <div class="user-email">{{ userEmail }}</div>
-    <button (click)="logout()">
+    <div class="user-avatar-mini" [attr.data-tooltip]="userName + ' · ' + userEmail">
+      {{ userInitials }}
+    </div>
+    <div class="label-text">
+      <div class="user-name">{{ userName }}</div>
+      <div class="user-email">{{ userEmail }}</div>
+    </div>
+    <button (click)="logout()"
+            [attr.data-tooltip]="'Sign out'"
+            [attr.aria-label]="'Sign out'">
       <i class="bi bi-box-arrow-left"></i>
-      <span>Sign out</span>
+      <span class="label-text">Sign out</span>
     </button>
   </div>
+
+  <!-- ───────────────────────────────────────────────────────────
+       Edge toggle — Superset-style chevron tab on the outer edge.
+       Sits vertically centered on the right edge of the sidebar
+       and slightly protrudes so it always reads as a separate
+       affordance, regardless of collapsed/expanded state.
+       ─────────────────────────────────────────────────────────── -->
+  <button class="sidebar-edge-toggle"
+          type="button"
+          (click)="toggleCollapse()"
+          [attr.aria-label]="collapsed ? 'Expand sidebar' : 'Collapse sidebar'"
+          [attr.title]="collapsed ? 'Expand' : 'Collapse'">
+    <i class="bi" [class.bi-chevron-right]="collapsed" [class.bi-chevron-left]="!collapsed"></i>
+  </button>
 
 </aside>

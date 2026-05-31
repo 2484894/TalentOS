@@ -99,7 +99,7 @@ public class JobListingService {
     }
 
     public JobListing getJobOrThrow(Long jobId) {
-        return jobListingRepository.findById(jobId)
+        return jobListingRepository.findByIdWithRecruiter(jobId)
                 .orElseThrow(() -> new ResourceNotFoundException("JobListing", jobId));
     }
 

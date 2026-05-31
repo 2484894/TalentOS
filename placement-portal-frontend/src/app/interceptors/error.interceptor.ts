@@ -23,9 +23,7 @@ export class ErrorInterceptor implements HttpInterceptor {
           // Token expired or invalid — logout
           this.authService.logout();
         }
-        if (error.status === 403) {
-          this.router.navigate(['/login']);
-        }
+        
         const message = error.error?.message || 'Something went wrong. Please try again.';
         return throwError(() => new Error(message));
       })

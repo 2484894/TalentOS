@@ -2,146 +2,224 @@
   <app-sidebar></app-sidebar>
 
   <div class="main-area">
-    <app-navbar pageTitle="Browse Jobs"
-                pageSubtitle="Find your perfect match"></app-navbar>
+    <app-navbar pageTitle="Job Profile"></app-navbar>
 
-    <div class="page-body">
+    <div class="page-body jobs-page-body">
 
-      <!-- Hero intro -->
-      <div class="mb-4">
-        <div class="eyebrow">
-          <i class="bi bi-lightning-charge-fill"></i>
-          <span>Live Opportunities</span>
+      <!-- Top filter bar -->
+      <div class="top-filters">
+        <div class="filter-search">
+          <i class="bi bi-search"></i>
+          <input type="text"
+                 placeholder="Search by job title or company…"
+                 [(ngModel)]="keyword"
+                 (keyup.enter)="onSearch()" />
         </div>
-        <h2 style="font-family: var(--font-display); font-size: 2.4rem;
-                   font-weight: 500; letter-spacing: -0.03em; line-height: 1;">
-          <span *ngIf="!loading">
-            <span class="num">{{ jobs.length }}</span>
-            <em style="font-style: italic; color: var(--ink-3); font-weight: 400;">
-              jobs waiting for
-            </em>
-            <span style="background: linear-gradient(135deg, #6D28D9, #EC4899);
-                         -webkit-background-clip: text;
-                         -webkit-text-fill-color: transparent;
-                         background-clip: text;">
-              you.
-            </span>
-          </span>
-          <span *ngIf="loading" style="color: var(--ink-3);">
-            <em style="font-style: italic;">Searching for opportunities...</em>
-          </span>
-        </h2>
-      </div>
 
-      <!-- Filters Card -->
-      <div class="card mb-4">
-        <div class="row g-3 align-items-end">
+        <select class="filter-select" [(ngModel)]="jobType" (change)="onSearch()">
+          <option value="">All types</option>
+          <option value="FULLTIME">Full Time</option>
+          <option value="INTERNSHIP">Internship</option>
+          <option value="CONTRACT">Contract</option>
+        </select>
 
-          <div class="col-md-5">
-            <label class="form-label">Search</label>
-            <div class="position-relative">
-              <i class="bi bi-search position-absolute"
-                 style="left: 14px; top: 50%; transform: translateY(-50%);
-                        color: var(--ink-3); pointer-events: none; font-size: 14px;"></i>
-              <input type="text" class="form-control"
-                     style="padding-left: 38px;"
-                     placeholder="Job title or company..."
-                     [(ngModel)]="keyword"
-                     (keyup.enter)="onSearch()"/>
-            </div>
-          </div>
-
-          <div class="col-md-3">
-            <label class="form-label">Job Type</label>
-            <select class="form-select" [(ngModel)]="jobType">
-              <option value="">All Types</option>
-              <option value="FULLTIME">Full Time</option>
-              <option value="INTERNSHIP">Internship</option>
-              <option value="CONTRACT">Contract</option>
-            </select>
-          </div>
-
-          <div class="col-md-2">
-            <label class="form-label">Min CGPA</label>
-            <input type="number" class="form-control" step="0.1"
-                   placeholder="7.0" [(ngModel)]="minCgpa"/>
-          </div>
-
-          <div class="col-md-2 d-flex gap-2">
-            <button class="btn btn-primary flex-fill" (click)="onSearch()">
-              <i class="bi bi-search"></i> Search
-            </button>
-            <button class="btn btn-icon" (click)="clearFilters()" title="Clear filters">
-              <i class="bi bi-x-lg"></i>
-            </button>
-          </div>
-
-        </div>
+        <button class="btn btn-soft btn-sm"
+                *ngIf="keyword || jobType"
+                (click)="clearFilters()">
+          Clear filters
+        </button>
       </div>
 
       <app-loader *ngIf="loading"></app-loader>
 
-      <div class="empty-state card" *ngIf="!loading && jobs.length === 0">
-        <i class="bi bi-briefcase"></i>
-        <p>No jobs match your filters. Try something else!</p>
-        <button class="btn btn-outline-primary btn-sm" (click)="clearFilters()">
-          Clear all filters
-        </button>
-      </div>
+      <div class="jobs-layout" *ngIf="!loading">
 
-      <!-- Job Cards Grid -->
-      <div class="row g-3" *ngIf="!loading && jobs.length > 0">
-        <div class="col-md-6 col-lg-4" *ngFor="let job of jobs">
-          <div class="job-card-browse" (click)="viewJob(job.id)">
+        <!-- ─── LEFT PANE: list of jobs ─── -->
+        <div class="jobs-list-pane">
 
-            <!-- Header -->
-            <div class="d-flex align-items-start gap-3 mb-3">
-              <div class="job-logo-sm">{{ job.companyName.charAt(0) }}</div>
-              <div class="flex-grow-1 min-w-0">
-                <h3 class="job-title">{{ job.title }}</h3>
-                <div class="job-company">{{ job.companyName }}</div>
-              </div>
-              <span class="chip"
-                    [class.chip-primary]="job.jobType === 'FULLTIME'"
-                    [class.chip-warning]="job.jobType === 'INTERNSHIP'">
-                {{ job.jobType }}
-              </span>
-            </div>
-
-            <!-- Meta -->
-            <div class="d-flex gap-3 flex-wrap job-meta">
-              <span *ngIf="job.location">
-                <i class="bi bi-geo-alt"></i>{{ job.location }}
-              </span>
-              <span *ngIf="job.ctc" class="fw-semibold" style="color: #6D28D9;">
-                <i class="bi bi-currency-rupee"></i>{{ job.ctc }}
-              </span>
-            </div>
-
-            <!-- Skills -->
-            <div class="mb-3" *ngIf="job.requiredSkills?.length">
-              <span *ngFor="let s of job.requiredSkills.slice(0,3)"
-                    class="chip chip-primary">{{ s }}</span>
-              <span *ngIf="job.requiredSkills.length > 3" class="chip">
-                +{{ job.requiredSkills.length - 3 }}
-              </span>
-            </div>
-
-            <!-- Footer -->
-            <div class="job-footer">
-              <span>
-                <i class="bi bi-people"></i>
-                <span class="num" style="font-weight: 600;">{{ job.applicantCount }}</span> applicants
-              </span>
-              <span *ngIf="job.deadline" class="job-deadline"
-                    [class.urgent]="getDaysLeft(job.deadline) <= 3">
-                <i class="bi bi-clock"></i>
-                {{ getDaysLeft(job.deadline) }}d left
-              </span>
-            </div>
-
+          <!-- Tabs -->
+          <div class="list-tabs">
+            <button class="list-tab" [class.active]="tab === 'ALL'" (click)="tab = 'ALL'">
+              All Jobs
+            </button>
+            <button class="list-tab" [class.active]="tab === 'APPLIED'" (click)="tab = 'APPLIED'">
+              Applied Jobs
+            </button>
           </div>
+
+          <div class="empty-state" *ngIf="filteredJobs.length === 0">
+            <i class="bi bi-briefcase"></i>
+            <p *ngIf="tab === 'APPLIED'">You haven't applied to any jobs yet.</p>
+            <p *ngIf="tab === 'ALL'">No jobs match your filters.</p>
+          </div>
+
+          <div class="jobs-list-scroll">
+            <div class="job-list-item"
+                 *ngFor="let job of filteredJobs"
+                 [class.selected]="selectedJob?.id === job.id"
+                 (click)="selectJob(job)">
+
+              <div class="job-list-logo">{{ job.companyName?.charAt(0) }}</div>
+
+              <div class="job-list-info">
+                <div class="job-list-title">{{ job.title }}</div>
+                <div class="job-list-meta">
+                  <strong>{{ job.companyName }}</strong>
+                  <span *ngIf="job.location"> · {{ job.location }}</span>
+                </div>
+                <div class="job-list-tags">
+                  <span class="tag tag-type">{{ job.jobType }}</span>
+                  <span class="tag tag-deadline"
+                        *ngIf="job.deadline"
+                        [class.urgent]="isDeadlineUrgent(job.deadline)">
+                    {{ getDaysLeft(job.deadline) }}d left
+                  </span>
+                </div>
+              </div>
+
+              <div class="job-list-status">
+                <span class="applied-pill" *ngIf="isApplied(job.id)">
+                  <i class="bi bi-check-circle-fill"></i> Applied
+                </span>
+              </div>
+            </div>
+          </div>
+
         </div>
+
+        <!-- ─── RIGHT PANE: selected job detail ─── -->
+        <div class="jobs-detail-pane" *ngIf="selectedJob">
+
+          <!-- Header -->
+          <div class="detail-head">
+            <div class="detail-head-left">
+              <div class="detail-logo">{{ selectedJob.companyName?.charAt(0) }}</div>
+              <div>
+                <h2 class="detail-title">{{ selectedJob.title }}</h2>
+                <div class="detail-subtitle">
+                  <strong>{{ selectedJob.companyName }}</strong>
+                  <span *ngIf="selectedJob.jobType"> | {{ selectedJob.jobType }}</span>
+                  <span *ngIf="selectedJob.location"> | {{ selectedJob.location }}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="detail-head-right">
+              <span class="applied-badge" *ngIf="applied">
+                <i class="bi bi-check-circle-fill"></i> Applied
+              </span>
+            </div>
+          </div>
+
+          <!-- Apply / messages -->
+          <div class="alert alert-success" *ngIf="successMsg">
+            <i class="bi bi-check-circle-fill"></i> {{ successMsg }}
+          </div>
+          <div class="alert alert-danger" *ngIf="errorMsg">
+            <i class="bi bi-exclamation-circle-fill"></i> {{ errorMsg }}
+          </div>
+
+          <!-- Quick stats -->
+          <div class="quick-stats">
+            <div *ngIf="selectedJob.ctc" class="stat">
+              <div class="stat-label">CTC</div>
+              <div class="stat-value primary">{{ selectedJob.ctc }}</div>
+            </div>
+            <div *ngIf="selectedJob.minCgpa" class="stat">
+              <div class="stat-label">Min CGPA</div>
+              <div class="stat-value">{{ selectedJob.minCgpa }}</div>
+            </div>
+            <div *ngIf="selectedJob.deadline" class="stat">
+              <div class="stat-label">Deadline</div>
+              <div class="stat-value">{{ selectedJob.deadline | date:'mediumDate' }}</div>
+            </div>
+            <div class="stat">
+              <div class="stat-label">Applicants</div>
+              <div class="stat-value">{{ selectedJob.applicantCount }}</div>
+            </div>
+          </div>
+
+          <!-- AI Match -->
+          <div class="match-block">
+            <div class="match-block-head">
+              <i class="bi bi-stars"></i> Your AI match
+            </div>
+
+            <div *ngIf="previewing" class="match-loading">
+              <span class="spinner-border spinner-border-sm"></span>
+              Analyzing your profile…
+            </div>
+
+            <div *ngIf="!previewing && previewError" class="match-error">
+              <i class="bi bi-info-circle"></i> {{ previewError }}
+            </div>
+
+            <div *ngIf="!previewing && preview" class="match-result">
+              <div class="match-gauge">
+                <app-gauge [value]="preview.aiMatchScore" size="lg"></app-gauge>
+              </div>
+
+              <div class="match-skills">
+                <div *ngIf="preview.matchedSkills?.length" class="skill-block">
+                  <div class="skill-block-label have">
+                    <i class="bi bi-check-circle-fill"></i> You have
+                  </div>
+                  <span *ngFor="let s of preview.matchedSkills" class="chip matched">{{ s }}</span>
+                </div>
+
+                <div *ngIf="preview.missingSkills?.length" class="skill-block">
+                  <div class="skill-block-label need">
+                    <i class="bi bi-lightbulb-fill"></i> You'll need
+                  </div>
+                  <span *ngFor="let s of preview.missingSkills" class="chip missing">{{ s }}</span>
+                </div>
+              </div>
+
+              <div *ngIf="preview.aiSuggestion" class="match-suggestion">
+                {{ preview.aiSuggestion }}
+              </div>
+            </div>
+          </div>
+
+          <!-- Description -->
+          <div class="detail-section">
+            <h3 class="detail-section-h3">About this role</h3>
+            <p class="detail-description">{{ selectedJob.description }}</p>
+
+            <div class="detail-section-block" *ngIf="selectedJob.requiredSkills?.length">
+              <div class="detail-section-label">Required skills</div>
+              <span *ngFor="let s of selectedJob.requiredSkills" class="chip chip-primary">{{ s }}</span>
+            </div>
+
+            <div class="detail-section-block" *ngIf="selectedJob.niceToHaveSkills?.length">
+              <div class="detail-section-label">Nice to have</div>
+              <span *ngFor="let s of selectedJob.niceToHaveSkills" class="chip">{{ s }}</span>
+            </div>
+          </div>
+
+          <!-- Sticky apply bar -->
+          <div class="apply-bar">
+            <button class="btn btn-soft" (click)="openFullDetail()">
+              <i class="bi bi-arrow-up-right"></i> Open full page
+            </button>
+            <button class="btn btn-primary apply-button"
+                    [disabled]="applying || applied"
+                    (click)="apply()">
+              <span *ngIf="applying" class="spinner-border spinner-border-sm"></span>
+              <i *ngIf="!applying && !applied" class="bi bi-send-fill"></i>
+              <i *ngIf="applied" class="bi bi-check-circle-fill"></i>
+              {{ applying ? 'Applying…' : applied ? 'Applied' : 'Apply now' }}
+            </button>
+          </div>
+
+        </div>
+
+        <!-- Right-pane empty state when nothing selected -->
+        <div class="jobs-detail-pane empty-detail" *ngIf="!selectedJob && filteredJobs.length > 0">
+          <i class="bi bi-arrow-left"></i>
+          <p>Select a job from the list to see details and your AI match score.</p>
+        </div>
+
       </div>
 
     </div>

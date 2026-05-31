@@ -8,6 +8,7 @@ import java.util.List;
 @Data
 public class StudentProfileRequest {
 
+    private String college;        // NEW
     private String department;
     private String batch;
 

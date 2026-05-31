@@ -1,95 +1,59 @@
 <div class="talentos-auth">
 
-  <!-- ─── LEFT: Gradient Hero ─────────────────────────── -->
+  <!-- Left: brand panel (decorative, simplified) -->
   <div class="auth-hero">
     <div class="auth-hero-blur auth-hero-blur-1"></div>
     <div class="auth-hero-blur auth-hero-blur-2"></div>
-    <div class="auth-hero-blur auth-hero-blur-3"></div>
 
     <div class="auth-hero-content">
-      <!-- Top brand -->
       <div class="d-flex align-items-center gap-2">
         <div class="auth-logo-mark">t</div>
-        <div>
-          <div style="font-family: var(--font-display); font-size: 20px;
-                      font-weight: 700; color: white; line-height: 1;">
-            TalentOS
-          </div>
-          <div style="font-family: var(--font-mono); font-size: 9px;
-                      letter-spacing: 0.2em; text-transform: uppercase;
-                      color: rgba(255,255,255,0.6); margin-top: 4px;">
-            AI-Powered Placement Portal
-          </div>
-        </div>
+        <div class="auth-brand-name">TalentOS</div>
       </div>
 
-      <!-- Hero text -->
       <div>
-        <div class="auth-eyebrow">
-          <span class="pulse-dot" style="background: #FBBF24;"></span>
-          <span>Welcome back</span>
-        </div>
         <h1 class="auth-hero-title">
-          Your next <em>opportunity</em><br/>
-          is <span style="background: linear-gradient(135deg, #EC4899, #FBBF24);
-                         -webkit-background-clip: text;
-                         -webkit-text-fill-color: transparent;
-                         background-clip: text;">one login</span> away.
+          Your next opportunity is one login away.
         </h1>
         <p class="auth-hero-sub">
-          Sign in to access AI-matched jobs, track applications, and connect with top recruiters.
+          AI-matched jobs, application tracking, and direct lines to recruiters.
         </p>
       </div>
 
-      <!-- Feature pills -->
-      <div class="d-flex flex-wrap gap-2">
+      <div class="auth-feature-row">
         <span class="auth-feature-pill">
-          <i class="bi bi-stars me-1"></i>AI Match Scoring
+          <i class="bi bi-stars me-1"></i>AI match scoring
         </span>
         <span class="auth-feature-pill">
-          <i class="bi bi-lightning-charge-fill me-1"></i>Instant Resume Parsing
+          <i class="bi bi-lightning-charge-fill me-1"></i>Resume parsing
         </span>
-        <span class="auth-feature-pill">
-          <i class="bi bi-bar-chart-fill me-1"></i>Real-time Analytics
-        </span>
-      </div>
-
-      <!-- Footer -->
-      <div style="font-family: var(--font-mono); font-size: 10px;
-                  letter-spacing: 0.15em; text-transform: uppercase;
-                  color: rgba(255,255,255,0.4);">
-        v1.0 · Powered by Gemini AI
       </div>
     </div>
   </div>
 
-  <!-- ─── RIGHT: Form ──────────────────────────────────── -->
+  <!-- Right: form -->
   <div class="auth-form-wrap">
     <div class="auth-form-card">
 
       <div class="text-center mb-4">
-        <h3 style="font-family: var(--font-display); font-size: 2rem;
-                   font-weight: 500; color: var(--ink); letter-spacing: -0.02em;">
-          Sign <em style="color: #6D28D9; font-style: italic;">in</em>
-        </h3>
-        <p style="color: var(--ink-3); font-size: 14px; margin-top: 4px;">
-          Enter your credentials to continue
-        </p>
+        <h3 class="auth-form-title">Sign in</h3>
+        <p class="auth-form-sub">Enter your credentials to continue</p>
       </div>
 
-      <!-- Error -->
-      <div class="alert alert-danger d-flex align-items-center gap-2"
-           *ngIf="errorMsg">
+      <div class="alert alert-danger d-flex align-items-center gap-2" *ngIf="errorMsg">
         <i class="bi bi-exclamation-circle-fill"></i>
         <span>{{ errorMsg }}</span>
       </div>
 
-      <!-- Form -->
-      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <!-- autocomplete="off" on the form + per-field autocomplete attributes
+           is the correct way to stop the browser from refilling credentials
+           after logout. We also suppress autofill suggestions on email/password
+           by giving them obfuscated `name` attributes browsers don't recognize. -->
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" autocomplete="off">
 
         <!-- Email -->
         <div class="mb-3">
-          <label class="form-label">Email Address</label>
+          <label class="form-label">Email address</label>
           <div class="auth-input-wrap">
             <i class="bi bi-envelope auth-input-icon"></i>
             <input
@@ -97,7 +61,9 @@
               class="form-control auth-input"
               placeholder="you@example.com"
               formControlName="email"
-              [class.is-invalid]="email.invalid && email.touched"/>
+              name="login_email_field"
+              autocomplete="off"
+              [class.is-invalid]="email.invalid && email.touched" />
           </div>
           <div class="auth-error" *ngIf="email.invalid && email.touched">
             <span *ngIf="email.errors?.['required']">Email is required</span>
@@ -107,12 +73,7 @@
 
         <!-- Password -->
         <div class="mb-4">
-          <label class="form-label d-flex justify-content-between">
-            <span>Password</span>
-            <a style="font-size: 11px; color: #6D28D9; font-weight: 600;">
-              Forgot?
-            </a>
-          </label>
+          <label class="form-label">Password</label>
           <div class="auth-input-wrap">
             <i class="bi bi-lock auth-input-icon"></i>
             <input
@@ -120,9 +81,12 @@
               class="form-control auth-input auth-input-password"
               placeholder="Enter your password"
               formControlName="password"
-              [class.is-invalid]="password.invalid && password.touched"/>
+              name="login_password_field"
+              autocomplete="new-password"
+              [class.is-invalid]="password.invalid && password.touched" />
             <button type="button" class="auth-input-toggle"
-                    (click)="showPassword = !showPassword">
+                    (click)="showPassword = !showPassword"
+                    aria-label="Toggle password visibility">
               <i class="bi"
                  [class.bi-eye]="!showPassword"
                  [class.bi-eye-slash]="showPassword"></i>
@@ -134,28 +98,20 @@
           </div>
         </div>
 
-        <!-- Submit -->
         <button type="submit" class="btn-auth-submit" [disabled]="loading">
           <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
           <span *ngIf="!loading">Sign in</span>
-          <span *ngIf="loading">Signing in...</span>
+          <span *ngIf="loading">Signing in…</span>
           <i *ngIf="!loading" class="bi bi-arrow-right ms-1"></i>
         </button>
 
       </form>
 
-      <!-- Separator -->
-      <div class="auth-separator">
-        <span>or</span>
-      </div>
+      <div class="auth-separator"><span>or</span></div>
 
-      <!-- Register Link -->
-      <p class="text-center" style="font-size: 13px; color: var(--ink-3); margin: 0;">
+      <p class="auth-footer-link">
         New to TalentOS?
-        <a routerLink="/register"
-           style="color: #6D28D9; font-weight: 600; margin-left: 4px;">
-          Create an account →
-        </a>
+        <a routerLink="/register">Create an account →</a>
       </p>
 
     </div>
